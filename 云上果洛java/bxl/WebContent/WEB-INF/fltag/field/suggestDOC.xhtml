@@ -1,0 +1,71 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:tpl="http://www.vieking.com/facelets/template"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core">
+    <form
+        id="form"
+        style="height: 100%"><tpl:default
+        var="label"
+        value="" /> <tpl:default
+        var="rendered"
+        value="true" /> <tpl:default
+        var="suggestComponent"
+        value="#{component}" /> <tpl:default
+        var="required"
+        value="false" /> <tpl:default
+        var="requiredmsg"
+        value="required message " /> <tpl:default
+        var="nlmsg"
+        value="nothing..." /> <tpl:default
+        var="minChars"
+        value="1" /> <rich:simpleTogglePanel
+        opened="false"
+        switchType="client"
+        onclick="javascript:intializePage('#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.requestContextPath}/common/docInfo/downLoad.htm?fileId=#{docid}','#{name}','#{type}','#{id}');">
+        <f:facet name="header">#{name}</f:facet>
+        <s:div
+            styleClass="actionButtons"
+            
+            rendered="#{type=='edit'}">
+            <input
+                type="button"
+                value="提交"
+                onclick="javascript:saveGranSingFileToUrl('#{name}','#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.requestContextPath}/servlet/FileServlet?doc=#{ssu.uRLEncoder(doc)}','#{id}');" />
+        </s:div>
+        <object
+            id="#{id}"
+            codebase='#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.requestContextPath}/ocx/officecontrol.cab#version=4,0,3,2'
+            height="600"
+            width="100%"
+            classid="clsid:C9BC4DFF-4248-4a3c-8A49-63A7D317F404"
+            viewastext="" />
+        <script
+            language="JScript"
+            for="#{id}"
+            event="OnCustomMenuCmd2(menuPos,submenuPos,subsubmenuPos,menuCaption,menuID)">
+        switch(menuID){
+        case 0:
+        	SetReviewMode(true);
+        	setShowRevisions(true);
+                break;
+        case 1:
+        	SetReviewMode(false);
+        	setShowRevisions(false);
+                break;
+        default: 
+                break;
+        }
+          </script>
+    </rich:simpleTogglePanel></form>
+
+</ui:composition>
+
+
+
+
+

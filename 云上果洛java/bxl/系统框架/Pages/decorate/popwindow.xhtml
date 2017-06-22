@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+
+
+	<div class="box" align="left">
+	<dl id="boxcotent" >
+		
+		<dd >
+
+	
+				<ui:insert  name="headtext"  />
+			 	<br />
+
+
+			<div class="layer" style="display: none;padding: 5px;float: left; text-align: left;">
+			 <ui:insert name="neirong" />
+			</div>
+
+		</dd>
+
+	</dl>
+	</div>
+
+	<script type="text/javascript"> 
+		//<![CDATA[				
+			 for(var i = 0; i < jQuery(".box li").length;i++){
+				  var j = 10000-i
+				  jQuery(".box dd").eq(i).css("z-index",100);
+		    }
+			 jQuery("#boxcotent dd").hover(
+						function(){jQuery(this).children(".layer").show();},
+						function(){jQuery(this).children(".layer").hide();}
+					  );
+			 jQuery("#boxcotent dd").hover(
+				function(){jQuery(this).addClass("popw");},
+				function(){jQuery(this).removeClass("popw");}
+				 );
+			 jQuery("#boxcotent").hover(
+						function(){jQuery(this).addClass("popwww");},
+						function(){jQuery(this).removeClass("popwww");}
+						 );			 
+		//]]>
+	</script>
+
+</ui:composition>

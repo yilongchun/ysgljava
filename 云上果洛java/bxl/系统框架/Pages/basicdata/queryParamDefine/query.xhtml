@@ -1,0 +1,51 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:tpl="http://www.vieking.com/facelets/template"
+    xmlns:fld="http://www.vieking.com/facelets/field"
+    id="filter"
+    autocomplete="off">
+    <h:panelGrid
+        id="query_pg"
+        columns="2"
+        styleClass="table_only"
+        style=" width:100%;">
+        <s:decorate template="/layout/edit.xhtml">
+            <ui:define name="label">查询说明</ui:define>
+            <h:inputText
+                value="#{sys.queryParamDefineQuery.qhb.parm('qdDes', 'DT003').sv}"
+                style=" width : 193px;" />
+        </s:decorate>
+        <s:decorate template="/layout/edit.xhtml">
+            <ui:define name="label">参数名称</ui:define>
+            <h:inputText
+                value="#{sys.queryParamDefineQuery.qhb.parm('name', 'DT003').sv}"
+                style=" width : 193px;" />
+        </s:decorate>
+        <s:decorate template="/layout/edit.xhtml">
+            <ui:define name="label">取值表达式</ui:define>
+            <h:inputText
+                value="#{sys.queryParamDefineQuery.qhb.parm('valueEL', 'DT003').sv}"
+                style=" width : 193px;" />
+        </s:decorate>
+        <s:decorate template="/layout/edit.xhtml">
+            <ui:define name="label">查询类型</ui:define>
+            <h:selectOneMenu
+                value="#{sys.queryParamDefineQuery.qhb.parm('qdType', 'DT800').obj}"
+                style="width:10em">
+                <s:selectItems
+                    noSelectionLabel="全部"
+                    value="#{sys.lvf.evls('com.vieking.sys.enumerable.QueryDefineType')}"
+                    var="_o"
+                    label="#{_o.des}" />
+                <s:convertEnum />
+            </h:selectOneMenu>
+        </s:decorate>
+
+    </h:panelGrid>
+</ui:composition>

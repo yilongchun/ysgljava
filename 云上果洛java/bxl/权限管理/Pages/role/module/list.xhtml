@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	<ui:decorate template="/decorate/queryTableList.xhtml">
+		<ui:param name="dtHeader" value="#{_query.queryDesc}" />
+		<ui:define name="_columns">
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="名称" />
+				</f:facet>
+				<h:outputText value="#{_item.name}" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="描述" />
+				</f:facet>
+				<h:outputText value="#{_item.des}" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="菜单" />
+				</f:facet>
+				<h:outputText value="#{_item.showInMenu ? '是' : '否'}" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="桌面" />
+				</f:facet>
+				<h:outputText value="#{_item.showInDesktop ? '是' : '否'}" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="位置排序" />
+				</f:facet>
+				<h:outputText value="#{_item.menuPos}" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="关联应用 " />
+				</f:facet>
+				<ui:repeat var="_ma" value="#{_item.moduleApps}">
+					<s:div>
+						<s:link value="#{_ma.app.name}【#{_ma.app.des}】"
+							view="/role/application/edit.xhtml" target="_blank">
+							<f:param name="appId" value="#{_ma.app.name}" />
+						</s:link>
+					</s:div>
+				</ui:repeat>
+			</rich:column>
+			<rich:column id="dtl">
+				<f:facet name="header">
+					<h:outputText value="明细" />
+				</f:facet>
+				<s:link view="/role/module/edit.xhtml" value="查看">
+					<f:param name="moduleId" value="#{_item.name}" />
+				</s:link>
+			</rich:column>
+		</ui:define>
+	</ui:decorate>
+</ui:composition>

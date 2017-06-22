@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	<style type="text/css">
+</style>
+	<h:outputText
+		value="#{empty noFoundDes ? ssu.app('查询未找到数据!') : noFoundDes }"
+		rendered="#{empty results ?  _query.dataModel.rowCount == 0 : results.rowCount == 0 }" />
+	<h:panelGroup
+		rendered="#{empty results ?  _query.dataModel.rowCount gt 0 : results.rowCount gt 0 }">
+		<ui:decorate template="/common/pagination/topPagination.xhtml">
+			<ui:param name="dataProviderComponent" value="#{_query}" />
+			<ui:param name="dataTableContainerId" value="#{dtcId}" />
+			<ui:param name="expDTId"
+				value="#{empty _formId ? dtcId : _formId}:dt_#{dtcId}" />
+			<ui:param name="showExp"
+				value="#{empty showExp ? identity.isLoggedIn()  :showExp}" />
+		</ui:decorate>
+		<s:div id="sd_#{dtcId}" styleClass="queryTablediv"
+			style="clear:both;#{_sdStyle}">
+			<rich:dataGrid id="dt_#{dtcId}" var="_item" style="#{_rdtStyle}"
+				columns="#{_dtcNumber}"
+				value="#{empty results ? _query.dataModel : results }"
+				styleClass="dataGrid">
+				<rich:panel bodyClass="pbody">
+					<f:facet name="header">
+						<h:outputText value="#{dtHeader}"></h:outputText>
+					</f:facet>
+					<ui:insert name="_columns">
+					</ui:insert>
+				</rich:panel>
+			</rich:dataGrid>
+		</s:div>
+		<ui:decorate
+			template="#{not empty pages ? '/common/pagination/homeBottomPagination.xhtml' :'/common/pagination/bottomPagination.xhtml'}">
+			<ui:param name="dataProviderComponent" value="#{_query}" />
+			<ui:param name="dataTableContainerId" value="#{dtcId}" />
+		</ui:decorate>
+	</h:panelGroup>
+	<script type="text/javascript">
+	   procTableEffect('#{dtcId}\\\\:dt_#{dtcId}');
+    </script>
+</ui:composition>

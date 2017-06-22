@@ -1,0 +1,39 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <s:fragment rendered="#{not empty _home.instanceInfoStr()}">
+        <script type="text/javascript">
+        jQuery(document).ready(function(){            
+            document.title='#{_home.instanceInfoStr()}';
+        });       
+    </script>
+    </s:fragment>
+    <ui:insert name="_top" />
+    <s:div styleClass="actionButtons">
+        <s:div style="text-align:right;width:100%;">
+            <ui:insert name="_left" />
+            <h:commandButton
+                value="保存"
+                action="#{_home.update}"
+                disabled="#{not empty _home.instance.processId}"
+                rendered="#{empty _canSave ?  _home.managed : _canSave and _home.managed }" />
+            <h:commandButton
+                value="添加"
+                action="#{_home.persist}"
+                onclick="#{_AddOnclick}"
+                rendered="#{not _home.managed}" />
+            <s:button
+                value="返回"
+                propagation="end"
+                view="#{empty fromUrl ? facesContext.viewRoot.viewId.replaceAll('edit.xhtml','main.xhtml') :fromUrl}">
+            </s:button>
+            <ui:insert name="_right" />
+        </s:div>
+    </s:div>
+    <ui:insert name="_bottom" />
+</ui:composition>

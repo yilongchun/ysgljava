@@ -1,0 +1,52 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:tpl="http://www.vieking.com/facelets/template"
+    xmlns:fld="http://www.vieking.com/facelets/field"
+    template="/WEB-INF/incl/template.xhtml">
+    <ui:define name="body">
+        <tpl:context appAction="#{sys.act.proFile}">
+            <h:form id="entityForm">
+                <rich:panel style="width:100%">
+                    <f:facet name="header">
+                        <rich:toolBar>
+                            <h:outputLabel value="tilte.proFileEdit" />
+                        </rich:toolBar>
+                    </f:facet>
+                    <ui:include src="/sys/user/form.xhtml">
+                        <ui:param
+                            name="entityObj"
+                            value="#{itemDetails}" />
+                    </ui:include>
+                    <s:div styleClass="actionButtons" style="text-align:right;width:100%;">
+                        <h:commandButton
+                            value="编辑"
+                            immediate="true"
+                            action="#{appAction.editItem()}"
+                            rendered="#{displayMode}" />
+                        <h:commandButton
+                            value="保存"
+                            action="#{appAction.saveItem()}"
+                            rendered="#{editMode}" />
+                        <h:commandButton
+                            value="取消修改"
+                            immediate="true"
+                            action="#{appAction.cancelEditItemDetail()}"
+                            rendered="#{editMode}" />
+                        <s:button
+                            value="返回"
+                            immediate="true"
+                            view="/home.xhtml"
+                            propagation="none" />
+                    </s:div>
+                </rich:panel>
+            </h:form>
+        </tpl:context>
+    </ui:define>
+
+</ui:composition>

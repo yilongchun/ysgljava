@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich" contentType="text/html">
+	<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="x-ua-compatible" content="ie=7" />
+<title>#{init.debug and (not empty currentUser) ?
+	ssu.app(currentUser.name,'--') :''} #{messages["project.name"]}</title>
+<link rel="shortcut icon"
+	href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.requestContextPath}/img/favicon.ico" />
+<a:loadStyle src="resource:///extended-skin-styles.xcss" />
+
+<a:loadStyle src="/stylesheet/theme.css" />
+<a:loadStyle src="/stylesheet/easyui.css" />
+<a:loadStyle src="/stylesheet/top.css" />
+<a:loadStyle src="/stylesheet/nav-global.css" />
+<a:loadStyle src="/stylesheet/record.css" />
+<a:loadScript src="/js/componentExt.js" />
+<a:loadScript src="/js/jquery.easyui.min.js" />
+
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	jQuery('#Top .Toolbar1 .CentreBox .Menu .List1 li').click(
+			function() {
+				var index = jQuery(this).parent().children()
+						.index(this);
+				jQuery(this).parent().children().each(function() {
+					if (jQuery(this).hasClass('Select')) {
+						jQuery(this).removeClass('Select');
+					}
+				});
+				jQuery(this).addClass('Select');
+
+				jQuery('#Top .Toolbar2 .CentreBox .Menu').each(
+						function() {
+							if (!jQuery(this).hasClass('Hide')) {
+								jQuery(this).addClass('Hide');
+							}
+						});
+				jQuery('#Top .Toolbar2 .CentreBox .Menu').eq(index)
+						.removeClass('Hide');
+			});
+
+	jQuery('#Top .Toolbar2 .CentreBox .Menu ul li a').mouseenter(
+			function() {
+				var index = jQuery(
+						'#Top .Toolbar2 .CentreBox .Menu ul li a')
+						.index(this);
+				jQuery('#Top .Toolbar2 .CentreBox .Menu ul li').each(
+						function() {
+							if (jQuery(this).hasClass('Select')) {
+								jQuery(this).removeClass('Select');
+							}
+						});
+				jQuery(this).parent().addClass('Select');
+			});
+	
+	pageInit();
+    addInEvent();
+});     
+    </script>
+<ui:insert name="head" />
+</head>
+<body>
+	<ui:insert name="transitiveMarkup">
+		<ui:include src="/common/pop/popMessage.xhtml" />
+		<ui:include src="/common/pop/popWait.xhtml" />
+	</ui:insert>
+	<ui:insert name="floatDragMarkup">
+	</ui:insert>
+	<ui:insert name="toolsbar" />
+	<div id="nav">
+		<ui:insert name="tabbar">
+		</ui:insert>
+	</div>
+	<ui:insert name="tmpInclude" />
+
+	<s:fragment
+		rendered="#{conversation.isLongRunning() and conversation.timeout gt manager.conversationTimeout}">
+		<a:form>
+			<a:poll actionListener="#{conversation.getTimeout()}"
+				interval="#{conversation.timeout*0.9}" data="#{conversation.id}" />
+		</a:form>
+	</s:fragment>
+	<div class="global-top-a">
+		<div class="global-top">
+			<div class="global-top-container  topNavB">
+				<ul class="global-top-right">
+					<li class="global-top-item"><span class="global-top-text">你好！</span>
+
+					</li>
+					<li class="am-service"><a class="down-a" href="javascript:;">#{currentUser.name}<i
+							class="arrow-down"></i>
+					</a>
+						<div class="downlist">
+							<div class="">
+								<s:link value="修改信息" view="/user/userProfile/main.xhtml"
+									propagation="none" rendered="#{identity.loggedIn}"
+									target="_blank" />
+							</div>
+						</div></li>
+
+					<li class="global-top-item" sizset="2"><s:link
+							id="menuLogoutId" view="/home.xhtml" styleClass="global-top-link"
+							action="#{identity.logout}" value="退出"
+							rendered="#{identity.loggedIn}" propagation="none" /></li>
+					<!-- <em class="global-top-item global-top-seperator">丨</em> -->
+					<!--<li class="global-top-item"><a class="global-top-link"
+						href="#" target="_blank">栏目一</a></li>
+					<em class="global-top-item global-top-seperator">|</em>
+					<li class="global-top-item" sizset="5"><a
+						class="global-top-link" href="#" target="_blank">栏目二</a></li>
+					<em class="global-top-item global-top-seperator">|</em>-->
+				</ul>
+				<div class="global-top-left">
+					<div
+						class="global-top-item global-top-item-first global-top-item-last">
+						<!--  <s:link view="/home.xhtml" value="首   页" propagation="none" />-->
+						<div class="titles">
+							<div
+								style="font-size: 14px; color: #fff; height: 27px; padding: 0px 25px;">
+								<!-- <em>·</em> -->
+								<ui:insert name="titles" />
+							</div>
+						</div>
+					</div>
+					<!--  <em class="global-top-item global-top-seperator">|</em>
+					<span>
+					<div class="titles">
+						<ui:insert name="titles" />
+					</div>
+					</span>-->
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+	<div id="Top">
+		<div class="Toolbar1">
+			<div class="CentreBox">
+				<a href="#"><div class="global-logo"></div></a>
+				<div class="Menu">
+					<ul class="List1">
+						<h:form>
+							<a:repeat value="#{userContextManager.mbs}" var="_mbs">
+								<li><a:commandLink value="#{_mbs.des}" ajaxSingle="true">
+										<a:support reRender="appid" event="onclick">
+											<f:setPropertyActionListener
+												target="#{userContextManager.userRole}" value="#{_mbs.name}"></f:setPropertyActionListener>
+										</a:support>
+									</a:commandLink></li>
+							</a:repeat>
+						</h:form>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<s:div id="appid">
+			<div class="Toolbar2">
+				<div class="CentreBox">
+					<div class="Menu">
+						<ul>
+							<li><s:link view="/home.xhtml" value="首页" propagation="none" /></li>
+							<a:repeat
+								value="#{userContextManager.mb(userContextManager.userRole).mas}"
+								var="_item">
+								<li><s:link view="#{_item.url}" value="#{_item.app.des}" /></li>
+							</a:repeat>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</s:div>
+
+		<div class="banner"></div>
+
+		<div class="bodys">
+			<ui:insert name="body" />
+		</div>
+
+	</div>
+	<h:form id="frmNav">
+		<a:outputPanel ajaxRendered="true">
+			<script type="text/javascript">
+                                            jQuery(document).ready(function() {
+                                                 var msgSize = #{facesMessages.getCurrentGlobalMessages().size()};
+                                                 if(msgSize >0) {
+                                                  jQuery.messager.show({
+                                                       title:'提示信息',
+                                                       msg:' <rich:messages id="messagess" globalOnly="true"  styleClass="message"  errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg" rendered="true">  </rich:messages>',
+                                                       //timeout:0,
+                                                       showSpeed:2000,
+                                                       showType:'slide',
+                                                       width:350,
+                                                       height:150
+                                                   });
+                                                 }
+                                              });   
+                                        </script>
+		</a:outputPanel>
+	</h:form>
+
+	<div class="footer">
+		<s:div id="_popdiag">
+			<ui:include src="#{vieking.ui.ac.popUrl}" />
+			<ui:include src="#{pageContext.get('popDiagUrl')}" />
+		</s:div>
+		<s:fragment rendered="#{init.debug}">
+			<p>
+				Powered by <a href="http://seamframework.org">Seam</a>
+				#{org.jboss.seam.version} and <a
+					href="http://www.jboss.org/jbossrichfaces">RichFaces</a>. Generated
+				by seam-gen.
+			</p>
+			<p style="margin-top: -0.5em;">
+				Conversation: id = #{conversation.id}, #{conversation.longRunning ?
+				'long running' : 'temporary'}#{conversation.nested ? ', nested,
+				parent id = '.concat(conversation.parentId) : ''} #{' - '} Ajax4jsf
+				Log (Ctrl+Shift+D) #{' - '}
+				<s:link id="debugConsole" view="/debug.xhtml" value="Debug console"
+					target="debugConsole" />
+				#{' - '}
+				<s:link id="resetSession" view="/home.xhtml"
+					action="#{org.jboss.seam.web.session.invalidate}"
+					propagation="none" value="Terminate session" />
+			</p>
+		</s:fragment>
+	</div>
+
+
+</body>
+	</html>
+</f:view>

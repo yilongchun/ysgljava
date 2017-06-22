@@ -1,0 +1,21 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:c="http://java.sun.com/jstl/core"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <s:div
+        style="float: left;vertical-align: middle;width:200px;"
+        rendered="#{( not empty _mb and _mb.showInMenu) or (_rendered) }">
+        <h:graphicImage
+            value="#{empty _img ?  (empty _mb.ico ?  '/img/icos/mod/default.png' : ssu.app('/img/icos/mod/',_mb.ico)) : _img}"
+            style="float:left; " />
+        <s:div style="padding-top:20px;padding-left:4px;height: 61px;width:120px;">
+            <ui:decorate template="/common/menu/moduleMenu.xhtml">
+            </ui:decorate>
+        </s:div>
+    </s:div>
+</ui:composition>

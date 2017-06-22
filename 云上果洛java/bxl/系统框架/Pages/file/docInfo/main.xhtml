@@ -1,0 +1,85 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:tpl="http://www.vieking.com/facelets/template"
+	xmlns:fld="http://www.vieking.com/facelets/field"
+	xmlns:c="http://java.sun.com/jstl/core"
+	template="#{templatePath}/template.xhtml">
+	<ui:define name="tmpInclude">
+		
+		<s:div id="docTypeSelector">
+			<a4j:include viewId="/common/selector/docTypeSelector.xhtml"
+				rendered="#{pageContext.isSet('sys.docTypeSelector')}" />
+		</s:div>
+	</ui:define>
+	<ui:define name="body">
+		<tpl:context _query="#{sys.docInfoQuery}">
+			<h:form id="filter">
+				<s:div style="width:100%;float:none">
+					<s:div>
+						 
+						<s:decorate id="de_docType" template="/layout/edit.xhtml">
+							<ui:define name="label">文档类型</ui:define>
+							<h:inputText value="#{_query.qhb.pv('docTypeObj').des}" size="40"
+								required="true" readonly="true" />
+							<a4j:commandLink
+								actionListener="#{sys.docTypeSelector.selectOneDW(ssu.app('请选择文档类型'),
+                                                      'de_docType,uploadBtns',_query.qhb.plParm('docTypeObj',100),'qhn.sys.docType.selector.docInfoUpload','sys.docType')}"
+								reRender="docTypeSelector" immediate="true">
+								<h:graphicImage value="/img/qf_find.png" />
+							</a4j:commandLink>
+						</s:decorate>
+					</s:div>
+					<s:div id="uploadBtns"
+						style="text-align:right;width:100%;float:none"
+						styleClass="actionButtons">
+						<a4j:commandButton value="上传文档"
+							action="#{sys.upload.ui.showUploadDiag(_query.qhb.pv('docTypeObj').name,_query.qhb.pv('organObj').id,'','dtc')}"
+							reRender="_popdiag"
+							disabled="#{empty _query.qhb.pv('organObj') or empty  _query.qhb.pv('docTypeObj')}" />
+						<a4j:commandButton value="拍照上传文档"
+							action="#{sys.imageCap.ui.showImageCapDiag(_query.qhb.pv('docTypeObj').name,_query.qhb.pv('organObj').id,'','dtc')}"
+							disabled="#{empty _query.qhb.pv('organObj') or empty  _query.qhb.pv('docTypeObj')}"
+							reRender="_popdiag" />
+					</s:div>
+				</s:div>
+				<ui:decorate template="/decorate/mainPageQuerys.xhtml">
+					<ui:define name="_terms">
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label">名称</ui:define>
+							<h:inputText
+								value="#{sys.docInfoQuery.qhb.parm('namelike','DT003').sv}" />
+						</s:decorate>
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label">描述</ui:define>
+							<h:inputText
+								value="#{sys.docInfoQuery.qhb.parm('des','DT003').sv}" />
+						</s:decorate>
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label">文档类型</ui:define>
+							<h:inputText
+								value="#{sys.docInfoQuery.qhb.parm('fileType','DT003').sv}" />
+						</s:decorate>
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label">存放路径</ui:define>
+							<h:inputText
+								value="#{sys.docInfoQuery.qhb.parm('path','DT003').sv}" />
+						</s:decorate>
+					</ui:define>
+					<ui:param name="_canNew" value="false" />
+				</ui:decorate>
+			</h:form>
+			<h:form id="dtc" autocomplete="off">
+				<ui:include src="list.xhtml">
+					<ui:param name="dtcId" value="dtc" />
+				</ui:include>
+			</h:form>
+		</tpl:context>
+	</ui:define>
+</ui:composition>

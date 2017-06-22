@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:tpl="http://www.vieking.com/facelets/template"
+	xmlns:fld="http://www.vieking.com/facelets/field">
+	<h:panelGrid columns="1">
+		<s:decorate template="/layout/editDivv.xhtml" style="width:900px;"
+			styleClass="dd_l">
+			<ui:define name="label">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;名称：</ui:define>
+			<h:inputText value="#{_obj.name}" readonly="#{_obj.readOnly()}" style="width:700px;"
+				size="50" maxlength="100" required="true" />
+		</s:decorate>
+		<s:decorate template="/layout/editDivv.xhtml" style="width:900px;"
+			styleClass="dd_l">
+			<ui:define name="label">NativeQuery</ui:define>
+			<h:selectBooleanCheckbox value="#{_obj.userNativeQuery}"
+				disabled="#{_obj.readOnly()}" />
+		</s:decorate>
+		<s:decorate template="/layout/editDivv.xhtml" style="width:900px;"
+			styleClass="dd_n">
+			<ui:define name="label">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;说明：</ui:define>
+			<h:inputText value="#{_obj.des}" readonly="#{_obj.readOnly()}" style="width:700px;"
+				size="50" maxlength="100" required="true" />
+		</s:decorate>
+		<s:decorate template="/layout/editDivv.xhtml"
+			style="width:900px;height:auto;" styleClass="dd_n">
+			<ui:define name="label">&#160;&#160;&#160;&#160;主查询：</ui:define>
+			<h:inputTextarea value="#{_obj.findQuery}"
+				readonly="#{_obj.readOnly()}" required="true" style="width:700px;"
+				styleClass="autoHeight" />
+		</s:decorate>
+		<s:decorate template="/layout/editDivv.xhtml"
+			style="width:900px;height:auto;" styleClass="dd_n">
+			<ui:define name="label">数量查询：</ui:define>
+			<h:inputTextarea value="#{_obj.countQuery}"
+				readonly="#{_obj.readOnly()}" required="false" style="width:700px;"
+				styleClass="autoHeight" />
+		</s:decorate>
+		<s:decorate template="/layout/editDivv.xhtml"
+			style="width:900px;height:auto;" styleClass="dd_n">
+			<ui:define name="label">order by：</ui:define>
+			<h:inputTextarea value="#{_obj.orderBy}"
+				readonly="#{_obj.readOnly()}" required="false" style="width:700px;"
+				styleClass="autoHeissght" />
+		</s:decorate>
+		<s:decorate template="/layout/editDivv.xhtml"
+			style="width:900px;height:auto;" styleClass="dd_n">
+			<ui:define name="label">AuOrder</ui:define>
+			<h:inputText value="#{_obj.auOrder}" readonly="#{_obj.readOnly()}"
+				required="false" style="width:700px;" />
+		</s:decorate>
+		<s:decorate template="/layout/editDivv.xhtml"
+			style="width:900px;height:auto;" styleClass="dd_l">
+			<ui:define name="label">是否启用EL</ui:define>
+			<h:inputTextarea styleClass="autoHeight" style="width:700px;"
+				readonly="#{_obj.readOnly()}" value="#{_obj.enabledEL}" rows="1" />
+		</s:decorate>
+	</h:panelGrid>
+</ui:composition>

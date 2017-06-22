@@ -1,0 +1,37 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:fld="http://www.vieking.com/facelets/field">
+	<h:panelGrid columns="1" rowClasses="row1,row2" style=" width:100%;">
+		<rich:dataTable id="rdt_adt" var="_item" value="#{_obj.arList}"
+			styleClass="dataGrid">
+			<f:facet name="header">
+				<h:panelGroup>
+					<h:outputText value="还款记录" />
+				</h:panelGroup>
+			</f:facet>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="还款人名称" />
+				</f:facet>
+				<h:outputText value="#{_item.user.name}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="还款金额" />
+				</f:facet>
+				<h:outputText value="#{_item.hkje}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="评论时间" />
+				</f:facet>
+				<h:outputText value="#{_item.hksj}" converter="#{calendar}" />
+			</h:column>
+		</rich:dataTable>
+	</h:panelGrid>
+</ui:composition>

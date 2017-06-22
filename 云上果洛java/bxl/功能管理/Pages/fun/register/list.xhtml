@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	<ui:decorate template="/decorate/queryTableList.xhtml">
+		<ui:param name="dtHeader" value="#{_query.queryDesc}" />
+		<ui:define name="_columns">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="注册姓名" />
+				</f:facet>
+				<h:outputText value="#{_item.name}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="注册手机号" />
+				</f:facet>
+				<h:outputText value="#{_item.phone}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="注册时间" />
+				</f:facet>
+				<h:outputText value="#{_item.zcsj}" converter="#{calendarConvert}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="注册状态" />
+				</f:facet>
+				<h:outputText value="#{_item.reg==0 ? '注册失败' : '注册成功'}" />
+			</h:column>
+
+		</ui:define>
+	</ui:decorate>
+</ui:composition>

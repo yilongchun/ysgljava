@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE facelet-taglib PUBLIC
+  "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"
+  "http://java.sun.com/dtd/facelet-taglib_1_0.dtd">
+<facelet-taglib
+	xmlns="http://java.sun.com/JSF/Facelet">
+
+	<namespace>http://www.vieking.com/facelets/field</namespace>
+
+	<!-- generic -->
+	<tag>
+		<tag-name>suggest</tag-name>
+		<source>fltag/field/suggest.xhtml</source>
+	</tag>
+	<tag>
+		<tag-name>selectEntity</tag-name>
+		<source>fltag/field/selectEntity.xhtml</source>
+	</tag>
+
+	<tag>
+		<tag-name>suggestNV</tag-name>
+		<source>fltag/field/suggestNV.xhtml</source>
+	</tag>
+
+	<tag>
+		<tag-name>suggestFG</tag-name>
+		<source>fltag/field/suggestFG.xhtml</source>
+	</tag>
+
+	<tag>
+		<tag-name>suggestFGV2</tag-name>
+		<source>fltag/field/suggestFGV2.xhtml</source>
+	</tag>
+
+	<tag>
+		<tag-name>suggestJPG</tag-name>
+		<source>fltag/field/suggestJPG.xhtml</source>
+	</tag>
+
+	<tag>
+		<tag-name>suggestDOC</tag-name>
+		<source>fltag/field/suggestDOC.xhtml</source>
+	</tag>
+
+	<tag>
+		<tag-name>sign</tag-name>
+		<source>fltag/field/signature.xhtml</source>
+	</tag>
+
+	<tag>
+		<tag-name>suggestNVNew</tag-name>
+		<source>fltag/field/suggestNVNew.xhtml</source>
+	</tag>
+
+	<tag>
+		<tag-name>msWordProcDR</tag-name>
+		<source>fltag/field/msWordProcDR.xhtml</source>
+	</tag>
+</facelet-taglib>

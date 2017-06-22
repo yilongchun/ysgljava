@@ -1,0 +1,132 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:tpl="http://www.vieking.com/facelets/template"
+    xmlns:fld="http://www.vieking.com/facelets/field">
+    <rich:tabPanel
+        id="rtp_qf"
+        switchType="client">
+        <rich:tab
+            id="tab_ls"
+            label="查询过滤列表">
+            <h:form style="width:980px;"
+                id="dtc_qfs"
+                autocomplete="off">
+                <s:div
+                    id="qfForm"
+                    style="height:auto;width:980px"
+                    rendered="#{sys.nameQueryHome.managed and (not sys.nameQueryHome.instance.readOnly()) }"
+                    styleClass="dd_n">
+                    <s:div styleClass="actionButtons">
+                        <a4j:commandLink
+                            action="#{sys.queryFilterHome.wire}"
+                            actionListener="#{sys.queryFilterHome.setObjId(null)}"
+                            immediate="true"
+                            ajaxSingle="true"
+                            reRender="frm_qf,frm_qpdle"
+                            oncomplete="RichFaces.switchTab('rtp_qf','tab_qf','');processAutoHeight('.autoHeight');">
+                            <h:graphicImage
+                                value="/img/new.png"
+                                styleClass="op_sbtn" />
+                        </a4j:commandLink>
+                    </s:div>
+                    <ui:include src="../queryFilter/list.xhtml">
+                        <ui:param
+                            name="_query"
+                            value="#{sys.queryFilterQuery}" />
+                        <ui:param
+                            name="dtcId"
+                            value="dtc_qfs" />
+                        <ui:param
+                            name="inAjax"
+                            value="true" />
+                        <ui:param
+                            name="_rdtStyle"
+                            value="width:980px" />                            
+                        <ui:param
+                            name="_form"
+                            value="dtc_qfs,frm_qf,frm_qpdle" />
+                        <ui:param
+                            name="_oncomplete"
+                            value="RichFaces.switchTab('rtp_qf','tab_qf','');processAutoHeight('.autoHeight');" />
+                    </ui:include>
+                </s:div>
+            </h:form>
+        </rich:tab>
+        <rich:tab
+            id="tab_qf"
+            label="查询过滤信息">
+            <h:form style="width:980px;"
+                id="frm_qf"
+                autocomplete="off">
+                <s:div rendered="#{sys.queryFilterHome.isWired()}">
+                    <a4j:region>
+                        <s:div
+                            styleClass="actionButtons"
+                            id="buttons">
+                            <a4j:commandLink
+                                action="#{sys.queryFilterHome.wire}"
+                                actionListener="#{sys.queryFilterHome.setObjId(null)}"
+                                immediate="true"
+                                ajaxSingle="true"
+                                reRender="frm_qf,frm_qpdle"
+                                oncomplete="processAutoHeight('.autoHeight');RichFaces.switchTab('rtp_qf','tab_qf','')">
+                                <h:graphicImage
+                                    value="/img/new.png"
+                                    styleClass="op_sbtnMR10" />
+                            </a4j:commandLink>
+                            <a4j:commandLink
+                                actionListener="#{sys.queryFilterHome.remove}"
+                                rendered="#{sys.queryFilterHome.managed}"
+                                immediate="true"
+                                reRender="dtc_qfs,frm_qf,frm_qpdle"
+                                oncomplete="processAutoHeight('.autoHeight');RichFaces.switchTab('rtp_qf','tab_ls','');">
+                                <h:graphicImage
+                                    value="/img/del.png"
+                                    styleClass="op_sbtnMR10" />
+                            </a4j:commandLink>
+                            <a4j:commandLink
+                                action="#{sys.queryFilterHome.persist}"
+                                rendered="#{sys.queryFilterHome.isWired() and  (not sys.queryFilterHome.managed)}"
+                                reRender="dtc_qfs,frm_qf,frm_qpdle"
+                                oncomplete="processAutoHeight('.autoHeight');">
+                                <h:graphicImage
+                                    value="/img/add.png"
+                                    styleClass="op_sbtn" />
+                            </a4j:commandLink>
+                            <a4j:commandLink
+                                action="#{sys.queryFilterHome.update}"
+                                rendered="#{sys.queryFilterHome.isWired() and  (sys.queryFilterHome.managed)}"
+                                reRender="dtc_qfs,frm_qf,frm_qpdle"
+                                oncomplete="processAutoHeight('.autoHeight');">
+                                <h:graphicImage
+                                    value="/img/sav.png"
+                                    styleClass="op_sbtn" />
+                            </a4j:commandLink>
+                        </s:div>
+                        <div style="width: 965px;margin:0 auto;"><ui:include
+                            src="../queryFilter/queryFilterEdit.xhtml">
+                            <ui:param
+                                value="#{sys.queryFilterHome.instance}"
+                                name="_obj" />
+                        </ui:include></div>
+                    </a4j:region>
+                </s:div>
+            </h:form>
+            <h:form id="frm_qpdle" style="width:980px;">
+                <s:div rendered="#{sys.queryFilterHome.isWired()}">
+                    <ui:include src="../queryParamDefine/queryParamDefineListEdit.xhtml">
+                        <ui:param
+                            name="qdHome"
+                            value="#{sys.queryFilterHome}" />
+                    </ui:include>
+                </s:div>
+            </h:form>
+        </rich:tab>
+    </rich:tabPanel>
+</ui:composition>

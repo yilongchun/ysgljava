@@ -1,0 +1,35 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:tpl="http://www.vieking.com/facelets/template"
+	xmlns:fld="http://www.vieking.com/facelets/field"
+	xmlns:c="http://java.sun.com/jstl/core"
+	template="#{templatePath}/template.xhtml">
+	<ui:define name="titles">
+     #{sys.queryParamDefineQuery.queryDesc}
+     </ui:define>
+	<ui:define name="body">
+		<tpl:context _query="#{sys.queryParamDefineQuery}">
+			<h:form id="filter">
+				<rich:simpleTogglePanel switchType="client" label="查询条件">
+					<ui:include src="query.xhtml">
+					</ui:include>
+					<ui:decorate template="/decorate/mainPageButtons.xhtml">
+						<ui:param name="_canNew" value="false" />
+					</ui:decorate>
+				</rich:simpleTogglePanel>
+			</h:form>
+			<h:form id="dtc" autocomplete="off">
+				<ui:include src="list.xhtml">
+					<ui:param name="dtcId" value="dtc" />
+				</ui:include>
+			</h:form>
+		</tpl:context>
+	</ui:define>
+</ui:composition>

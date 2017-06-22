@@ -1,0 +1,110 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:tpl="http://www.vieking.com/facelets/template"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <rich:modalPanel
+        id="#{ropId}"
+        moveable="true"
+        resizeable="false"
+        autosized="true"
+        minHeight="300"
+        minWidth="600"
+        showWhenRendered="true"
+        onshow="autoHeight('.autoHeight');"
+        reRender="true"
+        rendered="#{rop.isOpen()}">
+        <f:facet name="header">
+            <h:outputText value="#{rop_title}">
+            </h:outputText>
+        </f:facet>
+        <f:facet name="controls">
+            <h:form>
+                <a4j:commandLink
+                    id="closeDiag"
+                    styleClass="closeDiag"
+                    actionListener="#{rop.close()}"
+                    onclick="javascript:#{rich:component(ropId)}.hide()">
+                    <h:graphicImage
+                        value="/img/close.png"
+                        style="vertical-align: middle; margin-left: 3px; margin-bottom: 1px;" />
+                </a4j:commandLink>
+                <rich:hotKey
+                    key="esc"
+                    handler="javascript:jQuery('.closeDiag').click()" />
+            </h:form>
+        </f:facet>
+        <h:form
+            id="filter"
+            autocomplete="off"
+            rendered="#{showQf}">
+            <s:div style="text-align:right;width:100%;">
+                <a4j:commandButton
+                    value="确定"
+                    id="okDiag"
+                    styleClass="okDiag"
+                    actionListener="#{rop.close()}"
+                    action="#{rop.ok()}"
+                    onclick="javascript:#{rich:component(selId)}.hide()"
+                    reRender="#{rop.reRender}" />
+                <rich:hotKey
+                    key="ctrl+s"
+                    handler="#{rich:element('okDiag')}.click()" />
+                <a4j:commandButton
+                    value="查询"
+                    action="#{rop.find()}"
+                    reRender="div_selectList" />
+                <a4j:commandButton
+                    value="全部"
+                    action="#{rop.findAll()}"
+                    reRender="query_pg,div_selectList" />
+            </s:div>
+            <ui:insert name="searchCriteria" />
+        </h:form>
+        <s:div
+            id="div_selectList"
+            style="clear:both;">
+            <h:form>
+                <h:outputText
+                    value="查询未找到数据."
+                    rendered="#{rop.results.size() == 0}"
+                    styleClass="errors" />
+                <div class="left">每页记录数 #{' '} <h:selectOneMenu
+                    id="ps"
+                    value="#{rop.pageSize}"
+                    valueChangeListener="#{rop.pageSizeChanged}">
+                    <a4j:support
+                        id="psc"
+                        event="onchange"
+                        reRender="div_selectList"
+                        ajaxSingle="true"
+                        bypassUpdates="true" />
+                    <f:selectItem
+                        itemValue="5"
+                        itemLabel="5" />
+                    <f:selectItem
+                        itemValue="10"
+                        itemLabel="10" />
+                    <f:selectItem
+                        itemValue="15"
+                        itemLabel="15" />
+                </h:selectOneMenu></div>
+                <h:panelGroup rendered="#{rop.results.size() gt 0}">
+                    <ui:include src="/WEB-INF/incl/pg/topPagination.xhtml">
+                        <ui:param
+                            name="dataProviderComponent"
+                            value="#{rop}" />
+                        <ui:param
+                            name="dataTableContainerId"
+                            value="div_selectList" />
+                    </ui:include>
+                </h:panelGroup>
+                <ui:insert name="ropList" />
+            </h:form>
+        </s:div>
+    </rich:modalPanel>
+</ui:composition>

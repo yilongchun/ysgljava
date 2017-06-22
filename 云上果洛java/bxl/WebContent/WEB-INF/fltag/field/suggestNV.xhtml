@@ -1,0 +1,66 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:tpl="http://www.vieking.com/facelets/template"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <tpl:default
+        var="label"
+        value="" />
+    <tpl:default
+        var="rendered"
+        value="true" />
+    <tpl:default
+        var="suggestComponent"
+        value="#{component}" />
+    <tpl:default
+        var="required"
+        value="false" />
+    <tpl:default
+        var="requiredmsg"
+        value="required message " />
+    <tpl:default
+        var="nlmsg"
+        value="nothing..." />
+    <tpl:default
+        var="minChars"
+        value="1" />
+
+    <h:panelGroup rendered="#{rendered}">
+        <a4j:region>
+            <h:inputHidden
+                value="#{component[propertyhid]}"
+                id="#{id}phf"
+                requiredMessage="#{requiredmsg}" />
+            <h:inputText
+                id="#{id}psf"
+                label="#{label}"
+                value="#{component[propertyshow]}"
+                size="#{size}"
+                required="#{required}"
+                requiredMessage="#{requiredmsg}"
+                onblur="verifyHiddValue('#{formId}:#{id}psf','#{formId}:#{id}phf');">
+                <ui:insert />
+            </h:inputText>
+        </a4j:region>
+        <h:outputLink value="javascript:clearNV('#{formId}:#{id}psf','#{formId}:#{id}phf');">
+            <h:graphicImage value="/img/clear.png" />
+        </h:outputLink>
+        <rich:suggestionbox
+            id="#{id}sbox"
+            for="#{id}psf"
+            minChars="1"
+            suggestionAction="#{suggestComponent[suggestMethod]}"
+            fetchValue="#{_suggestion[listps]}^_^#{_suggestion[listph]}"
+            var="_suggestion"
+            nothingLabel="#{nlmsg}"
+            ajaxSingle="true"
+            onselect="toSplit('#{formId}:#{id}psf','#{formId}:#{id}phf');">
+            <h:column>
+                <h:outputText value="#{_suggestion[listps]}" />
+            </h:column>
+        </rich:suggestionbox>
+
+    </h:panelGroup>
+</ui:composition>

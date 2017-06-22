@@ -1,0 +1,130 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:fld="http://www.vieking.com/facelets/field">
+	<div style="width: 965px;margin:0 auto;"><s:decorate
+		template="/layout/editDiv.xhtml"
+		style="width:900px;"
+		styleClass="dd_l">
+		<ui:define name="label">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;名称：</ui:define>
+		<h:inputText
+			value="#{_obj.name}"
+			readonly="#{not empty _obj.version}"
+			size="18"
+			required="true" />
+	</s:decorate> <s:decorate
+		template="/layout/editDiv.xhtml"
+		style="width:900px;"
+		styleClass="dd_n">
+		<ui:define name="label">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;说明：</ui:define>
+		<h:inputText
+			value="#{_obj.des}"
+			readonly="#{_obj.readOnly()}"
+			size="50"
+			maxlength="100"
+			required="true" />
+	</s:decorate> <s:decorate
+		template="/layout/editDiv.xhtml"
+		style="width:900px;"
+		styleClass="dd_n">
+		<ui:define name="label">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;桌面：</ui:define>
+		<h:inputText
+			value="#{_obj.desktop}"
+			readonly="#{_obj.readOnly()}"
+			size="50"
+			maxlength="100"
+			required="true" />
+	</s:decorate></div>
+	<s:div styleClass="actionButtons">
+		<s:link
+			value="添加角色"
+			includePageParams="false"
+			propagation="none"
+			target="_blank"
+			view="/role/role/edit.xhtml">
+		</s:link>#{'　　'}
+        <a4j:commandLink
+			actionListener="#{role.roleSelector.selectMany(_obj.tmpId,empty _obj.des ? '新工作组-选择角色' : ssu.app(_obj.des,'-选择角色'),10,'dt_roles')}"
+			reRender="roleSelector"
+			immediate="true"
+			ajaxSingle="true"
+			oncomplete="processAutoHeight('.autoHeight');">
+			<h:graphicImage
+				value="/img/new.png"
+				styleClass="op_sbtnMR10" />
+		</a4j:commandLink>
+	</s:div>
+	<s:div
+		id="dt_roles"
+		styleClass="appsdiv"
+		style="clear:both;">
+		<rich:dataTable
+			id="rdt_adt"
+			var="_item"
+			value="#{_obj.roles}"
+			styleClass="dataGrid">
+			<f:facet name="header">
+				<h:panelGroup>
+					<h:outputText value="角色列表" />
+				</h:panelGroup>
+			</f:facet>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="名称" />
+				</f:facet>
+				<s:link
+					value="#{_item.role.name}"
+					view="/role/role/edit.xhtml"
+					target="_blank">
+					<f:param
+						name="roleId"
+						value="#{_item.role.name}" />
+				</s:link>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="角色应用" />
+				</f:facet>
+				<ui:repeat
+					var="_ra"
+					value="#{_item.role.roleApps}">
+					<s:div style="float:none;text-align:left;">
+						<h:outputText value="#{_ra.app.name}【#{_ra.app.des}】" />
+					</s:div>
+				</ui:repeat>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="描述" />
+				</f:facet>
+				<h:outputText value="#{_item.role.des}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="限制条件" />
+				</f:facet>
+				
+			</h:column>
+			<h:column id="dtl">
+				<f:facet name="header">
+					<h:outputText value="操作" />
+				</f:facet>
+				<a4j:commandLink
+					action="#{_obj.getRoles().remove(_item)}"
+					immediate="true"
+					ajaxSingle="true"
+					reRender="dt_roles">
+					<h:graphicImage
+						value="/img/del.png"
+						alt="#{messages['btn.del']}"
+						title="#{messages['btn.del']}" />
+				</a4j:commandLink>
+			</h:column>
+		</rich:dataTable>
+	</s:div>
+</ui:composition>

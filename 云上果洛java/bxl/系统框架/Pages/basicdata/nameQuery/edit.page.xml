@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page
+	xmlns="http://jboss.com/products/seam/pages"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://jboss.com/products/seam/pages
+		http://jboss.com/products/seam/pages-2.2.xsd"
+	login-required="true"
+	
+	timeout="6000000">
+	<description>命名查询录入 - 最后使用时间: #{currentTime}</description>
+	<begin-conversation
+		if="#{identity.loggedIn}"
+		join="true"
+		flush-mode="manual" />
+	<param
+		name="nameQueryId"
+		value="#{sys.nameQueryHome.objId}" />
+	<action
+		execute="#{sys.nameQueryHome.wire}"
+		on-postback="false" />
+	<action
+		execute="#{sys.queryFilterQuery.setQhbScopeStr('CONVERSATION')}"
+		if="#{sys.nameQueryHome.isManaged()}"
+		on-postback="false" />
+	<action
+		execute="#{sys.queryFilterQuery.qhb.parm('nqId','DT003').setSv(nameQueryId)}"
+		if="#{sys.nameQueryHome.isManaged()}"
+		on-postback="false" />
+
+	<action
+		execute="#{sys.queryFilterQuery.applyFilter}"
+		on-postback="false"
+		if="#{sys.nameQueryHome.isManaged()}" />
+
+	<action
+		execute="#{sys.queryFilterHome.setAutoNew(false)}"
+		on-postback="false"
+		if="#{sys.nameQueryHome.isManaged()}" />
+
+	<navigation
+		from-action="#{_home.persist}">
+		<rule
+			if-outcome="persisted">
+			<redirect
+				view-id="/basicdata/nameQuery/edit.xhtml">
+				<param
+					name="nameQueryId"
+					value="#{sys.nameQueryHome.instance.id}" />
+			</redirect>
+		</rule>
+	</navigation>
+</page>

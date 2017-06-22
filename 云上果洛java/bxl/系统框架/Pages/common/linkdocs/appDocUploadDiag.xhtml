@@ -1,0 +1,98 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:tpl="http://www.vieking.com/facelets/template"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <rich:modalPanel
+        id="appdocUploadDiag"
+        moveable="false"
+        resizeable="false"
+        autosized="true"
+        minHeight="400"
+        minWidth="600"
+        showWhenRendered="true"
+        reRender="true">
+        <f:facet name="header">
+            <h:outputFormat value="【{0}】【{1}】【{2}】【{3}】上传">
+                <f:param value="#{sys.docLink.ui.uploadOrgan.name}" />
+                <f:param value="#{sys.docLink.ui.getTitle()}" />
+                <f:param value="#{sys.docLink.ui.appDocType.docType.des}" />
+                <f:param value="#{sys.docLink.ui.appDocType.docType.maxLength}" />
+            </h:outputFormat>
+        </f:facet>
+        <f:facet name="controls">
+            <h:form>
+                <a4j:commandLink
+                    styleClass="closeDiag"
+                    actionListener="#{vieking.ui.ac.setPopUrl('')}"
+                    onclick="javascript:#{rich:component('appdocUploadDiag')}.hide()"
+                    reRender="#{sys.docLink.ui.getReRender()}">
+                    <h:graphicImage value="/img/close.png" />
+                </a4j:commandLink>
+                <rich:hotKey
+                    key="esc"
+                    handler="javascript:jQuery('.closeDiag').click()" />
+            </h:form>
+        </f:facet>
+        <a4j:outputPanel
+            id="filesPanel"
+            ajaxRendered="true">
+            <h:panelGroup
+                id="uploadMessages"
+                style="padding-bottom:7px;"
+                layout="block"
+                rendered="#{sys.upload.fw.errorFiles.size() > 0}">
+                <h:panelGroup
+                    style="padding-bottom:7px;"
+                    layout="block">
+                    <h:outputText
+                        styleClass="bold"
+                        style="padding-bottom:7px;"
+                        value="#{messages['error_during_upload']}" />
+                </h:panelGroup>
+                <a4j:repeat
+                    value="#{sys.upload.fw.errorFiles}"
+                    var="error">
+                    <h:panelGroup
+                        style="padding-bottom:7px;"
+                        layout="block">
+                        <h:outputText
+                            value="#{(sys.upload.fw.getErrorImage(error)).originalName}#{(sys.upload.fw.getErrorDescription(error))}" />
+                    </h:panelGroup>
+                </a4j:repeat>
+            </h:panelGroup>
+        </a4j:outputPanel>
+        <a4j:form>
+            <rich:fileUpload
+                listHeight="400"
+                listWidth="600"
+                allowFlash="true"
+                maxFilesQuantity="#{sys.docLink.ui.maxFilesQuantity}"
+                autoclear="true"
+                fileUploadListener="#{sys.docLinkUpload.manager.listener}"
+                id="fileUpload"
+                immediateUpload="false"
+                noDuplicate="true"
+                disabled="#{not sys.docLink.ui.isInitok()}"
+                acceptedTypes="#{sys.docLink.ui.appDocType.docType.fileType}"
+                addControlLabel="添加文档"
+                uploadControlLabel="上传"
+                clearAllControlLabel="清除所有"
+                clearControlLabel="清除"
+                cancelEntryControlLabel="取消"
+                stopControlLabel="停止"
+                stopEntryControlLabel="停止">
+                <f:facet name="label">
+                    <h:outputText value="{_KB}KB / {KB}KB 已上传 --- {mm}:{ss}" />
+                </f:facet>
+                <a4j:support
+                    event="onuploadcomplete"
+                    actionListener="#{sys.docLinkUpload.manager.uploadComplete()}" />
+            </rich:fileUpload>
+        </a4j:form>
+    </rich:modalPanel>
+</ui:composition>

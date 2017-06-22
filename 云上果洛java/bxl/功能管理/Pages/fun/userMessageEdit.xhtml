@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:tpl="http://www.kingfree.com/facelets/template"
+	xmlns:fld="http://www.kingfree.com/facelets/field"
+	xmlns:c="http://java.sun.com/jstl/core">
+	<h:panelGrid columns="1" rowClasses="row1,row2" style="width:100%;">
+		<s:decorate template="/layout/edit.xhtml">
+			<ui:define name="label">消息类型</ui:define>
+			<h:outputText value="#{_obj.xxlx.name}" />
+		</s:decorate>
+	</h:panelGrid>
+	<h:panelGrid columns="1" rowClasses="row1,row2" style="width:100%;">
+		<s:decorate template="/layout/edit.xhtml">
+			<ui:define name="label">消息内容</ui:define>
+			<h:inputTextarea value="#{_obj.note}" rows="6" cols="100"
+				required="true" />
+		</s:decorate>
+		<s:div styleClass="actionButtons" id="buttons">
+			<h:commandButton value="发送信息" action="#{_home.persist}" />
+			<s:button value="返回列表" view="/fun/userMessage/main.xhtml" />
+		</s:div>
+	</h:panelGrid>
+</ui:composition>

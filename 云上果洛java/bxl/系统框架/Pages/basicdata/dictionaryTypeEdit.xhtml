@@ -1,0 +1,149 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:fld="http://www.vieking.com/facelets/field">
+	<fieldset>
+		<legend>类型描述</legend>
+		<h:panelGrid columns="2" columnClasses="col1,col2"
+			rowClasses="row1,row2" style=" width:100%;">
+			<s:decorate template="/layout/editDivv.xhtml">
+				<ui:define name="label">编号 </ui:define>
+				<h:inputText value="#{_obj.bh}" size="30" required="true"
+					rendered="true">
+					<a4j:support event="onblur" ajaxSingle="true" reRender="add" />
+				</h:inputText>
+			</s:decorate>
+			<s:decorate template="/layout/editDivv.xhtml">
+				<ui:define name="label">描述名称</ui:define>
+				<h:inputText value="#{_obj.name}" size="30" required="true">
+					<a4j:support event="onblur" ajaxSingle="true" reRender="add" />
+				</h:inputText>
+			</s:decorate>
+		</h:panelGrid>
+		<s:div id="add" styleClass="actionButtons">
+			<a4j:commandButton
+				rendered="#{_obj.name != null and _obj.bh != null}" value="新增"
+				actionListener="#{_home.addDictionary()}" reRender="lxdy,button"
+				ajaxSingle="true" immediate="true">
+			</a4j:commandButton>
+		</s:div>
+	</fieldset>
+	<br />
+	<s:div id="lxdy">
+		<s:div rendered="#{_home.dictionary != null}">
+			<fieldset>
+				<legend>类型定义信息</legend>
+				<h:panelGrid columns="2" columnClasses="col1,col2"
+					rowClasses="row1,row2" style=" width:100%;">
+					<s:decorate template="/layout/edit.xhtml" id="de_code">
+						<ui:define name="label">上级编码 </ui:define>
+						<h:outputText value="#{_home.dictionary.code}" rendered="true" />
+					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml" id="de_wn">
+						<ui:define name="label">全称 </ui:define>
+						<h:inputText value="#{_home.dictionary.wn}" size="30"
+							required="true" />
+					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">本级编码 </ui:define>
+						<h:inputText value="#{_home.dictionary.clc}" size="30"
+							required="true">
+							<a4j:support ajaxSingle="true" reRender="de_code"
+								event="onchange" />
+						</h:inputText>
+					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">名称 </ui:define>
+						<h:inputText value="#{_home.dictionary.name}" size="30"
+							required="true">
+							<a4j:support ajaxSingle="true" reRender="de_wn" event="onchange" />
+						</h:inputText>
+					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">简称 </ui:define>
+						<h:inputText value="#{_home.dictionary.sn}" size="40" />
+					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">数值 </ui:define>
+						<h:inputText value="#{_home.dictionary.numbers}" />
+					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">启用(或真假值)</ui:define>
+						<h:selectBooleanCheckbox value="#{_home.dictionary.yx}" />
+					</s:decorate>
+				</h:panelGrid>
+				<h:panelGrid columns="1" columnClasses="col1,col2"
+					rowClasses="row1,row2" style=" width:100%;">
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">描述</ui:define>
+						<h:inputTextarea value="#{_home.dictionary.des}" rendered="true"
+							cols="100" rows="10" />
+					</s:decorate>
+					<s:div styleClass="actionButtons">
+						<a4j:commandButton value="添加"
+							actionListener="#{_home.setDictionary()}"
+							reRender="dictionary,lxdy,button">
+						</a4j:commandButton>
+					</s:div>
+				</h:panelGrid>
+			</fieldset>
+		</s:div>
+	</s:div>
+	<br />
+	<fieldset>
+		<legend>类型定义信息</legend>
+		<a4j:region ajaxSingle="true">
+			<rich:dataTable id="dictionary" var="_item"
+				value="#{_obj.dictionarys}" rowKeyVar="rowindex">
+				<f:facet name="header">
+					<h:panelGroup>
+                          类型定义
+                    </h:panelGroup>
+				</f:facet>
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="类别" />
+					</f:facet>
+					<h:outputText value="#{_item.dictionaryType.name}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="上级编码" />
+					</f:facet>
+					<h:outputText
+						value="#{_item.superior.code == null ? '无' :_item.superior.code}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="编码" />
+					</f:facet>
+					<h:outputText value="#{_item.code}" />
+				</rich:column>
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="描述" />
+					</f:facet>
+					<h:outputText value="#{_item.wn}" />
+				</rich:column>
+				<rich:column id="dtl">
+					<f:facet name="header">
+						<h:outputText value="操作" />
+					</f:facet>
+					<a4j:commandLink reRender="lxdy" ajaxSingle="true"
+						action="#{_home.editDictionary(_item)}" value="编辑">
+					</a4j:commandLink>
+					<a4j:commandLink actionListener="#{_home.superDictionary(_item)}"
+						reRender="lxdy" ajaxSingle="true" value="  添加下级">
+					</a4j:commandLink>
+					<a4j:commandLink action="#{_home.reDictionarys(_item)}"
+						ajaxSingle="true" reRender="dictionary" value="  删除">
+					</a4j:commandLink>
+				</rich:column>
+			</rich:dataTable>
+		</a4j:region>
+	</fieldset>
+</ui:composition>

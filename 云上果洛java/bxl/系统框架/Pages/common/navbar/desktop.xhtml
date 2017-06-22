@@ -1,0 +1,104 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich">
+    <h:form>
+        <table
+            class="navbar"
+            width="1000px"
+			height="60"
+            cellspacing="0"
+            cellpadding="0"
+            border="0"
+			align="center">
+            <tr >
+                <td
+                    rowspan="2"
+                    width="1%"></td>
+                <td
+                    class="txtappname"
+                    align="left"
+                    width="59%"><h:outputLabel value="" /></td>
+
+                <td align="left"></td>
+                <td
+                    class="navrow"
+                    valign="top"
+                    width="40%">
+                <table
+                    class="navmenuschome"
+                    width="100%"
+                    cellspacing="0"
+                    cellpadding="2"
+                    border="0">
+                    <tr>
+                        <td class="menubardivider"><h:graphicImage
+                            value="/image/menubar_divider.gif" /></td>
+                        <td
+                            align="right"
+                            valign="top"
+                            class="menubarlinkbtn"><h:graphicImage
+                            value="/image/menubar_divider.gif" /> <s:link
+                            id="menuHomeId"
+                            view="/home.xhtml"
+                            value="#{facesContext.viewRoot.viewId.equals('/home.xhtml') ? '刷新' : '启动中心'}"
+                            propagation="none" /></td>
+                        <td class="menubarlinkbtn"><a:include
+                            viewId="/common/menu/userMenu.xhtml" /></td>
+
+                        <td class="menubardivider"><h:graphicImage
+                            value="/image/menubar_divider.gif" /> <s:link
+                            id="menuLogoutId"
+                            view="/home.xhtml"
+                            action="#{identity.logout}"
+                            value="退出"
+                            rendered="#{identity.loggedIn}"
+                            propagation="none" /> <s:link
+                            id="menuLoginId"
+                            view="/login.xhtml"
+                            value="登录"
+                            rendered="#{not identity.loggedIn}"
+                            propagation="none" /></td>
+                        <td class="menubardivider"><h:graphicImage
+                            value="/image/menubar_divider.gif" /></td>
+                        <td
+                                  align="right"
+                                  valign="middle"
+                                  class="menubarlinkbtn"><s:link
+                                  view="/help/tools.xhtml">工具下载</s:link></td>     
+						<td
+                                  align="right"
+                                  valign="middle"
+                                  class="menubarlinkbtn"><s:link
+                                  view="/help/zshelp.xhtml">证书安装</s:link></td>                              
+                        <td class="menubarlinkbtn"><h:graphicImage
+                            value="/image/menubar_divider.gif" />帮助(<b STYLE="ACCELERATOR: true">C</b>)</td>
+                    </tr>
+                </table>
+                </td>
+            </tr>
+
+            <tr>
+                <!-- Row 2 for messages and logo -->
+                <td
+                    class="navrow"
+                    align="left"><h:messages
+                    id="messages"
+                    globalOnly="true"
+                    styleClass="message"
+                    errorClass="errormsg"
+                    infoClass="infomsg"
+                    warnClass="warnmsg"
+                    rendered="#{showGlobalMessages != 'false'}" /></td>
+                <td
+                    class="navrow"
+                    colspan="3"
+                    align="right"></td>
+            </tr>
+        </table>
+    </h:form>
+</ui:composition>

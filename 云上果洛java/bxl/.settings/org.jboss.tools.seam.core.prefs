@@ -1,0 +1,17 @@
+action.package=org.domain.bxl.session
+action.sources=/bxl-ejb/ejbModule
+eclipse.preferences.version=1
+model.package=org.domain.bxl.entity
+model.sources=/bxl-ejb/ejbModule
+seam.ear.project=bxl-ear
+seam.ejb.project=bxl-ejb
+seam.project.connection.profile=safetyData
+seam.project.deployment.type=ear
+seam.project.settings.version=1.1
+seam.project.web.root.folder=/bxl/WebContent
+seam.runtime.name=jboss-seam-2.2.2.Final
+seam.settings.changed.by.user=true
+seam.test.creating=false
+seam.test.project=bxl-test
+test.package=org.domain.bxl.test
+test.sources=/bxl-test/test-src

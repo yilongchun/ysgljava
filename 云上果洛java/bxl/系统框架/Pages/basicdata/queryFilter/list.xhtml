@@ -1,0 +1,82 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	<ui:decorate template="/decorate/queryTableList.xhtml">
+		<ui:param
+			name="dtHeader"
+			value="#{_query.queryDesc}" />
+		<ui:define name="_columns">
+			<rich:column rendered="#{not inAjax}">
+				<f:facet name="header">
+					<h:outputText value="主查询定义" />
+				</f:facet>
+				<div
+					id="wrap"
+					style="width: 100px;"><h:outputText
+					value="#{_item.nameQuery.name}" /> <br />
+				<h:outputText value="#{_item.nameQuery.des}" /></div>
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="说明" />
+				</f:facet>
+				<div
+					id="wrap"
+					style="width: 100px;"><h:outputText value="#{_item.des}" /></div>
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="过滤条件" />
+				</f:facet>
+				<h:inputTextarea
+					value="#{_item.filter}"
+					readonly="true"
+					style="width:300px;height:50px;" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="是否启用EL" />
+				</f:facet>
+				<h:inputTextarea
+					value="#{_item.enabledEL}"
+					readonly="true"
+					style="width:300px;height:50px;" />
+			</rich:column>
+			<rich:column
+				id="dtl"
+				rendered="#{not inAjax}">
+				<f:facet name="header">
+					<h:outputText value="明细" />
+				</f:facet>
+				<s:link
+					view="/basicdata/queryFilter/edit.xhtml"
+					value="查看">
+					<f:param
+						name="queryFilterId"
+						value="#{_item.id}" />
+				</s:link>
+			</rich:column>
+			<rich:column rendered="#{inAjax}">
+				<f:facet name="header">
+					<h:outputText value="明细" />
+				</f:facet>
+				<a4j:region>
+					<a4j:commandLink
+						action="#{sys.queryFilterHome.wire}"
+						actionListener="#{sys.queryFilterHome.setObjId(_item.id)}"
+						ajaxSingle="true"
+						reRender="#{_form}"
+						oncomplete="#{_oncomplete}"
+						value="查看">
+					</a4j:commandLink>
+				</a4j:region>
+			</rich:column>
+			
+		</ui:define>
+	</ui:decorate>
+</ui:composition>

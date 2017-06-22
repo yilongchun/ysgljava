@@ -1,0 +1,114 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:fld="http://www.vieking.com/facelets/field">
+	<div style="width: 965px;margin:0 auto;"><s:decorate
+		template="/layout/editDiv.xhtml"
+		style="width:750x;"
+		styleClass="dd_l">
+		<ui:define name="label">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;名称：</ui:define>
+		<h:inputText
+			value="#{_obj.name}"
+			readonly="#{not empty _obj.version}"
+			size="18"
+			required="true" />
+	</s:decorate> <s:decorate
+		template="/layout/editDiv.xhtml"
+		style="width:150px;"
+		styleClass="dd_l">
+		<ui:define name="label">工作组角色？</ui:define>
+		<h:selectBooleanCheckbox
+			value="#{_obj.actor}"
+			disabled="#{_obj.readOnly()}" />
+	</s:decorate> <s:decorate
+		template="/layout/editDiv.xhtml"
+		style="width:900px;"
+		styleClass="dd_n">
+		<ui:define name="label">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;说明：</ui:define>
+		<h:inputText
+			value="#{_obj.des}"
+			readonly="#{_obj.readOnly()}"
+			size="50"
+			maxlength="100"
+			required="true" />
+	</s:decorate></div>
+	<s:div styleClass="actionButtons">
+		<s:link
+			value="添加应用"
+			includePageParams="false"
+			propagation="none"
+			target="_blank"
+			view="/role/application/edit.xhtml">
+		</s:link>#{'　　'}
+        <a4j:commandLink
+			actionListener="#{role.applicationSelector.selectMany(_obj.tmpId,empty _obj.des ? '新角色' : _obj.des,10,'entityForm:dt_apps')}"
+			reRender="applicationSelector"
+			immediate="true"
+			ajaxSingle="true"
+			oncomplete="processAutoHeight('.autoHeight');">
+			<h:graphicImage
+				value="/img/new.png"
+				styleClass="op_sbtnMR10" />
+		</a4j:commandLink>
+	</s:div>
+	<s:div
+		id="dt_apps"
+		styleClass="appsdiv"
+		style="clear:both;">
+		<rich:dataTable
+			id="rdt_adt"
+			var="_item"
+			value="#{_obj.roleApps}"
+			styleClass="dataGrid">
+			<f:facet name="header">
+				<h:panelGroup>
+					<h:outputText value="应用列表" />
+				</h:panelGroup>
+			</f:facet>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="名称" />
+				</f:facet>
+				<h:outputText value="#{_item.app.name}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="描述" />
+				</f:facet>
+				<h:outputText value="#{_item.app.des}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="限制条件" />
+				</f:facet>
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label"></ui:define>
+					<h:inputText
+						value="#{_item.restricts}"
+						size="25"
+						required="false" />
+				</s:decorate>
+			</h:column>
+			<h:column id="dtl">
+				<f:facet name="header">
+					<h:outputText value="操作" />
+				</f:facet>
+				<a4j:commandLink
+					action="#{_obj.getRoleApps().remove(_item)}"
+					immediate="true"
+					ajaxSingle="true"
+					reRender="dt_apps">
+					<h:graphicImage
+						value="/img/del.png"
+						alt="#{messages['btn.del']}"
+						title="#{messages['btn.del']}" />
+				</a4j:commandLink>
+			</h:column>
+		</rich:dataTable>
+	</s:div>
+</ui:composition>

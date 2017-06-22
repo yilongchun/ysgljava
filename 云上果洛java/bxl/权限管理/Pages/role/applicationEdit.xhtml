@@ -1,0 +1,114 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:fld="http://www.vieking.com/facelets/field">
+	<rich:tabPanel switchType="client">
+		<rich:tab label="#{messages['title.baseinfo']}">
+			<h:panelGrid columns="1" columnClasses="col11,col12"
+				styleClass="tablexx">
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">名  称 </ui:define>
+					<h:inputText value="#{_obj.name}"
+						readonly="#{not empty _obj.version}" size="18" required="true" />
+				</s:decorate>
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">描  述 </ui:define>
+					<h:inputText value="#{_obj.des}" size="50" required="true" />
+				</s:decorate>
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">组件名称 </ui:define>
+					<h:inputText value="#{_obj.smbcn}" size="80" required="true" />
+				</s:decorate>
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">实体类名 </ui:define>
+					<h:inputText value="#{_obj.ebcn}" size="80" required="true" />
+				</s:decorate>
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">实体关键域 </ui:define>
+					<h:inputText value="#{_obj.keyProp}" size="80" required="true" />
+				</s:decorate>
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">路径</ui:define>
+					<h:inputText value="#{_obj.path}" size="50" required="true" />
+				</s:decorate>
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">图标</ui:define>
+					<h:inputText value="#{_obj.ico}" size="50" required="false" />
+				</s:decorate>
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">图标b</ui:define>
+					<h:inputText value="#{_obj.icob}" size="50" required="false" />
+				</s:decorate>
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">菜单位置</ui:define>
+					<rich:inputNumberSpinner maxValue="255" minValue="0" step="10"
+						value="#{_obj.menuPos}" required="true" />
+				</s:decorate>
+			</h:panelGrid>
+		</rich:tab>
+		<rich:tab label="#{messages['title.appDocType']}">
+			<s:div styleClass="actionButtons">
+				<s:link value="添加文档类型" includePageParams="false" propagation="none"
+					target="_blank" view="/file/docType/edit.xhtml">
+				</s:link>#{'　　'}
+                <a4j:commandLink
+					actionListener="#{sys.docTypeSelector.open(_obj.tmpId,_obj.des,10,'entityForm:dt_docType')}"
+					reRender="docTypeSelector" immediate="true" ajaxSingle="true"
+					oncomplete="processAutoHeight('.autoHeight');">
+					<h:graphicImage value="/img/new.png" styleClass="op_sbtnMR10" />
+				</a4j:commandLink>
+			</s:div>
+			<s:div id="dt_docType" styleClass="appsdiv" style="clear:both;">
+				<rich:dataTable id="rdt_adt" var="_item" value="#{_obj.docTypes}"
+					styleClass="dataGrid">
+					<f:facet name="header">
+						<h:panelGroup>
+							<h:outputText value="#{messages['title.appDocType']}" />
+						</h:panelGroup>
+					</f:facet>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="文档名称" />
+						</f:facet>
+						<h:outputText value="#{_item.docType.name}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="#{messages['prop.docType.des']}" />
+						</f:facet>
+						<h:outputText value="#{_item.docType.des}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="#{messages['prop.linkCount']}" />
+						</f:facet>
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label"></ui:define>
+							<h:selectOneMenu value="#{_item.linkCount}" style="width:10em"
+								required="true">
+								<s:selectItems
+									value="#{sys.lvf.enmuValues('com.vieking.file.enumerable.DocLinkCount')}"
+									var="_o" label="#{_o.name()}" noSelectionLabel="请选择" />
+								<s:convertEnum />
+							</h:selectOneMenu>
+						</s:decorate>
+					</h:column>
+					<h:column id="dtl">
+						<f:facet name="header">
+							<h:outputText value="#{messages['title.operating']}" />
+						</f:facet>
+						<a4j:commandLink action="#{_obj.getDocTypes().remove(_item)}"
+							immediate="true" ajaxSingle="true" reRender="dt_docType">
+							<h:graphicImage value="/img/del.png" alt="#{messages['btn.del']}"
+								title="#{messages['btn.del']}" />
+						</a4j:commandLink>
+					</h:column>
+				</rich:dataTable>
+			</s:div>
+		</rich:tab>
+	</rich:tabPanel>
+</ui:composition>

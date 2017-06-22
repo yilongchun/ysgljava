@@ -1,0 +1,57 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <ui:insert name="_top" />
+    <s:div
+        styleClass="actionButtons"
+        id="#{empty _ajaxEditBtnId ? 'ajaxEditBtns' : _ajaxEditBtnId }">
+        <s:div
+            style="text-align:right;width:100%;"
+            rendered="#{empty _canEdit ? identity.isLoggedIn() : _canEdit}">
+            <ui:insert name="_left" />
+            <a4j:commandButton
+                actionListener="#{_home.setObjId(null)}"
+                action="#{_home.wire}"
+                styleClass="#{_newBtnClass}"
+                value="新增"
+                rendered="#{empty _canNew ? true : _canNew}"
+                immediate="true"
+                ajaxSingle="true"
+                reRender="#{_onNewReRender}"
+                oncomplete="#{_onNewComplete};processAutoHeight('.autoHeight');">
+            </a4j:commandButton>
+            <a4j:commandButton
+                value="删除"
+                actionListener="#{_home.remove}"
+                styleClass="#{_removeBtnClass}"
+                rendered="#{empty _canRemove ? _home.managed and not canEdit : _canRemove}"
+                immediate="true"
+                reRender="#{_onRemoveReRender}"
+                oncomplete="#{_onRemoveComplete};processAutoHeight('.autoHeight');">
+            </a4j:commandButton>
+            <a4j:commandButton
+                actionListener="#{_home.persist}"
+                value="添加"
+                styleClass="#{_persistBtnClass}"
+                rendered="#{empty _canSave ?  _home.isWired() and  (not _home.managed) : _canSave and  (not _home.managed)}"
+                reRender="#{_onPersistReRender}"
+                oncomplete="#{_onPersistComplete};processAutoHeight('.autoHeight');">
+            </a4j:commandButton>
+            <a4j:commandButton
+                actionListener="#{_home.update}"
+                styleClass="#{_updateBtnClass}"
+                value="保存"
+                rendered="#{empty _canSave ?  _home.isWired() and  (_home.managed) : _canSave and  (_home.managed)}"
+                reRender="#{_onUpdateReRender}"
+                oncomplete="#{_onUpdateComplete};processAutoHeight('.autoHeight');">
+            </a4j:commandButton>
+            <ui:insert name="_right" />
+        </s:div>
+    </s:div>
+    <ui:insert name="_bottom" />
+</ui:composition>

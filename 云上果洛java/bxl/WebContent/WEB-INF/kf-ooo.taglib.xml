@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE facelet-taglib PUBLIC
+  "-//Sun Microsystems, Inc.//DTD Facelet Taglib 1.0//EN"
+  "http://java.sun.com/dtd/facelet-taglib_1_0.dtd">
+<facelet-taglib
+	xmlns="http://java.sun.com/JSF/Facelet">
+
+	<namespace>http://www.vieking.com/seam/ooo</namespace>
+	<tag>
+		<tag-name>kfooodocument</tag-name>
+		<component>
+			<component-type>com.vieking.seam.ooo.ui.UIDocument</component-type>
+		</component>
+	</tag>
+	<tag>
+		<tag-name>kfooocalc</tag-name>
+		<component>
+			<component-type>com.vieking.seam.ooo.ui.UICalc</component-type>
+		</component>
+	</tag>	
+</facelet-taglib>

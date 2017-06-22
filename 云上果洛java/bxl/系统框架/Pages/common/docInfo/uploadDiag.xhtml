@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:tpl="http://www.vieking.com/facelets/template"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	<rich:modalPanel id="uploadDiag" moveable="true" resizeable="false"
+		autosized="true" minHeight="400" minWidth="600"
+		showWhenRendered="true" reRender="true">
+		<f:facet name="header">
+			<h:outputFormat value="【{0}】【{1}】【{2}】上传">
+		 
+				<f:param value="#{sys.upload.ui.title}" />
+				<f:param value="#{sys.upload.ui.docType.des}" />
+				<f:param value="#{sys.upload.ui.docType.maxLength}kb" />
+			</h:outputFormat>
+		</f:facet>
+		<f:facet name="controls">
+			<h:form>
+				<a4j:commandLink styleClass="closeDiag"
+					actionListener="#{vieking.ui.ac.setPopUrl('')}"
+					onclick="javascript:#{rich:component('uploadDiag')}.hide()"
+					reRender="#{sys.upload.ui.getReRender()}">
+					<h:graphicImage value="/img/close.png" />
+				</a4j:commandLink>
+				<rich:hotKey key="esc"
+					handler="javascript:jQuery('.closeDiag').click()" />
+			</h:form>
+		</f:facet>
+		<a4j:outputPanel id="filesPanel" ajaxRendered="true">
+			<h:panelGroup id="uploadMessages" style="padding-bottom:7px;"
+				layout="block" rendered="#{sys.upload.fw.errorFiles.size() > 0}">
+				<h:panelGroup style="padding-bottom:7px;" layout="block">
+					<h:outputText styleClass="bold" style="padding-bottom:7px;"
+						value="上传失败" />
+				</h:panelGroup>
+				<a4j:repeat value="#{sys.upload.fw.errorFiles}" var="error">
+					<h:panelGroup style="padding-bottom:7px;" layout="block">
+						<h:outputText
+							value="#{(sys.upload.fw.getErrorImage(error)).originalName}#{(sys.upload.fw.getErrorDescription(error))}" />
+					</h:panelGroup>
+				</a4j:repeat>
+			</h:panelGroup>
+		</a4j:outputPanel>
+		<a4j:form>
+			<rich:fileUpload listHeight="400" listWidth="600" allowFlash="true"
+				maxFilesQuantity="#{sys.upload.ui.maxFilesQuantity}"
+				autoclear="true" fileUploadListener="#{sys.upload.manager.listener}"
+				id="fileUpload" immediateUpload="false" noDuplicate="true"
+				disabled="#{not sys.upload.ui.isInitok()}"
+				acceptedTypes="#{sys.upload.ui.docType.fileType}"
+				uploadControlLabel="上传" stopControlLabel="停止">
+				<f:facet name="label">
+					<h:outputText value="{_KB}KB / {KB}KB 已上传 --- {mm}:{ss}" />
+				</f:facet>
+				<a4j:support event="onuploadcomplete"
+					actionListener="#{sys.upload.manager.uploadComplete()}" />
+			</rich:fileUpload>
+		</a4j:form>
+	</rich:modalPanel>
+</ui:composition>

@@ -1,0 +1,72 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <h:outputText
+        value="#{empty noFoundDes ? ssu.app('查询未找到数据!') : noFoundDes }"
+        rendered="#{empty results ?  _selector.dataModel.rowCount == 0 : results.rowCount == 0 }" />
+    <h:panelGroup
+        rendered="#{empty results ?  _selector.dataModel.rowCount gt 0 : results.rowCount gt 0 }">
+        <ui:decorate template="/common/pagination/topPagination.xhtml">
+            <ui:param
+                name="dataProviderComponent"
+                value="#{_selector}" />
+            <ui:param
+                name="dataTableContainerId"
+                value="#{dtcId}" />
+            <ui:param
+                name="expDTId"
+                value="#{dtcId}:dt_#{dtcId}" />
+            <ui:param
+                name="showExp"
+                value="false" />
+             <ui:define name="insLeft">
+                                        每页记录数 #{' '}
+                    <h:selectOneMenu id="ps#{dataTableContainerId}" value="#{dataProviderComponent.pageSize}"
+                        valueChangeListener="#{dataProviderComponent.pageSizeChanged}">
+                        <a:support id="psc#{dataTableContainerId}" event="onchange" reRender="#{dataTableContainerId}" ajaxSingle="true" bypassUpdates="true"
+                                oncomplete="autoHeight('.autoHeight');addAutoHeightEvent('.autoHeight');addInEvent();"/>
+                        <f:selectItem itemValue="5" itemLabel="5"/>
+                        <f:selectItem itemValue="10" itemLabel="10"/>
+                        <f:selectItem itemValue="15" itemLabel="15"/>
+                        <f:selectItem itemValue="20" itemLabel="20"/>
+                        <f:selectItem itemValue="25" itemLabel="25"/>
+                        <f:selectItem itemValue="50" itemLabel="50"/>
+                        <f:selectItem itemValue="100" itemLabel="100"/>
+                    </h:selectOneMenu>
+             </ui:define>   
+                
+        </ui:decorate>
+
+        <s:div
+            id="sd_#{dtcId}"
+            style="clear:both;">
+            <rich:dataTable
+                id="dt_#{dtcId}"
+                var="_item"
+                value="#{empty results ? _selector.dataModel : results }"
+                styleClass="dataGrid">
+                <f:facet name="header">
+                    <h:panelGroup rendered="#{not empty dtHeader}">
+                        #{dtHeader}
+                    </h:panelGroup>
+                </f:facet>
+                <ui:insert name="_columns">
+
+                </ui:insert>
+            </rich:dataTable>
+        </s:div>
+        <ui:include src="/common/pagination/bottomPagination.xhtml">
+            <ui:param
+                name="dataProviderComponent"
+                value="#{_selector}" />
+            <ui:param
+                name="dataTableContainerId"
+                value="#{dtcId}" />
+        </ui:include>
+    </h:panelGroup>
+</ui:composition>

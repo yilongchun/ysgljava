@@ -1,0 +1,119 @@
+<ui:composition
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:c="http://java.sun.com/jstl/core"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <rich:simpleTogglePanel
+        opened="#{autoOpen?'true':'false'}"
+        switchType="client">
+        <f:facet name="openMarker">点击展开 </f:facet>
+        <f:facet name="closeMarker">点击关闭 </f:facet>
+        <a4j:support
+            event="onexpand"
+            ajaxSingle="true"
+            actionListener="#{sys.docLink.uiForAppName.initDocLinks(appName,entId,changeReRender)}"
+            reRender="#{changeReRender}"
+            eventsQueue="default" />
+        <f:facet name="header">#{entDesc}附件</f:facet>
+        <s:div id="#{changeReRender}">
+            <c:forEach
+                items="#{sys.docLink.uiForAppName.app.docTypes}"
+                var="adt">
+                <s:div style="width:750px;float:none;">
+                    <s:div style="width:220px;float:left;">
+                        <h:outputText value="#{adt.docType.des}" />
+                    </s:div>
+                    <s:div style="width:400px;float:left;">
+                        <ui:repeat
+                            var="dl"
+                            value="#{sys.docLink.uiForAppName.docLinksForDt(adt.docType)}">
+                            <s:div style="width:150px;float:left;">
+                                <s:div style="float:right">
+                                    <s:graphicImage
+                                        value="#{imageLoader.loadImage(dl.document,80)}"
+                                        fileName="#{dl.document.id}80"
+                                        rendered="#{dl.document.isJpgImage()}">
+                                        <a4j:support
+                                            event="onclick"
+                                            immediate="true"
+                                            action="#{sys.image.diag.showImage(dl.document,0)}"
+                                            reRender="_popdiag"
+                                          oncomplete=""/>
+                                    </s:graphicImage>
+                                    <s:link
+                                        view="/common/docInfo/downLoad.xhtml"
+                                        rendered="#{not dl.document.isJpgImage()}"
+                                        propagation="none"
+                                        target="_blank">
+                                        <h:graphicImage
+                                            value="/img/files/#{dl.document.fileExt}80.gif">
+                                        </h:graphicImage>
+                                        <f:param
+                                            name="fileId"
+                                            value="#{dl.document.id}" />
+                                    </s:link>
+                                </s:div>
+                                <s:div style="float:none">
+                                    <li><a4j:commandLink
+                                        value="删除"
+                                        rendered="#{adt.docType.name.equals('zhaopian')}"
+                                        immediate="true"
+                                        actionListener="#{sys.docLink.uiForAppName.remove(dl)}"
+                                        reRender="#{changeReRender}" /></li>
+                                    <li><h:outputText value="#{dl.document.des}" /></li>
+                                    <li><h:outputText
+                                        value="#{dl.document.ct}"
+                                        converter="#{calendarConvert}" /></li>
+                                    <li><h:outputText value="#{dl.document.size}" /></li>
+                                </s:div>
+                            </s:div>
+                        </ui:repeat>
+                    </s:div>
+                    <s:div style="width:130px;float:left;">
+                        <s:div rendered="#{sys.docLink.uiForAppName.canAddLink(adt)}">
+                            <h:graphicImage
+                                value="/img/qf_find.gif"
+                                rendered="#{adt.docType.name.equals('zhaopian')}">
+                                <a4j:support
+                                    event="onclick"
+                                    immediate="true"
+                                    actionListener="#{sys.docInfoSelector.open(adt,entDesc,10,changeReRender)}"
+                                    reRender="docInfoSelector">
+                                </a4j:support>
+                            </h:graphicImage>&#160;&#160;
+                            <h:graphicImage
+                                value="/img/nav_icon_attachment.gif"
+                                rendered="#{adt.docType.name.equals('zhaopian')}">
+                                <a4j:support
+                                    event="onclick"
+                                    immediate="true"
+                                    actionListener="#{sys.docLink.uiForAppName.showUploadLinkDiag(adt,entDesc,entId,changeReRender)}"
+                                    reRender="_popdiag" />
+                            </h:graphicImage>&#160;&#160;
+                            <h:graphicImage
+                                value="/img/imageCap.gif"
+                                rendered="#{adt.docType.name.equals('zhaopian')}">
+                                <a4j:support
+                                    event="onclick"
+                                    immediate="true"
+                                    actionListener="#{sys.imageCap.ui.showImageCapDLDiag(adt,entDesc,entId,'',changeReRender)}"
+                                    reRender="_popdiag" />
+                            </h:graphicImage>
+                        </s:div>
+                    </s:div>
+                </s:div>
+            </c:forEach>
+        </s:div>
+    </rich:simpleTogglePanel>
+    <a4j:jsFunction
+        name="onload"
+        rendered="#{autoOpen}"
+        ajaxSingle="true"
+        eventsQueus="image"
+        action="#{sys.docLink.uiForAppName.initDocLinks(appName,entId,changeReRender)}"
+        immediate="true"
+        reRender="#{changeReRender}" />
+</ui:composition>

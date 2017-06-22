@@ -1,0 +1,23 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:c="http://java.sun.com/jstl/core"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <a:commandLink
+        reRender="#{dtcId}"
+        action="#{_query.applyFilter()}"
+        value="#{propertyLabel}#{_query.qhb.orderColumn == propertyPath ? (_query.qhb.orderDirection == 'desc' ? messages.down : messages.up) : ''}"
+        ajaxSingle="true">
+        <a:actionparam
+            name="orderColumn"
+            value="#{propertyPath}"
+            assignTo="#{_query.qhb.orderColumn}" />
+        <a:actionparam
+            name="orderDirection"
+            value="#{_query.qhb.orderColumn == propertyPath and _query.qhb.orderDirection == 'asc' ? 'desc' : 'asc'}"
+            assignTo="#{_query.qhb.orderDirection}" />
+    </a:commandLink>
+</ui:composition>

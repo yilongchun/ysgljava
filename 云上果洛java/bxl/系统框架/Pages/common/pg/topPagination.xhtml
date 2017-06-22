@@ -1,0 +1,23 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <div class="pager">
+    <div class="left">记录 <strong>#{dataProviderComponent.queryHelp.start}</strong> - <strong>#{dataProviderComponent.queryHelp.end}</strong>
+    of <strong>#{dataProviderComponent.queryHelp.totalRecordCount}</strong></div>
+    <div class="right">
+        <ui:insert name="insOpts"/>
+        <h:commandLink
+            rendered="#{(!empty results.rowCount) and (! empty expDTId )}"
+            action="#{excelExporter.export(expDTId)}">
+            <h:graphicImage value="/img/excel.gif" />
+        </h:commandLink>
+    <ui:include src="/common/pg/paginationButtons.xhtml">
+        <ui:param
+            name="pos"
+            value="1" />
+    </ui:include></div>
+    </div>
+</ui:composition>

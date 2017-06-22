@@ -1,0 +1,58 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:tpl="http://www.vieking.com/facelets/template"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <tpl:default
+        var="label"
+        value="" />
+    <tpl:default
+        var="rendered"
+        value="true" />
+    <tpl:default
+        var="suggestComponent"
+        value="#{component}" />
+    <tpl:default
+        var="required"
+        value="false" />
+    <tpl:default
+        var="requiredmsg"
+        value="required message " />
+    <tpl:default
+        var="nlmsg"
+        value="nothing..." />
+    <tpl:default
+        var="minChars"
+        value="1" />
+    <style type="text/css">
+.myrotate {
+	-webkit-transform: rotate(-90deg);
+	-moz-transform: rotate(-90deg);
+	filter: progid :       DXImageTransform.Microsoft.BasicImage (     
+		 rotation =  
+		    3 );
+}
+
+.clear {
+	clear: both;
+}
+</style>
+    <s:div
+        rendered="true"
+        style="align:center;">
+        <s:graphicImage
+            id="#{id}img"
+            value="#{imageLoader.loadImage(component,0)}">
+        </s:graphicImage>
+        <div align="center">
+          <input  type="button" 
+            value="左旋转"
+            onclick="javascript:rotateLeft('#{id}img');"/> 
+         <input  type="button" 
+            value="右旋转"
+            onclick="javascript:rotateRight('#{id}img');"/></div>
+    </s:div>
+</ui:composition>

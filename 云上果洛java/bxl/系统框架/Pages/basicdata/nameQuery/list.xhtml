@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	<ui:decorate template="/decorate/queryTableList.xhtml">
+		<ui:param name="dtHeader" value="#{_query.queryDesc}" />
+		<ui:param name="_showExpXml" value="true" />
+		<ui:define name="_columns">
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="名称" />
+				</f:facet>
+					<h:outputText value="#{_item.name}" />
+			</rich:column>
+			<rich:column width="80">
+				<f:facet name="header" >
+					<h:outputText value="说明" />
+				</f:facet>
+				<h:outputText value="#{_item.des}" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="查询语句" />
+				</f:facet>
+				<h:inputTextarea value="#{_item.findQuery}" 
+					style="width:240px;height:50px;" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="数量查询语句" />
+				</f:facet>
+				<h:inputTextarea value="#{_item.countQuery}" 
+					style="width:240px;height:50px;" />
+			</rich:column>
+			<rich:column id="dtl">
+				<f:facet name="header">
+					<h:outputText value="明细" />
+				</f:facet>
+				<s:link view="/basicdata/nameQuery/edit.xhtml" value="查看">
+					<f:param name="nameQueryId" value="#{_item.id}" />
+				</s:link>
+			</rich:column>
+		</ui:define>
+	</ui:decorate>
+</ui:composition>

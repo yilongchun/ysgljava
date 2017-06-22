@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="bxl">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/配置"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/系统框架/Java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/权限管理/Java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/功能管理/Java"/>
+        <wb-resource deploy-path="/" source-path="/功能管理/Pages"/>
+        <wb-resource deploy-path="/" source-path="/权限管理/Pages"/>
+        <wb-resource deploy-path="/" source-path="/系统框架/Pages"/>
+        <property name="context-root" value="bxl"/>
+        <property name="java-output-path" value="/bxl/build/classes"/>
+    </wb-module>
+</project-modules>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+	xmlns:core="http://jboss.com/products/seam/core" xmlns:persistence="http://jboss.com/products/seam/persistence"
+	xmlns:drools="http://jboss.com/products/seam/drools" xmlns:bpm="http://jboss.com/products/seam/bpm"
+	xmlns:security="http://jboss.com/products/seam/security" xmlns:mail="http://jboss.com/products/seam/mail"
+	xmlns:navigation="http://jboss.com/products/seam/navigation" xmlns:web="http://jboss.com/products/seam/web"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:resteasy="http://jboss.com/products/seam/resteasy"
+	xmlns:transaction="http://jboss.com/products/seam/transaction"
+	xmlns:ui="http://jboss.com/products/seam/ui" xmlns:async="http://jboss.com/products/seam/async"
+	xmlns:pdf="http://jboss.com/products/seam/pdf" xmlns:framework="http://jboss.com/products/seam/framework"
+	xsi:schemaLocation="http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.2.xsd
+                 http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.2.xsd
+                 http://jboss.com/products/seam/drools http://jboss.com/products/seam/drools-2.2.xsd
+                 http://jboss.com/products/seam/bpm http://jboss.com/products/seam/bpm-2.2.xsd
+                 http://jboss.com/products/seam/security http://jboss.com/products/seam/security-2.2.xsd
+                 http://jboss.com/products/seam/mail http://jboss.com/products/seam/mail-2.2.xsd
+                 http://jboss.com/products/seam/navigation http://jboss.com/products/seam/navigation-2.2.xsd
+                 http://jboss.com/products/seam/web http://jboss.com/products/seam/web-2.2.xsd                 
+                 http://jboss.com/products/seam/resteasy http://jboss.com/products/seam/resteasy-2.2.xsd
+                 http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.2.xsd         
+                 http://jboss.com/products/seam/transaction http://jboss.com/products/seam/transaction-2.2.xsd
+                 http://jboss.com/products/seam/ui http://jboss.com/products/seam/ui-2.2.xsd
+                 http://jboss.com/products/seam/async http://jboss.com/products/seam/async-2.2.xsd
+                 http://jboss.com/products/seam/pdf http://jboss.com/products/seam/pdf-2.2.xsd
+                 http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.2.xsd">
+	<factory name="_" value="#{' '}" scope="event" />
+	<factory name="conversationScope" value="#{conversationContext}"
+		scope="event" />
+	<factory name="pageScope" value="#{pageContext}" scope="event" />
+	<factory name="datePattern" value="yyyy-MM-dd" scope="stateless" />
+	<factory name="dateTimePattern" value="yyyy-MM-dd HH:mm a"
+		scope="stateless" />
+	<factory name="templatePath" value="/common/template" scope="stateless" />
+	<core:init debug="false" jndi-pattern="@jndiPattern@"
+		transaction-management-enabled="false" />
+
+	<core:manager concurrent-request-timeout="30000"
+		conversation-timeout="300000" conversation-id-parameter="activeid"
+		parent-conversation-id-parameter="pid" />
+
+	<!-- Make sure this URL pattern is the same as that used by the Faces Servlet -->
+	<web:hot-deploy-filter url-pattern="*.htm" />
+
+	<persistence:managed-persistence-context
+		name="entityManager" auto-create="true" persistence-unit-jndi-name="java:/bxlManagerFactory" />
+
+
+
+
+	<drools:rule-base name="securityRules">
+		<drools:rule-files>
+			<value>/security.drl</value>
+		</drools:rule-files>
+	</drools:rule-base>
+
+	<security:rule-based-permission-resolver
+		security-rules="#{securityRules}" />
+
+	<security:identity authenticate-method="#{authenticator.authenticate}"
+		remember-me="true" />
+
+	<event type="org.jboss.seam.security.notLoggedIn">
+		<action execute="#{redirect.captureCurrentView}" />
+	</event>
+	<event type="org.jboss.seam.security.loginSuccessful">
+		<action execute="#{redirect.returnToCapturedView}" />
+	</event>
+
+	<core:resource-loader>
+		<core:bundle-names>
+			<value>project_messages</value>
+			<value>sys_messages</value>
+			<value>messages</value>
+			<value>process_messages</value>
+		</core:bundle-names>
+	</core:resource-loader>
+
+	<mail:mail-session host="localhost" port="25" />
+
+	<resteasy:application resource-path-prefix="/rest">
+		<resteasy:media-type-mappings>
+			<key>json</key>
+			<value>application/json</value>
+			<key>xml</key>
+			<value>application/xml</value>
+			<key>txt</key>
+			<value>text/plain</value>
+		</resteasy:media-type-mappings>
+	</resteasy:application>
+	<resteasy:application
+		destroy-session-after-request="false" />
+
+	<!-- For use with jBPM pageflow or process management -->
+	<bpm:jbpm>
+		<bpm:process-definitions>
+			<!-- <value>wfpd/hello/processdefinition.xml</value> <value>wfpd/houses/building/processdefinition.xml</value> -->
+		</bpm:process-definitions>
+	</bpm:jbpm>
+
+
+	<web:character-encoding-filter encoding="UTF-8"
+		override-client="true" url-pattern="*.*" />
+
+	<web:cache-control-filter name="commonTypesCacheControlFilter"
+		regex-url-pattern=".*(\.gif|\.png|\.jpg|\.jpeg|\.css|\.js)" value="max-age=86400" />
+
+
+	<!--定义外部页面导航文件 -->
+	<navigation:pages>
+		<navigation:resources>
+			<value>/WEB-INF/pages.xml</value>
+			<value>/WEB-INF/exception-handlers.xml</value>
+		</navigation:resources>
+	</navigation:pages>
+	<web:context-filter url-pattern="/seamSrv/*" />
+	<!-- <component name="org.jboss.seam.captcha.captchaImage" service="#{customCaptcha.service}" 
+		/> -->
+	<component name="sys.docLink.uiA" class="com.vieking.sys.doc.DocLinkUiAppNameCompent"
+		scope="page" auto-create="true"></component>
+	<component name="sys.docLink.uiB" class="com.vieking.sys.doc.DocLinkUiAppNameCompent"
+		scope="page" auto-create="true"></component>
+	<component name="sys.docLink.uiC" class="com.vieking.sys.doc.DocLinkUiAppNameCompent"
+		scope="page" auto-create="true"></component>
+	<component name="sys.docLink.uiD" class="com.vieking.sys.doc.DocLinkUiAppNameCompent"
+		scope="page" auto-create="true"></component>
+	<component name="sys.docLink.uiE" class="com.vieking.sys.doc.DocLinkUiAppNameCompent"
+		scope="page" auto-create="true"></component>
+</components>

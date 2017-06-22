@@ -1,0 +1,47 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:tpl="http://www.vieking.com/facelets/template"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	
+	<tpl:context _query="#{vieking.ui.ac.popObj}">   
+		<rich:modalPanel id="wtid" moveable="true" resizeable="false" headerClass="selectpopheader"
+			autosized="true" minHeight="400" minWidth="600"
+			showWhenRendered="true">
+			<f:facet name="header">
+				<h:outputText styleClass="screen" value="#{_query.getTitle()}" />					
+			</f:facet>
+			<f:facet name="controls">
+	         <!--	   <h:panelGroup>
+	                <h:graphicImage value="/image/close.png" styleClass="hidelink" id="hidelink"/>
+	                <rich:componentControl  for="wtid" attachTo="hidelink"  operation="hide" event="onclick"/>
+	            </h:panelGroup>--> 
+	            					
+				<h:form >
+					<a4j:commandLink value="关闭" styleClass=""
+						actionListener="#{vieking.ui.ac.setPopUrl('')}"
+						onclick="javascript:#{rich:component('wtid')}.hide()"
+						reRender="_popdiag">
+					</a4j:commandLink>
+					
+				</h:form>  
+			</f:facet>
+	
+			
+			 <a4j:form id="dtca" autocomplete="off">	
+	            <ui:include src="#{vieking.ui.ac.popqueryUrl}" >
+	            </ui:include>
+	        </a4j:form>
+			<a4j:form id="dtcs" autocomplete="off">		       					
+				<ui:include src="#{vieking.ui.ac.poplistUrl}">
+					<ui:param name="dtcsId" value="dtcs" />
+					<ui:param name="selId" value="wtid" />
+				</ui:include>
+	
+			</a4j:form>
+		</rich:modalPanel>
+	</tpl:context>
+</ui:composition>

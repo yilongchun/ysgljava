@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<ui:remove>
+	</ui:remove>
+	<rich:modalPanel id="vdtlPnl" top="15" onshow="adoptCTDialogHeight()"
+		autosized="true">
+		<f:facet name="header">#{title}详细信息</f:facet>
+		<f:facet name="controls">
+			<h:graphicImage value="/img/close.png"
+				onclick="#{rich:component('vdtlPnl')}.hide();" alt="关闭" title="关闭"
+				style="vertical-align: middle; margin-left: 3px; margin-bottom: 1px;" />
+		</f:facet> 
+		<h:form id="vdtl">
+			<ui:insert />
+			<div class="actionButtons" style="text-align: right"><a:commandButton
+				value="关闭" onclick="#{rich:component('vdtlPnl')}.hide();" /></div>
+		</h:form>
+	</rich:modalPanel>
+	<script>
+        //<![CDATA[
+        function adoptCTDialogHeight() {
+            if (jQuery(window).height() -
+                    jQuery(#{rich:element('#{ctContext}')}).height() < 30) {
+                        addScrollToCTDialog();
+                }
+        }
+        function resizeCTDialog() {
+            if (#{rich:component('vdtlPnl')}.shown) {
+                #{rich:component('vdtlPnl')}.hide();
+                resetScrollToCTDialog();
+                #{rich:component('vdtlPnl')}.show();
+                adoptCTDialogHeight();
+            }
+        }
+        //]]>
+    </script>
+
+	<rich:jQuery name="addScrollToCTDialog" timing="onJScall"
+		selector="##{ctContext}"
+		query="css('overflow-y','auto').css('overflow-x','hidden').css('height', jQuery(window).height() - 125)" />
+	<rich:jQuery name="resetScrollToCTDialog" timing="onJScall"
+		selector="##{ctContext}"
+		query="css('height','auto').css('overflow-y','auto').css('overflow-x','hidden')" />
+
+</ui:composition>

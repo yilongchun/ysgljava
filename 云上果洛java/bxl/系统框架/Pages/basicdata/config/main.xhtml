@@ -1,0 +1,66 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:c="http://java.sun.com/jstl/core"
+    xmlns:tpl="http://www.vieking.com/facelets/template"
+    xmlns:fld="http://www.vieking.com/facelets/field"
+    template="#{templatePath}/template.xhtml">
+    <ui:define name="body">
+        <table
+            width="950"
+            cellspacing="1">
+            <colgroup id="tGroup">
+                <col style="width: 400px" />
+                <col style="width: 550px" />
+            </colgroup>
+            <tr>
+                    <td class="tdtrnw">属性</td>
+                    <td class="tdtrnw">值</td>
+            </tr>
+            <c:forEach
+                items="#{app.config.keyls}"
+                var="_key">
+                <tr>
+                    <td class="dcnw">#{_key}</td>
+                    <td class="dcnw">#{app.config.get(_key)}</td>
+                </tr>
+            </c:forEach>
+        </table>
+        <h:form>
+            <h:commandButton styleClass="queryBtn"
+                value="重新装载"
+                action="#{app.config.reload()}" />
+        </h:form>
+        <h:form>
+            <h:inputText value="#{app.config.key}" />
+            <h:inputText value="#{app.config.value}" />
+            <h:commandButton styleClass="queryBtn"
+                value="设置属性"
+                action="#{app.config.setProp()}" />
+        </h:form>
+        <h:form>
+            <h:inputText value="#{app.config.key}" />
+            <h:outputText value="#{app.config.value}" />
+`            <h:commandButton styleClass="queryBtn"
+                value="显示值"
+                action="#{app.config.showValue()}" />
+        </h:form>
+        <h:form>
+            <h:inputText value="#{app.config.key}" />
+            <h:inputText value="#{app.config.value}" />
+            <h:commandButton styleClass="queryBtn"
+                value="添加属性"
+                action="#{app.config.addProp()}" />
+        </h:form>
+
+
+            #{weather.currWeather()}
+    </ui:define>
+</ui:composition>

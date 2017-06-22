@@ -1,0 +1,63 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:c="http://java.sun.com/jstl/core"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <!--
+        _mb:用户模块Bean
+        _rendered:强制显示        
+        _mName：模块名称
+                    如果_mb中应用大于 1 或要求强制显示下拉菜单式，显示rich:dropDownMenu
+                  如果 _mb中应用小于或等于 1 ，直接显示应用链接 
+       i_apps 可在下拉列表中插入自定义的菜单项                  
+    -->
+    <rich:dropDownMenu
+        value="#{empty(_mName) ? (_mb==null ? '权限未分配' : _mb.des ) : _mName}"
+        rendered="#{(_mb.mas.size() gt 1 )  or (_rendered)}"
+        style="color:#0078d0;">
+        <c:forEach
+            items="#{_mb.mas}"
+            var="_mab">
+            <rich:menuItem
+                styleClass="menuLink"
+                value="#{empty _mab.appAlias ? _mab.app.des : _mab.appAlias}"
+                submitMode="none">
+                <s:link
+                    value=""
+                    style="z-index:0;"
+                    view="#{_mab.url}"
+                    propagation="none"
+                    rendered="#{identity.loggedIn and not _mab.fullUrl}"
+                    target="#{_target}">
+                    <f:param
+                        name="appName"
+                        value="#{_mab.app.name}" />
+                </s:link>
+                <h:outputLink
+                    value="#{_mab.url}"
+                    rendered="#{identity.loggedIn and _mab.fullUrl}">
+                </h:outputLink>
+            </rich:menuItem>
+        </c:forEach>
+        <ui:insert name="i_apps" />
+    </rich:dropDownMenu>
+    <s:link
+        value="#{empty _mb.mas.get(0).appAlias  ? _mb.mas.get(0).app.des : _mb.mas.get(0).appAlias}"
+        rendered="#{(_mb.mas.size() le 1 ) and identity.loggedIn and not(_rendered) and not _mab.fullUrl}"
+        style="color:#0078d0;"
+        view="#{_mb.mas.get(0).url}"
+        propagation="none"
+        target="#{_target}">
+        <f:param
+            name="appName"
+            value="#{_mb.mas.get(0).app.name}" />
+    </s:link>
+    <h:outputLink
+        value="#{_mab.url}"
+        rendered="#{identity.loggedIn and _mab.fullUrl}">
+    </h:outputLink>
+</ui:composition>

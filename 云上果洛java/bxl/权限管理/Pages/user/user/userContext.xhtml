@@ -1,0 +1,106 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:tpl="http://www.vieking.com/facelets/template"
+    xmlns:fld="http://www.vieking.com/facelets/field"
+    xmlns:c="http://java.sun.com/jstl/core"
+    template="#{templatePath}/template.xhtml">
+    <ui:define name="head">
+        <script type="text/javascript">
+      jQuery(document).ready(function(){
+            
+        });       
+</script>
+        <style type="text/css">
+.divInfo {
+	width: 490px;
+	float: left;
+	text-align: left
+}
+
+.info {
+	width: 330px;
+	float: left;
+	text-align: left
+}
+</style>
+    </ui:define>
+    <ui:define name="body">
+        <s:div id="userDiv">
+            <fieldset class="kf_fieldset"><LEGEND class="kf_legend">用户信息 </LEGEND>
+            <table
+                width="1000"
+                style="text-align: left">
+                <tr>
+                    <td>用户id：#{currentUser.id}</td>
+                    <td>登录名：#{currentUser.loginName}</td>
+                    <td>姓名：#{currentUser.name}</td>
+                </tr>
+                <s:fragment rendered="#{not empty currentUser.employee}">
+                    <tr>
+                        <td>员工Id：#{currentUser.employee.id}</td>
+                        <td>姓名：#{currentUser.employee.person.name}</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>个人Id：#{currentUser.employee.person.id}</td>
+                        <td>姓名：#{currentUser.employee.person.name}</td>
+                        <td></td>
+                    </tr>
+                </s:fragment>
+                <tr>
+                    <td>机构id：#{currentUser.organ.id}</td>
+                    <td>机构名称：#{currentUser.organ.name}</td>
+                    <td>机构类型:#{currentUser.organ.organType}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+            </fieldset>
+        </s:div>
+        <s:div id="roleDiv">
+            <fieldset class="kf_fieldset"><LEGEND class="kf_legend">用户角色信息
+            【#{identity.roles().size()}】</LEGEND> <ui:repeat
+                var="_str"
+                value="#{identity.roles()}">
+                <div class="divInfo">#{_str}--> #{currentUser.rolesMap.get(_str)}</div>
+            </ui:repeat></fieldset>
+        </s:div>
+        <s:div id="globalRolesDiv">
+            <fieldset class="kf_fieldset"><LEGEND class="kf_legend">用户全局角色信息【
+            #{identity.globalRoles().size()}】</LEGEND> <ui:repeat
+                var="_str"
+                value="#{identity.globalRoles()}">
+                <div class="divInfo">#{_str} --> #{currentUser.rolesMap.get(_str)}</div>
+            </ui:repeat></fieldset>
+        </s:div>
+        <s:div
+            id="actorDiv"
+            rendered="#{not empty actor}">
+            <fieldset class="kf_fieldset"><LEGEND class="kf_legend">用户工作流
+            ActorId【#{actor.id}】 工作流组【 #{actor.groupActorIds.size()}】</LEGEND> <c:forEach
+                items="#{actor.groupActorIds}"
+                var="_str">
+                <div class="divInfo">#{_str}--> #{currentUser.rolesMap.get(_str)}</div>
+            </c:forEach></fieldset>
+        </s:div>
+        <s:div id="organStruDiv">
+            <fieldset class="kf_fieldset"><LEGEND class="kf_legend">用户机构组织机构结构编码
+            </LEGEND> <c:forEach
+                items="#{userContextManager.osMap.keySet()}"
+                var="_key">
+                <div class="divInfo">#{_key}--> #{userContextManager.osMap.get(_key).coding}</div>
+            </c:forEach></fieldset>
+        </s:div>
+    </ui:define>
+</ui:composition>

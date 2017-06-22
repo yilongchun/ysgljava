@@ -1,0 +1,61 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:fld="http://www.vieking.com/facelets/field">
+    <h:panelGrid
+        columns="2"
+        rowClasses="row1,row2"
+        style=" width:100%;">
+        <s:decorate template="/layout/edit.xhtml">
+            <ui:define name="label">名称 </ui:define>
+            <h:inputText
+                value="#{_obj.name}"
+                readonly="#{not empty _obj.version}"
+                size="18"
+                required="true" />
+        </s:decorate>
+        <s:decorate template="/layout/edit.xhtml">
+            <ui:define name="label">描述 </ui:define>
+            <h:inputText
+                value="#{_obj.des}"
+                size="40"
+                required="true" />
+        </s:decorate>
+        <s:decorate template="/layout/edit.xhtml">
+            <ui:define name="label">文件类型 </ui:define>
+            <h:inputText
+                value="#{_obj.fileType}"
+                size="40"
+                required="true" />
+        </s:decorate>
+        <s:decorate template="/layout/edit.xhtml">
+            <ui:define name="label">保存路径 </ui:define>
+            <h:inputText
+                value="#{_obj.path}"
+                size="40"
+                required="true" />
+        </s:decorate>
+        <s:decorate template="/layout/edit.xhtml">
+            <ui:define name="label">显示图标 </ui:define>
+            <h:inputText
+                value="#{_obj.ico}"
+                size="40"
+                required="false" />
+        </s:decorate>
+
+        <s:decorate template="/layout/edit.xhtml">
+            <ui:define name="label">最大长度 kb</ui:define>
+            <rich:inputNumberSpinner
+                maxValue="500000"
+                minValue="0"
+                step="100"
+                value="#{_obj.maxLength}"
+                required="true" />
+        </s:decorate>
+    </h:panelGrid>
+</ui:composition>

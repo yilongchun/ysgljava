@@ -1,0 +1,34 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <ui:insert name="_top" />
+    <s:div
+        styleClass="actionButtons"
+        id="#{empty _BtnsSdId ? 'buttons' : _BtnsSdId}">
+        <s:div
+            style="text-align:right;width:100%;"
+            rendered="#{empty _showBtns ? identity.isLoggedIn() : _showBtns}">
+            <ui:insert name="_left" />
+            <s:button
+                styleClass="#{_returnBtnClass}"
+                value="返回"
+                propagation="end"
+                view="#{fromUrl}"
+                rendered="#{not empty fromUrl}">
+            </s:button>
+            <s:button
+                id="done"
+                propagation="end"
+                onclick="javascript:window.opener=null;window.open('','_self');window.close();"
+                value="关闭"
+                rendered="#{empty fromUrl}" />
+            <ui:insert name="_right" />
+        </s:div>
+    </s:div>
+    <ui:insert name="_bottom" />
+</ui:composition>

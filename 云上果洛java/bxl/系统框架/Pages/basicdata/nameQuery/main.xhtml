@@ -1,0 +1,95 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:tpl="http://www.vieking.com/facelets/template"
+	xmlns:fld="http://www.vieking.com/facelets/field"
+	xmlns:c="http://java.sun.com/jstl/core"
+	template="#{templatePath}/template.xhtml">
+	<ui:define name="body">
+		<h:panelGrid columns="1">
+			<h:form enctype="multipart/form-data">
+				<s:decorate template="/layout/edit.xhtml" style="width:100%;"
+					styleClass="dd_n">
+					<ui:define name="label">选择导入文件</ui:define>
+					<s:fileUpload data="#{sys.nameQueryQuery.xmlData}"
+						accept="images/png" size="60" required="true"
+						style="width: 204px; padding-left: 0px; border: none; background-color: #fff;" />
+					<h:commandButton styleClass="queryBtn"
+						style="width: 80px; padding: 3px 10px; border: none;"
+						action="#{sys.nameQueryQuery.importData()}" value="导入数据" />
+					<h:outputText />
+				</s:decorate>
+			</h:form>
+			<h:form>
+				<s:decorate template="/layout/edit.xhtml" style="width:100%;"
+					styleClass="dd_n">
+					<ui:define name="label">导出路径</ui:define>
+					<h:inputText value="#{sys.nameQueryQuery.path}" size="50"
+						required="true" />
+					<h:commandButton styleClass="queryBtn"
+						style="width: 80px; padding: 3px 10px; border: none;"
+						action="#{sys.nameQueryQuery.expAll()}" value="导      出" />
+					<h:outputText />
+				</s:decorate>
+			</h:form>
+			<h:form>
+				<s:decorate template="/layout/edit.xhtml" style="width:100%;"
+					styleClass="dd_n">
+					<ui:define name="label">导入路径</ui:define>
+					<h:inputText value="#{sys.nameQueryQuery.impPath}" size="50"
+						required="true" />
+					<h:commandButton styleClass="queryBtn"
+						style="width: 80px; padding: 3px 10px; border: none;"
+						action="#{sys.nameQueryQuery.importByPath()}" value="导      入" />
+					<h:outputText />
+				</s:decorate>
+			</h:form>
+		</h:panelGrid>
+		<tpl:context _query="#{sys.nameQueryQuery}">
+			<h:form id="filter">
+				<ui:decorate template="/decorate/mainPageQuerys.xhtml">
+					<ui:define name="_terms">
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label">名称</ui:define>
+							<h:inputText value="#{_query.qhb.parm('name', 'DT003').sv}" />
+						</s:decorate>
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label">说明</ui:define>
+							<h:inputText value="#{_query.qhb.parm('des', 'DT003').sv}" />
+						</s:decorate>
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label">修改日期</ui:define>
+							<h:panelGroup>
+								<rich:calendar value="#{_query.qhb.parm('mtBegin', 'DT004').cv}"
+									size="15" required="false" datePattern="yyyy-MM-dd"
+									event="onblur" enableManualInput="true" style="width: auto;"
+									converter="calendar">
+								</rich:calendar> - <rich:calendar
+									value="#{_query.qhb.parm('mtEnd', 'DT004').cv}" size="15"
+									required="false" datePattern="yyyy-MM-dd" event="onblur"
+									enableManualInput="true" style="width: auto;"
+									converter="calendar">
+								</rich:calendar>
+							</h:panelGroup>
+						</s:decorate>
+					</ui:define>
+					<ui:define name="_right">
+						<a4j:commandButton value="重新载入" action="#{_query.reloadCache()}"
+							styleClass="queryBtn" reRender="query_pg,dtc" />
+					</ui:define>
+				</ui:decorate>
+			</h:form>
+			<h:form id="dtc" autocomplete="off">
+				<ui:include src="list.xhtml">
+					<ui:param name="dtcId" value="dtc" />
+				</ui:include>
+			</h:form>
+		</tpl:context>
+	</ui:define>
+</ui:composition>

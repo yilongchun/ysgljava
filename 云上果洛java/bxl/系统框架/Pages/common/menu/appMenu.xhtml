@@ -1,0 +1,45 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:c="http://java.sun.com/jstl/core"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <rich:dropDownMenu
+        value="转至"
+        style="color:#0078d0;">
+        <c:forEach
+            items="#{userContextManager.mbs}"
+            var="_mb">
+            <rich:menuGroup
+                value="#{_mb.des}"
+                rendered="#{_mb.showInMenu}">
+                <c:forEach
+                    items="#{_mb.mas}"
+                    var="_mab">
+                    <rich:menuItem
+                        styleClass="menuLink"
+                        value="#{empty _mab.appAlias ? _mab.app.des : _mab.appAlias}"
+                        submitMode="none">
+                        <s:link
+                            value=""
+                            view="#{_mab.url}"
+                            propagation="none"
+                            rendered="#{identity.loggedIn and not _mab.fullUrl}"
+                            target="#{_target}">
+                            <f:param
+                                name="appName"
+                                value="#{_mab.app.name}" />
+                        </s:link>
+                        <h:outputLink
+                            value="#{_mab.url}"
+                            rendered="#{identity.loggedIn and _mab.fullUrl}">
+                        </h:outputLink>
+                    </rich:menuItem>
+                </c:forEach>
+            </rich:menuGroup>
+        </c:forEach>
+    </rich:dropDownMenu>
+</ui:composition>

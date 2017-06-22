@@ -1,0 +1,851 @@
+body {
+	background-color: #fff;
+	color: #565a5c;
+	line-height: 1.5;
+}
+
+html, button, input, select, textarea {
+	font-family: "Microsoft YaHei", tahoma, arial, Hiragino Sans GB, 宋体;
+}
+
+button, input, select, textarea {
+	font-size: 100%;
+}
+
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li,
+	pre, figure, form, fieldset, legend, button, input, textarea, select th,
+	td {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: #f2f2f2;
+}
+
+body {
+	background: #f6f6f6;
+}
+
+body {
+	_margin: 0;
+	_height: 100%;
+}
+
+:focus {
+	outline: 0 none;
+}
+
+html {
+	font-size: 14px;
+}
+
+html {
+	position: relative;
+	min-height: 100%;
+	height: auto;
+}
+
+.regCon {
+	width: 900px;
+	margin: 0 auto;
+	border: 1px #e6e6e6 solid;
+	background: #fff;
+}
+
+#footer {
+	width: 100%;
+	min-width: 1000px;
+	height: 50px;
+	background: #2c2c2c;
+	line-height: 50px;
+	font-size: 12px;
+	position: absolute;
+	*position: static:;
+	left: 0px;
+	bottom: 0px;
+}
+
+#footer {
+	background: transparent;
+	position: static;
+}
+
+a {
+	color: #fff;
+	font-size: 14px;
+	text-decoration: none;
+}
+
+.footer-w {
+	width: 1000px;
+	margin: 0 auto;
+}
+
+.footer-w {
+	width: 900px;
+}
+
+.footer-w span {
+	padding-left: 10px;
+	float: left;
+}
+
+.footer-w .tel-d {
+	float: right;
+	color: #565a5c;
+}
+
+address, cite, dfn, em, var, i {
+	font-style: normal;
+}
+
+.tel-d em {
+	color: #565a5c;
+	font-size: 14px;
+	font-weight: bold;
+	margin-left: 3px;
+}
+
+.regCon .hd {
+	padding: 0 35px;
+	height: 54px;
+	line-height: 54px;
+	border-bottom: 1px #e6e6e6 solid;
+	background: #fafafa;
+	font-size: 18px;
+	color: #303030;
+}
+
+.regCon .bd {
+	padding: 20px 35px 50px;
+}
+
+#reg-s2 {
+	display: none;
+}
+
+.register-status {
+	height: 565px;
+	margin-top: 105px;
+	text-align: center;
+}
+
+.register-status em {
+	display: block;
+	width: 73px;
+	height: 73px;
+	margin: 0 auto;
+	background: #ff0000;
+	background: url(../images/icon-regsiter-success.png) no-repeat;
+}
+
+b, strong {
+	font-weight: 700;
+}
+
+.register-status strong {
+	display: block;
+	margin-top: 30px;
+	margin-bottom: 20px;
+	line-height: 18px;
+	font-size: 18px;
+	color: #57a926;
+}
+
+.btn-login {
+	border: 1px solid #e5e5e5;
+	display: inline-block;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.btn-doc {
+	border: 1px solid #e5e5e5;
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.btn-solid {
+	color: #fff;
+	background-color: #ff8903;
+	border-color: #ff8903;
+}
+
+.register-login {
+	font-size: 20px;
+	height: 44px;
+	line-height: 44px;
+	width: 180px;
+	-moz-border-radius: 5px; /* Firefox */
+	-webkit-border-radius: 5px; /* Safari 锟斤拷 Chrome */
+	border-radius: 5px; /* Opera 10.5+, 锟皆硷拷使锟斤拷锟斤拷IE-CSS3锟斤拷IE锟斤拷锟斤拷锟�*/
+}
+
+h2 {
+	font-size: 1.5em;
+}
+
+.regCon .bd h2 {
+	margin-bottom: 20px;
+	font-weight: bold;
+	font-size: 15px;
+	color: #565a5c;
+}
+
+ul, ol, li {
+	list-style: none outside none;
+}
+
+.regCon .bd h2.tbdr {
+	border-top: 1px #f5f5f5 solid;
+	padding-top: 18px;
+}
+
+.clearfix {
+	display: inline-block;
+}
+
+.clearfix {
+	display: block;
+}
+
+.clearfix::after {
+	content: ".";
+	display: block;
+	height: 0px;
+	clear: both;
+	visibility: hidden;
+}
+
+.clearfix::after {
+	width: 100%;
+	height: 0px;
+	content: "";
+	overflow: hidden;
+	visibility: hidden;
+	clear: both;
+}
+
+.fll {
+	float: left;
+}
+
+.register-submit {
+	font-size: 20px;
+	height: 44px;
+	line-height: 44px;
+	margin-left: 154px;
+	width: 268px;
+	-moz-border-radius: 5px; /* Firefox */
+	-webkit-border-radius: 5px; /* Safari 锟斤拷 Chrome */
+	border-radius: 5px; /* Opera 10.5+, 锟皆硷拷使锟斤拷锟斤拷IE-CSS3锟斤拷IE锟斤拷锟斤拷锟�*/
+}
+
+#agree-error {
+	color: #ff0000;
+	float: left;
+	line-height: 44px;
+	height: 44px;
+	margin-left: 5px;
+}
+
+.regCon .bd ul li {
+	margin-bottom: 20px;
+	line-height: 40px;
+	display: block;
+	clear: both;
+	font-size: 14px;
+	color: #666;
+}
+
+.regCon ul li.agreement p {
+	margin-left: 160px;
+}
+
+.icheckbox_minimal-orange, .iradio_minimal-orange {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	width: 18px;
+	height: 18px;
+	background: url(orange1.png) no-repeat;
+	border: none;
+	cursor: pointer;
+	vertical-align: middle;
+	margin-right: 3px;
+}
+
+.icheckbox_minimal-orange, .static.icheckbox_minimal-orange:hover {
+	background-position: 0 0;
+}
+
+.regCon ul li.agreement p a {
+	color: #66afd4;
+}
+
+button, input, select {
+	vertical-align: middle;
+}
+
+button, input {
+	line-height: normal;
+}
+
+input[type='checkbox'], input[type='radio'] {
+	box-sizing: border-box;
+}
+
+.regCon ul li.agreement p input {
+	float: left;
+	margin-top: 14px;
+	margin-right: 8px;
+}
+
+.regCon .bd ul li .txt {
+	width: 140px;
+	float: left;
+	margin-right: 20px;
+	text-align: right;
+}
+
+input[type='text'], input[type='email'], input[type='search'], input[type='password']
+	{
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+
+input:-ms-input-placeholder {
+	color: #999;
+}
+
+.regCon .bd .ipt {
+	float: left;
+	padding: 0 14px;
+	height: 40px;
+	line-height: 40px;
+	border: 1px #ccc solid;
+	font-size: 14px;
+}
+
+.regCon .bd .wd52 {
+	width: 60px;
+}
+
+.fl {
+	display: inline;
+	float: left !important;
+}
+
+.regCon .bd .fl {
+	float: left;
+	margin: 0 3px;
+	color: #cbcbcb;
+}
+
+.regCon .bd .wd78 {
+	width: 100px;
+}
+
+.regCon .bd .wd48 {
+	width: 60px;
+}
+
+.regCon .bd .wd343 {
+	width: 343px;
+}
+
+.chosen-select {
+	width: 125px;
+}
+
+.chosen-container {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 13px;
+	zoom: 1;
+	*display: inline:;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+.chosen-container {
+	float: left;
+	margin-left: -1px;
+}
+
+.chosen-container a {
+	cursor: pointer;
+}
+
+.chosen-container-single .chosen-single {
+	position: relative;
+	display: block;
+	overflow: hidden;
+	padding: 0 0 0 8px;
+	height: 23px;
+	border: 1px solid #aaa;
+	-moz-border-radius: 5px; /* Firefox */
+	-webkit-border-radius: 5px; /* Safari 锟斤拷 Chrome */
+	border-radius: 5px; /* Opera 10.5+, 锟皆硷拷使锟斤拷锟斤拷IE-CSS3锟斤拷IE锟斤拷锟斤拷锟�*/
+	background-color: #fff;
+	background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(20%, #ffffff),
+		color-stop(50%, #f6f6f6), color-stop(52%, #eeeeee),
+		color-stop(100%, #f4f4f4));
+	background: -webkit-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%,
+		#f4f4f4 100%);
+	background: -moz-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4
+		100%);
+	background: -o-linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4
+		100%);
+	background: linear-gradient(top, #ffffff 20%, #f6f6f6 50%, #eeeeee 52%, #f4f4f4 100%
+		);
+	background-clip: padding-box;
+	box-shadow: inset 0px 0px 3px white, 0px 1px 1px rgba(0, 0, 0, 0.1);
+	color: #444;
+	text-decoration: none;
+	white-space: nowrap;
+	line-height: 24px;
+}
+
+.chosen-container-single .chosen-single {
+	position: static;
+	float: left;
+	border: 1px solid #cbcbcb;
+	height: 18px;
+	line-height: 18px;
+	padding: 10px;
+	width: 103px;
+	cursor: pointer;
+	text-align: center;
+	z-index: 101;
+	position: relative;
+	margin-right: -1px;
+	background: none;
+	border-radius: 0;
+}
+
+.chosen-container .chosen-drop {
+	position: absolute;
+	top: 100%;
+	left: -9999px;
+	z-index: 1010;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	width: 100%;
+	border: 1px solid #aaa;
+	border-top: 0;
+	background: #fff;
+	box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
+}
+
+.chosen-container-single .chosen-drop {
+	margin-top: -1px;
+	-moz-border-radius: 4px; /* Firefox */
+	-webkit-border-radius: 4px; /* Safari 锟斤拷 Chrome */
+	border-radius: 4px; /* Opera 10.5+, 锟皆硷拷使锟斤拷锟斤拷IE-CSS3锟斤拷IE锟斤拷锟斤拷锟�*/
+	background-clip: padding-box;
+}
+
+.chosen-container-single .chosen-search {
+	position: relative;
+	z-index: 1010;
+	margin: 0;
+	padding: 3px 4px;
+	white-space: nowrap;
+}
+
+.chosen-container .chosen-results {
+	position: relative;
+	overflow-x: hidden;
+	overflow-y: auto;
+	margin: 0 4px 4px 0;
+	padding: 0 0 0 4px;
+	max-height: 240px;
+	-webkit-overflow-scrolling: touch;
+}
+
+.chosen-container-single .chosen-search input[type='text'] {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	margin: 1px 0;
+	padding: 4px 20px 4px 5px;
+	width: 100%;
+	height: auto;
+	outline: 0;
+	border: 1px solid #aaa;
+	background: white url('chosen-sprite.png') no-repeat 100% -20px;
+	background: url('chosen-sprite.png') no-repeat 100% -20px;
+	font-size: 1em;
+	line-height: normal;
+	border-radius: 0;
+}
+
+.chosen-container-single .chosen-single span {
+	display: block;
+	overflow: hidden;
+	margin-right: 26px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.chosen-container-single .chosen-single span {
+	margin-right: 60px;
+}
+
+.chosen-container-single .chosen-single div {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	display: block;
+	width: 18px;
+	height: 100%;
+}
+
+.chosen-container-single .chosen-single div {
+	right: 8px;
+}
+
+.chosen-container-single .chosen-single div b {
+	display: block;
+	width: 100%;
+	height: 100%;
+	background: url('chosen-sprite.png') no-repeat 0px 2px;
+}
+
+.chosen-container-single .chosen-single div b {
+	background-position: 0 10px;
+}
+
+.regCon .upload {
+	float: left;
+	width: 500px;
+}
+
+.regCon .upload .img {
+	float: left;
+	margin-right: 10px;
+	width: 150px;
+	height: 100px;
+	position: relative;
+}
+
+.regCon .upload .info {
+	color: #ccc;
+	font-size: 12px;
+	float: left;
+	width: 330px;
+	line-height: 22px;
+}
+
+.btn {
+	display: inline-block;
+	padding: 6px 27px;
+	margin-bottom: 0px;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.5;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-image: none;
+	border: 1px solid transparent;
+	-moz-border-radius: 4px; /* Firefox */
+	-webkit-border-radius: 4px; /* Safari 锟斤拷 Chrome */
+	border-radius: 4px; /* Opera 10.5+, 锟皆硷拷使锟斤拷锟斤拷IE-CSS3锟斤拷IE锟斤拷锟斤拷锟�*/
+}
+
+.regCon .upload .btn {
+	margin-top: 4px;
+	display: block;
+	height: 30px;
+	float: left;
+}
+
+.regCon .upload .uperrorinfo {
+	margin-top: 4px;
+	line-height: 30px;
+	margin-left: 10px;
+	float: left;
+	color: #e2413a;
+}
+
+.regCon .upload .mark {
+	background: none repeat scroll 0 0 rgba(0, 0, 0, 0.5);
+	bottom: 0px;
+	color: #fff;
+	height: 100px;
+	left: 0px;
+	position: absolute;
+	text-align: center;
+	width: 150px;
+	font-size: 18px;
+	line-height: 100px;
+}
+
+img {
+	border: 0 none;
+}
+
+.regCon .bd .wd240 {
+	width: 240px;
+}
+
+.regCon .bd .wd174 {
+	width: 174px;
+}
+
+.regCon .bd .btn-verify:link, .regCon .bd .btn-verify:visited {
+	float: left;
+	margin-left: -1px;
+	width: 65px;
+	height: 38px;
+	line-height: 38px;
+	background: #fafafa;
+	border: 1px #ccc solid;
+	text-align: center;
+	font-size: 14px;
+	color: #8b8b8b;
+	text-decoration: none;
+}
+
+.regCon .bd .disabled:link, .regCon .bd .disabled:hover:link, .regCon .bd .disabled:active
+	{
+	background: #e1e1e1;
+	cursor: default;
+}
+
+h1 {
+	font-size: 2em;
+}
+
+.regCon .hd h1 {
+	font-weight: normal;
+	font-size: 18px;
+	color: #303030;
+}
+
+.headerwrap {
+	width: 900px;
+	height: 84px;
+	margin: 0 auto;
+}
+
+.headerwrap .reglogo {
+	width: 240px;
+	height: 54px;
+	float: left;
+	margin-top: 15px;
+	margin-left: 7px;
+	background: none;
+}
+
+.headerwrap .link {
+	float: right;
+	margin-top: 55px;
+	font-size: 14px;
+	color: #666;
+}
+
+.headerwrap .link a:link, .headerwrap .link a:visited, .headerwrap .link a:hover
+	{
+	color: #ff8903;
+	text-decoration: underline;
+}
+
+.headerwrap a.logo {
+	margin-top: 8px;
+	float: left;
+	width: 150px;
+	height: 50px;
+	background: url(../img/logo.png) no-repeat;
+	background-size: 115px 40px;
+}
+
+.headerwrap .reglogo a:link {
+	float: left;
+}
+
+.aui_outer {
+	text-align: left;
+}
+
+.aui_outer {
+	border: 1px solid rgba(0, 0, 0, .3);
+	-moz-border-radius: 3px; /* Firefox */
+	-webkit-border-radius: 3px; /* Safari 锟斤拷 Chrome */
+	border-radius: 3px; /* Opera 10.5+, 锟皆硷拷使锟斤拷锟斤拷IE-CSS3锟斤拷IE锟斤拷锟斤拷锟�*/
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table.aui_border, table.aui_dialog {
+	border: 0;
+	margin: 0;
+	border-collapse: collapse;
+	width: auto;
+}
+
+.aui_nw, .aui_n, .aui_ne, .aui_w, .aui_c, .aui_e, .aui_sw, .aui_s,
+	.aui_se, .aui_header, .aui_tdIcon, .aui_main, .aui_footer {
+	padding: 0;
+}
+
+.aui_nw, .aui_ne, .aui_sw, .aui_se {
+	width: 2px;
+	height: 2px;
+}
+
+.aui_nw, .aui_n, .aui_ne, .aui_w, .aui_e, .aui_sw, .aui_s, .aui_se {
+	background: rgba(0, 0, 0, .4);
+	background: #000\9;
+	filter: alpha(opacity = 40);
+}
+
+.aui_inner {
+	background: #FFF;
+}
+
+.aui_buttons {
+	padding: 8px;
+	text-align: right;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.aui_buttons {
+	background-color: #fafafa;
+	border-top: solid 1px #f5f5f5;
+}
+
+.aui_icon {
+	vertical-align: middle;
+}
+
+.aui_main {
+	text-align: center;
+	min-width: 9em;
+	min-width: 0\9 /*IE8 BUG*/;
+}
+
+.aui_content {
+	display: block;
+	text-align: left;
+	border: none 0;
+}
+
+.aui_icon div {
+	width: 48px;
+	height: 48px;
+	margin-left: 20px;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+.aui_header {
+	border-bottom: 1px solid #f5f5f5;
+}
+
+.aui_titleBar {
+	position: relative;
+}
+
+.aui_title {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.aui_title {
+	height: 50px;
+	font-size: 16px;
+	font-weight: bold;
+	line-height: 50px;
+	padding: 0 28px 0 30px;
+	color: #333;
+	font-family: Tahoma, Arial/ 9 !important;
+}
+
+.aui_close {
+	display: block;
+	position: absolute;
+	text-decoration: none;
+	outline: none;
+	_cursor: pointer;
+}
+
+.aui_close {
+	margin: 0px;
+	top: 12px;
+	right: 12px;
+	width: 26px;
+	height: 26px;
+	line-height: 26px;
+	font-size: 26px;
+	color: #9f9f9f;
+	text-align: center;
+	font-family: "Microsoft YaHei", tahoma, arial, Hiragino Sans GB, 宋体;
+	border: none 0;
+}
+
+.treetitle {
+	background: blue;
+}
+
+.treepanel {
+	width: 250px;
+	padding: 0;
+	display: none;
+	visibility: hidden;
+	position: absolute;
+	z-index: 9999;
+	position: absolute;
+	left: 42%;
+	top: 420px;
+}
+
+.rich-panel treepanel {
+	left: 80%;
+	top: 30px;
+}
+
+.treepanelbody {
+	padding: 0;
+	width: auto;
+	height: auto;
+}
+
+.treeOwner {
+	width: 250px;
+	height: 280px;
+	text-align: left;
+	overflow: auto;
+	left: 50%;
+	top: 500px;
+}
+
+.registerchoose {
+	margin-left: 10px;
+	margin-top: 6px;
+	background-image: url(../img/1.png);
+	float: left;
+	padding: 0px 10px;
+	height: 30px;
+	-moz-border-radius: 30px; 
+	-webkit-border-radius: 30px;
+	border-radius: 30px;
+}

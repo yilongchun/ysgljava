@@ -1,0 +1,45 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <ui:insert name="_top" />
+    <s:div
+        styleClass="actionButtons">
+        <s:div
+            style="text-align:right;width:100%;"
+            rendered="#{empty _canEdit ? identity.isLoggedIn() : _canEdit}">
+            <ui:insert name="_left" />
+
+            <s:button
+                styleClass="#{_returnBtnClass}"
+                value="修改"
+                propagation="end"
+                view="#{empty fromUrl ? facesContext.viewRoot.viewId.replaceAll('view.xhtml','edit.xhtml') :fromUrl}"
+                disabled="#{not empty(_home.instance.processId)}"
+                rendered="#{_home.managed}">
+            </s:button>
+            
+            <h:commandButton
+                value="返回"
+                styleClass="#{_cancelBtnClass}"
+                immediate="true"
+                action="#{_home.cancel}"
+                rendered="#{_home.managed}">          
+            </h:commandButton>
+            <!-- 此返回方法  多页面操作容易 返回到上一个刷新后的数据           
+            <s:button
+                styleClass="#{_returnBtnClass}"
+                value="返回"
+                propagation="end"
+                view="#{empty fromUrl ? facesContext.viewRoot.viewId.replaceAll('view.xhtml','main.xhtml') :fromUrl}"
+                rendered="#{_home.managed}">
+            </s:button>-->
+            <ui:insert name="_right" />
+        </s:div>
+    </s:div>
+    <ui:insert name="_bottom" />
+</ui:composition>

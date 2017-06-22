@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components"
+	xmlns:async="http://jboss.com/products/seam/async" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.com/products/seam/core http://jboss.com/products/seam/core-2.2.xsd                  
+	http://jboss.com/products/seam/persistence http://jboss.com/products/seam/persistence-2.2.xsd                  
+	http://jboss.com/products/seam/components http://jboss.com/products/seam/components-2.2.xsd                    
+	       http://jboss.com/products/seam/async http://jboss.com/products/seam/async-2.2.xsd             
+	            http://jboss.com/products/seam/framework http://jboss.com/products/seam/framework-2.2.xsd">
+	<!-- 安装定时器管理 -->
+	<async:quartz-dispatcher />
+	<!-- 统启动时设置定时任务 -->
+	<event type="org.jboss.seam.postInitialization">
+		<!-- <action execute="#{scheCtrlMessageSend.scheduleTimer}" /> -->
+		<!-- <action execute="#{scheCtrlSendCarBill.scheduleTimer}" /> -->
+	</event>
+	<component name="scheCtrlMessageSend">
+		<!-- 全天发送每2分钟 -->
+		<property name="cron">0 0/2 0-23 * * ?</property>
+	</component>
+</components>

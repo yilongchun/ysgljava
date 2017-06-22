@@ -1,0 +1,107 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:fld="http://www.vieking.com/facelets/field">
+	<fieldset>
+		<legend>联系人</legend>
+		<h:panelGrid columns="2" style="width:100%;">
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">姓名 </ui:define>
+				<h:inputText value="#{_obj.name}" size="18" required="true" />
+			</s:decorate>
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">电话 </ui:define>
+				<h:inputText value="#{_obj.phone}" size="18" required="true" />
+			</s:decorate>
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">邮箱地址 </ui:define>
+				<h:inputText value="#{_obj.email}" size="18" />
+			</s:decorate>
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">权限级别</ui:define>
+				<h:selectOneMenu value="#{_obj.level}" required="true"
+					style="width:10em">
+					<s:selectItems value="#{_home.dictions('QXJB')}" var="_o"
+						label="#{_o.name}" noSelectionLabel="请选择" />
+					<s:convertEntity />
+				</h:selectOneMenu>
+			</s:decorate>
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">职务 </ui:define>
+				<h:inputText value="#{_obj.post}" size="50" />
+			</s:decorate>
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">简介</ui:define>
+				<h:inputText value="#{_obj.jianjie}" size="18" />
+			</s:decorate>
+			
+		</h:panelGrid>
+
+	</fieldset>
+	<fieldset>
+		<legend>部门职务</legend>
+		<s:div styleClass="actionButtons">
+			<a4j:commandButton value="添加" actionListener="#{_home.addBmzw()}"
+				reRender="bmzw" ajaxSingle="true">
+			</a4j:commandButton>
+		</s:div>
+		<h:panelGrid columns="2" style="width:100%;">
+			<s:decorate template="/layout/edit.xhtml" id="bumen">
+				<ui:define name="label">部门</ui:define>
+				<h:inputText value="#{_home.dict.wn}" readonly="true" size="60"
+					styleClass="ipt wd240" required="true" />
+				<a4j:commandLink id="bmTreeimg" value="选择" reRender="zhiwu"
+					onclick="showTree(this,'treeForm\\:bumenTree','entityForm\\:bumen\\:bmTreeimg');return false;">
+					<a4j:support ajaxSingle="true" event="onblur" reRender="zhiwu">
+					</a4j:support>
+				</a4j:commandLink>
+			</s:decorate>
+			
+			<!-- <s:decorate template="/layout/edit.xhtml" id="zhiwu">
+				<ui:define name="label">职务</ui:define>
+				<h:selectOneMenu value="#{_home.zhiwu}" style="width:10em">
+					<s:selectItems value="#{_home.getDp(_home.dict.code)}" var="_o"
+						label="#{_o.name}" noSelectionLabel="请选择" />
+					<a4j:support ajaxSingle="true" event="onblur" />
+					<s:convertEntity />
+				</h:selectOneMenu>
+			</s:decorate> -->
+		</h:panelGrid>
+		<rich:dataTable id="bmzw" var="_item" value="#{_obj.contactPosts}"
+			rowKeyVar="rowindex">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="部门" />
+				</f:facet>
+				<h:outputText value="#{_item.lxrbm.name}" />
+			</h:column>
+			<!-- <h:column>
+				<f:facet name="header">
+					<h:outputText value="职务" />
+				</f:facet>
+				<h:outputText value="#{_item.lxrzw.name}" />
+			</h:column> -->
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="操作" />
+				</f:facet>
+				<a4j:commandLink action="#{_home.delCp(_item)}" ajaxSingle="true"
+					reRender="bmzw" value="删除">
+				</a4j:commandLink>
+			</h:column>
+		</rich:dataTable>
+	</fieldset>
+	<a4j:include viewId="/common/linkdocs/docLinksA4jAppNameForCom.xhtml">
+		<ui:param name="autoOpen" value="false" />
+		<ui:param name="_ui" value="#{sys.docLink.uiB}" />
+		<ui:param name="appName" value="通讯录管理" />
+		<ui:param name="entId" value="#{_home.managed ? _obj.id : _obj.tmpId}" />
+		<ui:param name="entDesc" value="#{_home.instanceInfoStr()}" />
+		<ui:param name="changeReRender" value="div_car_docLinks" />
+		<ui:param name="docLocked" value="#{_obj.readOnly() or _ro}" />
+	</a4j:include>
+</ui:composition>

@@ -1,0 +1,131 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:tpl="http://www.vieking.com/facelets/template"
+    xmlns:fld="http://www.vieking.com/facelets/field">
+    <rich:simpleTogglePanel
+        opened="false"
+        switchType="client">
+        <f:facet name="openMarker">点击展开 </f:facet>
+        <f:facet name="closeMarker">点击关闭 </f:facet>
+        <f:facet name="header">查询参数</f:facet>
+        <s:div
+            id="qpdForm"
+            style="height:auto;width:900px"
+            rendered="#{qdHome.managed and (not qdHome.instance.readOnly()) }"
+            styleClass="dd_n">
+            <a4j:region>
+                <s:div
+                    styleClass="actionButtons"
+                    id="buttons">
+                    <a4j:commandLink
+                        action="#{qdHome.newQpd()}"
+                        immediate="true"
+                        ajaxSingle="true"
+                        reRender="qpdForm"
+                        oncomplete="processAutoHeight('.autoHeight');">
+                        <h:graphicImage
+                            value="/img/new.png"
+                            styleClass="op_sbtnMR10" />
+                    </a4j:commandLink>
+                    <a4j:commandLink
+                        action="#{qdHome.addQpd()}"
+                        rendered="#{(not empty qdHome.qpd)  and (empty qdHome.qpd.version)}"
+                        reRender="div_qpds,qpdForm"
+                        oncomplete="processAutoHeight('.autoHeight');">
+                        <h:graphicImage
+                            value="/img/add.png"
+                            styleClass="op_sbtn" />
+                    </a4j:commandLink>
+                    <a4j:commandLink
+                        action="#{qdHome.updateQpd()}"
+                        rendered="#{(not empty qdHome.qpd)  and (not empty qdHome.qpd.version)}"
+                        reRender="div_qpds,qpdForm"
+                        oncomplete="processAutoHeight('.autoHeight');">
+                        <h:graphicImage
+                            value="/img/sav.png"
+                            styleClass="op_sbtn" />
+                    </a4j:commandLink>
+                </s:div>
+                <s:div rendered="#{not empty qdHome.qpd}">
+                    <ui:include src="../queryParamDefine/queryParamDefineEdit.xhtml">
+                        <ui:param
+                            name="_obj"
+                            value="#{qdHome.qpd}" />
+                    </ui:include>
+                </s:div>
+            </a4j:region>
+        </s:div>
+        <s:div id="div_qpds">
+            <rich:dataTable
+                var="_item"
+                value="#{qdHome.instance.qpds}"
+                styleClass="dataGrid">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="顺序" />
+                    </f:facet>
+                    <h:outputText value="#{_item.sort}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="参数名称" />
+                    </f:facet>
+                    <h:outputText value="#{_item.name}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="参数类型" />
+                    </f:facet>
+                    <h:outputText value="#{_item.type.des}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="取值表达式" />
+                    </f:facet>
+                    <h:outputText value="#{_item.valueEL}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="默认值" />
+                    </f:facet>
+                    <h:outputText value="#{_item.defineValue}" />
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="操作" />
+                    </f:facet>
+                    <a4j:region>
+                        <a4j:commandLink
+                            action="#{qdHome.setQpd(_item)}"
+                            ajaxSingle="true"
+                            reRender="qpdForm"
+                            oncomplete="processAutoHeight('.autoHeight');">
+                            <h:graphicImage
+                                value="/img/page.png"
+                                styleClass="op_sbtn"
+                                alt="明细"
+                                title="明细" />
+                        </a4j:commandLink>
+                        <a4j:commandLink
+                            actionListener="#{qdHome.delQpd(_item)}"
+                            ajaxSingle="true"
+                            reRender="div_qpds,qpdForm,xxx"
+                            oncomplete="processAutoHeight('.autoHeight');">
+                            <h:graphicImage
+                                value="/img/del.png"
+                                styleClass="op_sbtn"
+                                alt="删除"
+                                title="删除" />
+                        </a4j:commandLink>
+                    </a4j:region>
+                </h:column>
+            </rich:dataTable>
+        </s:div>
+    </rich:simpleTogglePanel>
+</ui:composition>

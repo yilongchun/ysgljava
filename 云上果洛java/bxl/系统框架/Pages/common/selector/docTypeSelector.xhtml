@@ -1,0 +1,65 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:tpl="http://www.vieking.com/facelets/template"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	<ui:decorate template="/common/selector/baseSelector.xhtml">
+		<ui:param
+			name="selector_title"
+			value="#{sys.docTypeSelector.getTitle()}" />
+		<ui:param
+			name="selector"
+			value="#{sys.docTypeSelector}" />
+		<ui:param
+			name="selId"
+			value="sid_docTypeSelector" />
+		<ui:define name="searchCriteria">
+			<h:panelGrid
+				id="query_pg"
+				columns="2"
+				rowClasses="row1,row2"
+				style=" width:100%; margin: 0 auto; margin-top:10px;">
+				<s:decorate template="/layout/editDiv.xhtml">
+					<ui:define name="label">应用名称</ui:define>
+					<h:inputText
+						value="#{sys.docTypeSelector.qhb.parm('namelike','DT003').sv}"
+						style=" width : 150px;" />
+				</s:decorate>
+				<s:decorate template="/layout/editDiv.xhtml">
+					<ui:define name="label">描述</ui:define>
+					<h:inputText
+						value="#{sys.docTypeSelector.qhb.parm('des','DT003').sv}"
+						style=" width : 150px;" />
+				</s:decorate>
+			</h:panelGrid>
+		</ui:define>
+		<ui:define name="_columns">
+			<ui:param
+				name="_item"
+				value="#{_selItem.item}" />
+
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="名称" />
+				</f:facet>
+				<h:outputText value="#{_item.name}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="描述" />
+				</f:facet>
+				<h:outputText value="#{_item.des}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="文件类型" />
+				</f:facet>
+				<h:outputText value="#{_item.fileType}" />
+			</h:column>
+		</ui:define>
+	</ui:decorate>
+</ui:composition>

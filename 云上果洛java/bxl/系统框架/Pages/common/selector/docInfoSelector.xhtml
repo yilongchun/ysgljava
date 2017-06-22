@@ -1,0 +1,102 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:tpl="http://www.vieking.com/facelets/template"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <ui:decorate template="/common/selector/baseSelector.xhtml">
+        <ui:param
+            name="selector_title"
+            value="#{sys.docInfoSelector.getTitle()}" />
+        <ui:param
+            name="selector"
+            value="#{sys.docInfoSelector}" />
+        <ui:param
+            name="selId"
+            value="sid_docInfoSelector" />
+        <ui:define name="searchCriteria">
+            <h:panelGrid
+                id="query_pg"
+                columns="2"
+                rowClasses="row1,row2"
+                style=" width:100%; margin: 0 auto; margin-top:10px;">
+                <s:decorate template="/layout/editDiv.xhtml">
+                    <ui:define name="label"> 名称</ui:define>
+                    <h:inputText
+                        value="#{sys.docInfoSelector.qhb.parm('originalName','DT003').sv}"
+                        style=" width : 150px;" />
+                </s:decorate>
+                <s:decorate template="/layout/editDiv.xhtml">
+                    <ui:define name="label"> 描述</ui:define>
+                    <h:inputText
+                        value="#{sys.docInfoSelector.qhb.parm('des','DT003').sv}"
+                        style=" width : 150px;" />
+                </s:decorate>
+            </h:panelGrid>
+        </ui:define>
+        <ui:define name="_columns">
+            <ui:param
+                name="_item"
+                value="#{_selItem.item}" />
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="预览" />
+                </f:facet>
+                <s:graphicImage
+                    value="#{imageLoader.loadImage(_item,80)}"
+                    fileName="#{_item.id}80"
+                    rendered="#{_item.isJpgImage() and _item.hs80 }">
+                    <a4j:support
+                        event="onclick"
+                        immediate="true"
+                        action="#{sys.image.diag.showImage(_item,0)}"
+                        reRender="_popdiag"
+                        oncomplete="javascript:justDiagImageSize();" />
+                </s:graphicImage>
+                <h:graphicImage
+                    value="/img/files/doc80.gif"
+                    rendered="#{_item.isJpgImage() and not _item.hs80 }">
+                    <a4j:support
+                        event="onclick"
+                        immediate="true"
+                        action="#{sys.image.diag.showImage(_item,0)}"
+                        reRender="_popdiag"
+                        oncomplete="javascript:justDiagImageSize();" />
+                </h:graphicImage>
+                <s:link
+                    view="/common/docInfo/downLoad.xhtml"
+                    rendered="#{not _item.isJpgImage()}"
+                    propagation="none"
+                    target="_blank">
+                    <h:graphicImage value="/img/files/#{_item.fileExt}80.gif">
+                    </h:graphicImage>
+                    <f:param
+                        name="fileId"
+                        value="#{_item.id}" />
+                </s:link>
+            </h:column>
+            <h:column rendered="#{empty _showOrgan ? true : _showOrgan}">
+                <f:facet name="header">
+                    <h:outputText value="上传机构" />
+                </f:facet>
+                <h:outputText value="#{_item.lmOname}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="文档类型" />
+                </f:facet>
+                <h:outputText value="#{_item.docType.des}" />
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="原始文件名" />
+                </f:facet>
+                <h:outputText value="#{_item.originalName}" />
+            </h:column>
+        </ui:define>
+
+    </ui:decorate>
+</ui:composition>

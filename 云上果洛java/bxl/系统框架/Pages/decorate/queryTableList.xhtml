@@ -1,0 +1,99 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	<style type="text/css">
+</style>
+	<h:outputText
+		value="#{empty noFoundDes ? ssu.app('查询未找到数据!') : noFoundDes }"
+		rendered="#{empty results ?  _query.dataModel.rowCount == 0 : results.rowCount == 0 }" />
+	<h:panelGroup
+		rendered="#{empty results ?  _query.dataModel.rowCount gt 0 : results.rowCount gt 0 }">
+		<ui:decorate template="/common/pagination/topPagination.xhtml">
+			<ui:param name="dataProviderComponent" value="#{_query}" />
+			<ui:param name="dataTableContainerId" value="#{dtcId}" />
+			<ui:param name="expDTId"
+				value="#{empty _formId ? dtcId : _formId}:dt_#{dtcId}" />
+			<ui:param name="showExp"
+				value="#{empty showExp ? identity.isLoggedIn()  :showExp}" />
+		</ui:decorate>
+		<s:div id="sd_#{dtcId}" styleClass="queryTablediv"
+			style="clear:both;#{_sdStyle}">
+			<rich:dataTable id="dt_#{dtcId}" var="_item" rowKeyVar="rowindex"
+				style="#{_rdtStyle}"
+				value="#{empty results ? _query.dataModel : results }"
+				styleClass="dataGrid">
+				<s:fragment rendered="#{not empty dtHeader}">
+					<f:facet name="header">
+						<h:panelGroup>
+                        #{dtHeader}
+                    </h:panelGroup>
+					</f:facet>
+				</s:fragment>
+				<rich:column rendered="#{not empty _showSel}">
+					<f:facet name="header">
+						<h:selectBooleanCheckbox
+							onclick="setChecked('.qtlsbc', this.checked);"
+							disabled="#{_showSel=='selMany'}">
+						</h:selectBooleanCheckbox>
+					</f:facet>
+					<h:selectBooleanCheckbox value="#{_item.selected}"
+						styleClass="qtlsbc #{_sbcClass}"
+						onclick="#{_showSel=='selOne' ? 'selectOne(KF_QTLSBC,this);' : ''};#{_sbcOnClick};"
+						disabled="#{_sbcDisabled}">
+						<ui:insert name="_sbcInner" />
+					</h:selectBooleanCheckbox>
+				</rich:column>
+				<ui:insert name="_columns">
+				</ui:insert>
+				<rich:column rendered="#{_showExpXml}">
+					<f:facet name="header">
+						<h:outputText value="Xml" />
+					</f:facet>
+					<a4j:commandLink action="#{_query.xmlExp(_item.id)}">
+						<h:graphicImage value="/img/xml.jpg" />
+					</a4j:commandLink>
+				</rich:column>
+				<rich:column
+					rendered="#{((not _notBaseEntity) and (empty _showDel ? true : _showDel)) or identity.hasRole('SUPERVISOR') }">
+					<f:facet name="header">
+						<h:outputText value="删除" />
+					</f:facet>
+					<a4j:commandLink onclick="if (!firm(KF_DEL)) {return false}"
+						action="#{_query.deleteItem(_item.id)}" immediate="true"
+						value="删除" ajaxSingle="true"
+						reRender="#{empty dtcId  ? 'dtc' : dtcId}"
+						rendered="#{empty _ro ? not _item.readOnly()  or   identity.hasRole('SUPERVISOR') : not _ro}">
+					</a4j:commandLink>
+				</rich:column>
+				<rich:column styleClass="#{_item.state.name()=='作废' ? 'rowZf' : ''}"
+					rendered="#{(not _notBaseEntity) and (_showZf or identity.hasRole('SUPERVISOR'))}">
+					<f:facet name="header">
+						<h:outputText value="作废" />
+					</f:facet>
+					<a4j:commandLink onclick="if (!firm(KF_ZF)) {return false}"
+						action="#{_query.invalidItem(_item.id)}"
+						reRender="#{empty dtcId  ? 'dtc' : dtcId}"
+						rendered="#{_item.state.name() != '作废'}" value="作废">
+					</a4j:commandLink>
+					<a4j:commandLink onclick="if (!firm(KF_HFSJ)) {return false}"
+						action="#{_query.validItem(_item.id)}"
+						reRender="#{empty dtcId  ? 'dtc' : dtcId}"
+						rendered="#{_item.state.name()=='作废'}" value="恢复">
+					</a4j:commandLink>
+				</rich:column>
+			</rich:dataTable>
+		</s:div>
+		<ui:decorate
+			template="#{not empty pages ? '/common/pagination/homeBottomPagination.xhtml' :'/common/pagination/bottomPagination.xhtml'}">
+			<ui:param name="dataProviderComponent" value="#{_query}" />
+			<ui:param name="dataTableContainerId" value="#{dtcId}" />
+		</ui:decorate>
+	</h:panelGroup>
+	<script type="text/javascript">
+	   procTableEffect('#{dtcId}\\\\:dt_#{dtcId}');
+    </script>
+</ui:composition>

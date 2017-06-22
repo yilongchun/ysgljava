@@ -1,0 +1,146 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:c="http://java.sun.com/jstl/core">
+    <a:loadStyle src="/stylesheet/theme.css" />
+    <h:form>
+        <div class="navbar">
+        <table
+            width="1000px"
+            height="60"
+            border="0"
+            cellpadding="0"
+            cellspacing="0"
+            style="background: tranparent;"
+            align="center">
+            <tr>
+                <td>
+                <table
+                    width="100%"
+                    border="0"
+                    cellspacing="0"
+                    cellpadding="0">
+                    <tr>
+                        <td
+                            width="3%"
+                            height="30"
+                            align="left"><h:graphicImage  value="#{empty currApp.ico ? '/image/btn_chgpass.gif' : ssu.app('/img/icos/app/',currApp.ico)}" /></td>
+
+                        <td
+                            width="16%"
+                            align="left"><h:outputLabel value="#{empty  currApp.des ? messages['project.name'] : currApp.des}" rendered="#{identity.loggedIn}" /></td>
+                        <td width="67%">
+                        <table
+                            width="50%"
+                            border="0"
+                            align="right"
+                            cellpadding="0"
+                            cellspacing="0">
+                            <tr>
+                                <td
+                                    align="right"
+                                    valign="middle"
+                                    class="menubardivider"></td>
+                                <td
+                                    align="right"
+                                    valign="middle"
+                                    class="menubarlinkbtn"></td>
+                                <td
+                                    align="right"
+                                    valign="middle"
+                                    class="menubardivider"></td>
+                                <td
+                                    align="right"
+                                    valign="middle"
+                                    class="menubarlinkbtn"></td>
+                                <td
+                                    align="right"
+                                    valign="middle"></td>
+                                <td
+                                    align="right"
+                                    valign="middle"
+                                    class="menubarlinkbtn"></td>
+                                <td class="menubarlinkbtn"></td>
+                                <td
+                                    align="right"
+                                    valign="middle"
+                                    class="menubardivider"><h:graphicImage
+                                    value="/image/menubar_divider.gif" /> <s:link
+                                    id="menuLogoutId"
+                                    view="/home.xhtml"
+                                    action="#{identity.logout}"
+                                    value="退出"
+                                    rendered="#{identity.loggedIn}"
+                                    propagation="none" /> <s:link
+                                    id="menuLoginId"
+                                    view="/login.xhtml"
+                                    value="登录"
+                                    rendered="#{not identity.loggedIn}"
+                                    propagation="none" /></td>
+                                <td
+                                    align="right"
+                                    valign="middle"
+                                    class="menubarlinkbtn"><h:graphicImage
+                                    value="/image/menubar_divider.gif" />帮助</td>
+                            </tr>
+                        </table>
+                        </td>
+                    </tr>
+                </table>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                <table
+                    width="100%"
+                    border="0"
+                    cellspacing="0"
+                    cellpadding="0">
+                    <tr>
+                        <td
+                            width="34%"
+                            height="23"
+                            align="left"
+                            valign="top"><rich:messages
+                            id="messages"
+                            globalOnly="true"
+                            styleClass="message"
+                            errorClass="errormsg"
+                            infoClass="infomsg"
+                            warnClass="warnmsg"
+                            rendered="#{showGlobalMessages != 'false'}">
+                        </rich:messages></td>
+                        <td
+                            width="46%"
+                            align="left"
+                            valign="middle"></td>
+                        <td
+                            width="18%"
+                            align="right"
+                            valign="middle"></td>
+                        <td width="2%"><a:status>
+                            <f:facet name="start">
+                                <h:graphicImage
+                                    value="/img/spinner.gif"
+                                    style="vertical-align: middle;" />
+                            </f:facet>
+                            <f:facet name="stop">
+                                <h:graphicImage
+                                    value="/img/spinner.gif"
+                                    style="vertical-align: middle; visibility: hidden;" />
+                            </f:facet>
+                        </a:status></td>
+                    </tr>
+                </table>
+                </td>
+            </tr>
+
+        </table>
+        </div>
+    </h:form>
+</ui:composition>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://jboss.com/products/seam/pages
+		http://jboss.com/products/seam/pages-2.2.xsd"
+	login-required="true" timeout="600000">
+	<description>#{dic.dictionaryHome.instanceInfoStr()}录入 - 最后使用时间: #{currentTime}</description>
+	<param name="dicId" value="#{dic.dictionaryHome.objId}" />
+	<param name="soId" value="#{dic.dictionaryHome.soId}" />
+	<param name="notSuper" value="#{dic.dictionaryHome.notSuper}" />
+	<action execute="#{dic.dictionaryHome.validateEntityFound}"
+		on-postback="false" if="#{not empty dicId}" />
+	<begin-conversation if="#{identity.loggedIn}" join="true"
+		flush-mode="manual" />
+	<action execute="#{dic.dictionaryHome.wire}" on-postback="false" />
+</page>

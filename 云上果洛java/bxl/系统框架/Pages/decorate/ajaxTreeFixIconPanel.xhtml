@@ -1,0 +1,41 @@
+<ui:composition
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:c="http://java.sun.com/jstl/core"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <rich:panel
+        id="#{_treeRpId}"
+        header="#{_treeHeader}">
+        <s:div>
+            <rich:tree
+                switchType="ajax"
+                value="#{_tree.treeNode}"
+                var="item"
+                ignoreDupResponses="true"                
+                preserveModel="none"
+                treeNodeVar="treeNode"
+                nodeFace="#{not treeNode.isLeaf()? 'node' : 'leaf'}">
+                <rich:treeNode
+                    type="node"
+                    icon="#{treeNode.icon}"
+                    changeExpandListener="#{_tree.processExpansion}"
+                    onselected="#{_onNodeSelected}"
+                    ignoreDupResponses="true"
+                    data="#{treeNode}">
+                    <ui:insert name="_nodeOut" />
+                </rich:treeNode>
+                <rich:treeNode
+                    type="leaf"
+                    reRender="#{_reRender}"
+                    onselected="#{_onselected}"
+                    iconLeaf="#{treeNode.icon}">
+                    <ui:insert name="_leafOut" />
+                </rich:treeNode>
+            </rich:tree>
+        </s:div>
+    </rich:panel>
+    <ui:insert name="_JsProcess" />
+</ui:composition>

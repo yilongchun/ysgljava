@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://jboss.com/products/seam/pages
+		http://jboss.com/products/seam/pages-2.2.xsd"
+	login-required="true">
+
+
+	<param name="ebcn" />
+	<param name="keyProp" />
+	<param name="keyValue" />
+	<param name="dtName" />
+	<param name="changeReRender" />
+	<action execute="#{sys.docLink.all.ui.initDocLinks(ebcn,keyProp,keyValue,dtName,changeReRender)}" />
+	<begin-conversation join="true" flush-mode="manual" />
+</page>

@@ -1,0 +1,34 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<div class="pager">
+		<div class="left" style="padding-top: 11px;">
+			记录 <strong>#{dataProviderComponent.qhb.start}</strong> - <strong>#{dataProviderComponent.qhb.end}</strong>
+			of <strong>#{dataProviderComponent.qhb.totalRecordCount}</strong> #{'
+			'} #{' '}
+			<ui:insert name="insLeft" />
+		</div>
+
+		<div class="right">
+			<ui:insert name="insOpts" />
+			#{' '}
+			<h:commandLink
+				rendered="#{(not empty dataProviderComponent) and (not empty expDTId) and ( empty showExp ? true : showExp)}"
+				value="导出全部"
+				actionListener="#{dataProviderComponent.initExpResults()}"
+				action="#{excelExporter.export(expDTId,dataProviderComponent.expResults,'')}">
+			</h:commandLink>
+			#{' '}
+			<h:commandLink
+				rendered="#{not empty expDTId  and ( empty showExp ? true : showExp) }"
+				value="导出当前页" action="#{excelExporter.export(expDTId)}">
+			</h:commandLink>
+			#{' '}
+			<ui:include src="/common/pagination/paginationButtons.xhtml">
+				<ui:param name="pos" value="1" />
+			</ui:include>
+		</div>
+	</div>
+</ui:composition>

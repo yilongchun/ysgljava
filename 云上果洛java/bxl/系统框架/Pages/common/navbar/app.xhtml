@@ -1,0 +1,142 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:c="http://java.sun.com/jstl/core">
+    <h:form id="frmNav">
+        <div class="navbar_ts">
+        <table
+            width="100%"
+            height="96"
+            border="0"
+            cellpadding="0"
+            cellspacing="0"
+            align="center">
+            <tr>
+                <td height="70" align="right">
+                <div>
+                <table>
+                <tr>
+                <td><h:graphicImage
+                                    value="/image/zz.png" /></td>
+                <td  style="color:black;">欢迎：</td>
+                <td><a:include
+                                    viewId="/common/menu/userMenu.xhtml" /></td>
+                <td width="30"></td>
+                </tr>
+                </table>
+                </div></td>
+            </tr>
+            <tr>
+                <td height="18"></td>
+            </tr>
+            <tr>
+                <td>
+                <table
+                    width="100%"
+                    border="0"
+                    cellspacing="0"
+                    cellpadding="0">
+                    <tr>
+                        <td
+                            width="3%" height="19"
+                            align="left"></td>
+                        <td
+                            width="10%"
+                            align="left"></td>
+                        <td width="87%">
+                        <table
+                            width="35%"
+                            border="0"
+                            align="right"
+                            cellpadding="0"
+                            cellspacing="0">
+                            <tr style="padding-top:6px;">
+                                <td
+                                    align="right"
+                                    valign="middle"
+                                    class="menubardivider"></td>
+                                <td></td>
+                                <td
+                                    align="right"
+                                    valign="middle"
+                                    class="menubarlinkbtn"><h:graphicImage
+                                    value="/image/ho.png" /></td>
+                                <td
+                                    align="left"
+                                    valign="middle"
+                                    class="menubarlinkbtn"><s:link
+                                    id="menuHomeId"
+                                    view="/home.xhtml"
+                                    style="color:white; font-weight:bolder;"
+                                    value="启动中心"
+                                    propagation="none" /></td>
+                                <td
+                                    align="right"
+                                    valign="middle"
+                                    class="menubarlinkbtn"><h:graphicImage
+                                    value="/image/tc.png" /></td>
+                                <td
+                                    align="left"
+                                    valign="middle"
+                                    class="menubardivider"><s:link
+                                    id="menuLogoutId"
+                                    view="/home.xhtml"
+                                    style="color:white; font-weight:bolder;"
+                                    action="#{identity.logout}"
+                                    value="退出系统"
+                                    rendered="#{identity.loggedIn}"
+                                    propagation="none" /> <s:link
+                                    id="menuLoginId"
+                                    view="/login.xhtml"
+                                    value="登录"
+                                    rendered="#{not identity.loggedIn}"
+                                    propagation="none" /></td>
+                                <td
+                                    align="right"
+                                    valign="middle"
+                                    class="menubarlinkbtn"><h:graphicImage
+                                    value="/image/bz.png" /></td>
+                                <td
+                                    align="left"
+                                    valign="middle"
+                                    class="menubarlinkbtn"><s:link
+                                    view="/help/help.html"
+                                    style="color:white; font-weight:bolder;">帮助</s:link></td>
+                                <td
+                                    align="right"
+                                    valign="middle"><a:outputPanel
+                                    ajaxRendered="true">
+                                    <script type="text/javascript">
+                                            jQuery(document).ready(function() {
+                                                 var msgSize = #{facesMessages.getCurrentGlobalMessages().size()};
+                                                 if(msgSize >0) {
+                                                  jQuery.messager.show({
+                                                       title:'提示信息',
+                                                       msg:' <rich:messages id="messagess" globalOnly="true"  styleClass="message"  errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg" rendered="true">  </rich:messages>',
+                                                       //timeout:0,
+                                                       showSpeed:2000,
+                                                       showType:'slide',
+                                                       width:350,
+                                                       height:150
+                                                   });
+                                                 }
+                                              });   
+                                        </script>
+                                </a:outputPanel></td>
+                            </tr>
+                        </table>
+                        </td>
+                    </tr>
+                </table>
+                </td>
+            </tr>
+        </table>
+        </div>
+
+    </h:form>
+</ui:composition>

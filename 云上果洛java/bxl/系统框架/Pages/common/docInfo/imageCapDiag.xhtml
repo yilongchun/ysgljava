@@ -1,0 +1,56 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:tpl="http://www.vieking.com/facelets/template"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <rich:modalPanel
+        id="imageCapDiag"
+        moveable="true"
+        resizeable="false"
+        autosized="true"
+        minHeight="400"
+        minWidth="600"
+        showWhenRendered="true"
+        reRender="true">
+        <f:facet name="header">
+            <h:outputText
+                value="#{sys.imageCap.ui.title}【#{sys.imageCap.ui.uploadOrgan.name}】【#{sys.imageCap.ui.docType.des}】【#{sys.imageCap.ui.docType.maxLength}kb】拍照上传">
+            </h:outputText>
+        </f:facet>
+        <f:facet name="controls">
+            <h:form>
+                <a4j:commandLink
+                    styleClass="closeDiag"
+                    actionListener="#{sys.imageCap.ui.close()}"
+                    onclick="javascript:imageCapOcx.closeVideoDevice();#{rich:component('imageCapDiag')}.hide();"
+                    reRender="#{sys.imageCap.ui.reRender}">
+                    <h:graphicImage value="/img/close.png" />
+                </a4j:commandLink>
+                <rich:hotKey
+                    key="esc"
+                    handler="javascript:imageCapOcx.closeVideoDevice();jQuery('.closeDiag').click()" />
+            </h:form>
+        </f:facet>
+        <OBJECT
+            id="imageCapOcx"
+            classid="clsid:9CF1B1E7-DFCA-40B2-9D36-685EBACFCA33"
+            codebase="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.requestContextPath}/ocx/ImageCapOcxProj.cab#version=1,0,102,0"
+            width="850"
+            height="500"
+            align="center"
+            hspace="0"
+            vspace="0">
+            <PARAM
+                NAME="ServiceBaseUrl"
+                VALUE="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.requestContextPath}/" />
+        </OBJECT>
+        <script language="javascript">   
+            imageCapOcx.initContext();
+            setImageCapContext('imageCapOcx','#{sys.imageCap.ui.uploadOrgan.id}','#{sys.imageCap.ui.docType.name}','#{sys.imageCap.ui.ebcn}','#{sys.imageCap.ui.keyProperty}','#{sys.imageCap.ui.keyValue}');      
+        </script>
+    </rich:modalPanel>
+</ui:composition>

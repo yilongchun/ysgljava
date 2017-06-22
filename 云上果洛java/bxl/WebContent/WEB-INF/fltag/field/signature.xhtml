@@ -1,0 +1,33 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:tpl="http://www.vieking.com/facelets/template"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <tpl:default
+        var="rendered"
+        value="true" />
+    <s:div
+        rendered="#{rendered}"
+        style="align:center;">
+        <OBJECT
+            ID="sign#{id}"
+            style="z-index: 1000000"
+            CLASSID="CLSID:03F6FDF2-A7BA-43CD-B7F2-127946580604"
+            CODEBASE="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.requestContextPath}/ocx/SignatureOcxProj.cab#version=1,0,64,0"
+            width="800"
+            height="250"
+            hspace="0"
+            vspace="0">
+            <PARAM
+                NAME="ServiceBaseUrl"
+                VALUE="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.requestContextPath}/" />
+        </OBJECT>
+        <script language="javascript">   
+            sign#{id}.initContext();       
+            setSignContext('sign#{id}','#{empId}','#{empName}','#{ecn}','#{eid}','#{epn}'); 
+        </script>
+    </s:div>
+</ui:composition>

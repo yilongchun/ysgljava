@@ -1,0 +1,63 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:a="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>帮学乐</title>
+<style>
+body,div {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: #f6f6f6;
+	font-family: "Microsoft YaHei", tahoma, arial, Hiragino Sans GB, 宋体;
+}
+
+#container {
+	margin: 0 auto;
+	width: 500px;
+	height: 500px;
+	padding-top: 10%;
+	text-align: center;
+}
+
+#container a {
+	color: #0088db;
+}
+
+#container img {
+	border: medium none;
+}
+
+#container .msg {
+	margin-top: 30px;
+	margin-left: 70px;
+}
+</style>
+<link rel="icon" href="img/rn.gif" type="image/x-icon" />
+<link rel="shortcut icon"
+	href="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.requestContextPath}/img/favicon.ico" />
+</head>
+<body>
+	<!-- 代码 开始 -->
+	<div id="container">
+		<h:graphicImage class="png" value="img/gx.png" />
+		<p>尊敬的用户，您已成功注册矿车通！请等待客服人员与您联系！</p>
+		<s:link view="/login.xhtml" >
+			<h:graphicImage class="msg" value="img/fhsy1.png" />
+		</s:link>
+	</div>
+	<!-- 代码 结束 -->
+
+</body>
+</html>

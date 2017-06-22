@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:tpl="http://www.vieking.com/facelets/template"
+	xmlns:fld="http://www.vieking.com/facelets/field">
+	<h:panelGrid columns="1">
+		<s:decorate template="/layout/editDivv.xhtml" style="width:900px;"
+			styleClass="dd_n">
+			<ui:define name="label">命名查询名称</ui:define>
+			<h:outputText value="#{_obj.nameQuery.name}" />
+		</s:decorate>
+		<s:decorate template="/layout/editDivv.xhtml"
+			style="width:900px;height:auto;" styleClass="dd_l">
+			<ui:define name="label">过滤条件</ui:define>
+			<h:inputTextarea style="width:700px;" styleClass="autoHeight"
+				readonly="#{_obj.readOnly()}" value="#{_obj.filter}" rows="1"
+				required="true" />
+		</s:decorate>
+		<s:decorate template="/layout/editDivv.xhtml" style="width:900px;"
+			styleClass="dd_l">
+			<ui:define name="label">过滤说明</ui:define>
+			<h:inputText value="#{_obj.des}" readonly="#{_obj.readOnly()}"
+				size="30" />
+		</s:decorate>
+
+		<s:decorate template="/layout/editDivv.xhtml" style="width:900px;"
+			styleClass="dd_l">
+			<ui:define name="label">插入标记</ui:define>
+			<h:inputText value="#{_obj.insTag}" readonly="#{_obj.readOnly()}"
+				size="20" />
+		</s:decorate>
+		<s:decorate template="/layout/editDivv.xhtml" style="width:900px;"
+			styleClass="dd_l">
+			<ui:define name="label">排序 </ui:define>
+			<h:inputText value="#{_obj.sort}" readonly="#{_obj.readOnly()}"
+				size="5" maxlength="5" required="true">
+				<f:converter converterId="javax.faces.Integer" />
+				<f:validateLongRange minimum="0" />
+			</h:inputText>
+		</s:decorate>
+		<div styleClass="dd_n" />
+
+		<s:decorate template="/layout/editDivv.xhtml"
+			style="width:900px;height:auto;" styleClass="dd_l">
+			<ui:define name="label">是否启用EL</ui:define>
+			<h:inputTextarea style="width:700px;" styleClass="autoHeight"
+				readonly="#{_obj.readOnly()}" value="#{_obj.enabledEL}" rows="1" />
+		</s:decorate>
+	</h:panelGrid>
+	<div styleClass="dd_n" />
+</ui:composition>

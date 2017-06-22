@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	<s:fragment rendered="#{not empty _query.queryDesc}">
+		<script type="text/javascript">
+        jQuery(document).ready(function(){            
+            document.title='#{_query.queryDesc}';
+        });       
+        </script>
+	</s:fragment>
+	<s:div style="text-align:right;width:100%;" styleClass="actionButtons">
+		<s:link view="/basicdata/nameQuery/main.xhtml"
+			rendered="#{init.debug and not empty _query.nqn}"
+			value="#{_query.nqn}命名查询" target="_blank">
+			<f:param name="nqnName" value="#{_query.nqn}" />
+		</s:link>
+		<span> </span>
+		<s:link view="/basicdata/nameQuery/edit.xhtml"
+			rendered="#{init.debug and not empty _query.nqn}"
+			value="#{_query.nqn}命名查询" target="_blank">
+			<f:param name="nameQueryId"
+				value="#{app.nameQueryManger.query(_query.nqn).oid}" />
+		</s:link>
+		<span> </span>
+		<ui:insert name="_left" />
+		<s:button styleClass="queryBtn" value="新建"
+			includePageParams="#{empty _newIPP ? false : _newIPP}"
+			rendered="#{empty _canNew ? identity.isLoggedIn() : _canNew}"
+			view="#{facesContext.viewRoot.viewId.replaceAll('main.xhtml','edit.xhtml')}">
+			<ui:insert name="newUiParms" />
+		</s:button>
+		<ui:insert name="_center" />
+		<a4j:commandButton value="查询" styleClass="queryBtn"
+			action="#{_query.applyFilter()}"
+			rendered="#{empty _showApplyFilter ? true : _showApplyFilter}"
+			oncomplete="autoHeight('.autoHeight');addAutoHeightEvent('.autoHeight');addInEvent();"
+			reRender="#{empty _reRender ? 'query_pg,dtc,qpbLs_Sd' : _reRender}" />
+		<rich:hotKey key="return"
+			handler="javascript:jQuery('.queryBtn').click()" />
+		<a4j:commandButton styleClass="queryBtn" value="全部"
+			action="#{_query.resetFilter(empty _pl ? 1: _pl)}"
+			rendered="#{empty _showResetFilter ? true : _showResetFilter}"
+			oncomplete="autoHeight('.autoHeight');addAutoHeightEvent('.autoHeight');addInEvent();"
+			reRender="#{empty _reRender ? 'query_pg,dtc,qpbLs_Sd' : _reRender}" />
+		<s:button styleClass="queryBtn" value="返回 " includePageParams="false"
+			view="#{fromUrl}"
+			rendered="#{not empty fromUrl and  (fromUrl!= facesContext.viewRoot.viewId)}">
+		</s:button>
+		<ui:insert name="_right" />
+	</s:div>
+	<s:div style="text-align:left;width:100%;">
+		<ui:decorate template="/decorate/tmpQueryParamList.xhtml">
+		</ui:decorate>
+	</s:div>
+</ui:composition>

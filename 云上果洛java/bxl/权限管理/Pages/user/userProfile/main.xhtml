@@ -1,0 +1,35 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:tpl="http://www.vieking.com/facelets/template"
+	xmlns:fld="http://www.vieking.com/facelets/field"
+	template="#{templatePath}/template.xhtml">
+	<ui:define name="body">
+		<tpl:context appAction="#{sys.act.userProfile}" upf="#{userProFile}"
+			_person="#{userProFile.employee.person}">
+			<rich:panel>
+				<f:facet name="header">用户信息管理</f:facet>
+				<s:div id="userDiv">
+					<h:form id="entityForm">
+						<!-- <FIELDSET class="kf_fieldset"> -->
+							<!-- <LEGEND class="kf_legend">用户登录信息 </LEGEND> -->
+							<ui:include src="/user/userProfile/form.xhtml">
+								<ui:param name="entityObj" value="#{userProFile}" />
+							</ui:include>
+							<s:div styleClass="actionButtons">
+								<h:commandButton value="保存" action="#{appAction.save}" />
+								<s:button value="取消" immediate="true" view="/home.xhtml"
+									propagation="end" />
+							</s:div>
+						<!-- </FIELDSET> -->
+					</h:form>
+				</s:div>
+				 
+			</rich:panel>
+		</tpl:context>
+	</ui:define>
+</ui:composition>

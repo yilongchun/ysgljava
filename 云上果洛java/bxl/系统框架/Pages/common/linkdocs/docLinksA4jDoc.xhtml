@@ -1,0 +1,30 @@
+<html
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:fld="http://www.vieking.com/facelets/field"
+    xmlns:c="http://java.sun.com/jstl/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:tpl="http://www.vieking.com/facelets/template">
+<head>
+<a:loadScript src="/js/wordOcx.js" />
+</head>
+<tpl:default
+    var="docinfo"
+    value="#{zbBaseHome.docInfo}" />
+<body
+    leftmargin="0"
+    topmargin="0"
+    onload="javascript:intializePage('#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.requestContextPath}/common/docInfo/downLoad.htm?fileId=#{docinfo.id}','#{docinfo.originalName}','view','word#{docinfo.id}');">
+<f:facet name="header">#{entDesc}相关文档</f:facet>
+<object
+    id="word#{docinfo.id}"
+    codebase='/ocx/OfficeControl.cab#version=4,0,3,2'
+    height="600"
+    width="100%"
+    classid="clsid:C9BC4DFF-4248-4a3c-8A49-63A7D317F404"
+    viewastext="" />
+</body>
+</html>

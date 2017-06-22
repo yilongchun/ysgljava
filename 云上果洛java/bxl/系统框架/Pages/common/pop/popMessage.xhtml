@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<rich:modalPanel id="popMsg" moveable="false" resizeable="false"
+		autosized="true" minHeight="150" minWidth="300"
+		showWhenRendered="true"
+		onshow="if(!#{facesContext.externalContext.requestMap.containsKey('_pop')})#{rich:component('popMsg')}.hide();">
+	<!-- onshow="if(#{facesMessages.getCurrentGlobalMessages().size() > 0 and  facesContext.externalContext.requestMap.containsKey('_pop') !=null}) #{rich:component('popMsg')}.hide()"> -->
+	<f:facet name="header">
+		<h:outputText
+			value="#{facesContext.externalContext.requestMap.get('_pop').title}">
+		</h:outputText>
+			
+		#{facesMessages.getCurrentGlobalMessages().size() > 0 and  facesContext.externalContext.requestMap.containsKey('_pop') !=null}
+		</f:facet>
+	<f:facet name="controls">
+		<h:outputLink value="javascript:#{rich:component('popMsg')}.hide()">关闭</h:outputLink>
+	</f:facet>
+
+	<h:outputText
+		value="#{facesContext.externalContext.requestMap.get('_pop').info}"
+		escape="false" />
+	</rich:modalPanel>
+</ui:composition>

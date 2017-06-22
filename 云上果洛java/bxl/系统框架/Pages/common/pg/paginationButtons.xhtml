@@ -1,0 +1,56 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <a:commandLink
+        value="首页"
+        rendered="#{dataProviderComponent.queryHelp.previousAvailable}"
+        reRender="#{dataTableContainerId}"
+        oncomplete="autoHeight('.autoHeight');addAutoHeightEvent('.autoHeight');addInEvent();"
+        ajaxSingle="true"
+        action="#{dataProviderComponent.first()}">
+    </a:commandLink>
+    #{' '}
+    <a:commandLink
+        value="上页"
+        rendered="#{dataProviderComponent.queryHelp.previousAvailable}"
+        reRender="#{dataTableContainerId}"
+        oncomplete="autoHeight('.autoHeight');addAutoHeightEvent('.autoHeight');addInEvent();"
+        ajaxSingle="true"
+        action="#{dataProviderComponent.previous()}">
+    </a:commandLink>    
+    #{' '}
+
+    <a:commandLink
+        value="下页"
+        rendered="#{dataProviderComponent.queryHelp.nextAvailable}"
+        reRender="#{dataTableContainerId}"
+        oncomplete="autoHeight('.autoHeight');addAutoHeightEvent('.autoHeight');addInEvent();"
+        ajaxSingle="true"
+        action="#{dataProviderComponent.next()}">
+    </a:commandLink>
+    #{' '}        
+    <a:commandLink
+        value="末页"
+        rendered="#{dataProviderComponent.queryHelp.nextAvailable}"
+        reRender="#{dataTableContainerId}"
+        oncomplete="autoHeight('.autoHeight');addAutoHeightEvent('.autoHeight');addInEvent();"
+        ajaxSingle="true"
+        action="#{dataProviderComponent.last()}">
+    </a:commandLink>
+     #{' '}       
+            第 
+     <h:inputText
+        value="#{dataProviderComponent.viewPage}"
+        style="text-align:center;width:30px;"
+        valueChangeListener="#{dataProviderComponent.pageChanged}">
+        <a:support
+            event="onchange"
+            reRender="#{dataTableContainerId}"
+            oncomplete="autoHeight('.autoHeight');addAutoHeightEvent('.autoHeight');addInEvent();"
+            ajaxSingle="true" />
+    </h:inputText>页
+
+</ui:composition>

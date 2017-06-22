@@ -1,0 +1,34 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <s:div id="qpbLs_Sd">
+        <a4j:repeat
+            value="#{_query.qhb.qpbLs}"
+            var="_qpb">
+            <s:div
+                style="float:left"
+                rendered="#{(not empty _qpb.value)  or (init.debug) }">
+                <h:outputText value="#{empty _qpb.des ?  _qpb.pn : _qpb.des }" />：
+                <h:outputText value="#{_qpb.strValue()}" />
+                <h:graphicImage
+                    value="/img/btn/delF.png"
+                    onclick="clearParm('#{_qpb.pn}','#{_qpb.des}')" />
+            </s:div>
+        </a4j:repeat>
+        <a4j:jsFunction
+            name="clearParm"
+            action="#{_query.qhb.clearParm()}"
+            immediate="true"
+            ajaxSingle="true"
+            reRender="qpbLs_Sd">
+            <a4j:actionparam
+                name="param1"
+                assignTo="#{_query.qhb.clearQpn}" />
+        </a4j:jsFunction>
+    </s:div>
+</ui:composition>

@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:tpl="http://www.vieking.com/facelets/template"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<tpl:default var="label" value=""/>
+	<tpl:default var="rendered" value="true"/>
+	<tpl:default var="suggestComponent" value="#{component}"/>
+	<tpl:default var="required" value="false"/>
+	<tpl:default var="label" value="alb"/>
+	<h:panelGroup rendered="#{rendered}">
+		<h:inputText id="#{id}f" label="#{label}"
+			value="#{component[property]}"
+			size="#{size}" required="#{required}" >
+			<ui:insert/>
+		</h:inputText>
+		<rich:suggestionbox id="#{id}s" for="#{id}f"
+			minChars="1" suggestionAction="#{suggestComponent[suggestMethod]}"
+			var="_suggestion" ajaxSingle="true">
+			<h:column>
+				<h:outputText value="#{_suggestion[labelProperty]}"/>
+			</h:column>
+		</rich:suggestionbox>
+	</h:panelGroup>
+</ui:composition>

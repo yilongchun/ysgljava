@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:tpl="http://www.vieking.com/facelets/template"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	<rich:modalPanel id="showImageDiag" moveable="true" resizeable="false"
+		autosized="true" minHeight="400" minWidth="600"
+		showWhenRendered="true" reRender="true">
+		<f:facet name="header">
+			<h:outputFormat value="【{0}】【{1}】">
+				<f:param value="#{sys.image.diag.getDocInfo().originalName}" />
+				<f:param value="#{sys.image.diag.getDocInfo().size}" />
+			</h:outputFormat>
+		</f:facet>
+		<f:facet name="controls">
+			<h:form>
+				<a4j:commandLink id="rotateImage270" styleClass="rotateImage"
+					rendered="#{app.svm.sv('docinfo_link_url')=='local'}"
+					actionListener="#{imageUtils.rotateImage(sys.image.diag.getDocInfo().getId(), 270)}"
+					oncomplete="javaScript:justDiagImageSize();" reRender="diag_image">
+					<h:graphicImage value="/img/imgProcess/Ssz270.jpg"
+						style="vertical-align: middle; margin-left: 3px; margin-bottom: 1px;" />
+				</a4j:commandLink>
+				<a4j:commandLink id="rotateImage90" styleClass="rotateImage"
+					rendered="#{app.svm.sv('docinfo_link_url')=='local'}"
+					actionListener="#{imageUtils.rotateImage(sys.image.diag.getDocInfo().getId(), 90)}"
+					oncomplete="javaScript:justDiagImageSize();" reRender="diag_image">
+					<h:graphicImage value="/img/imgProcess/Ssz90.jpg"
+						style="vertical-align: middle; margin-left:10px; margin-bottom: 1px;margin-right: 10px;" />
+				</a4j:commandLink>
+				<a4j:commandLink id="closeDiag" styleClass="closeDiag"
+					actionListener="#{vieking.ui.ac.setPopUrl('')}"
+					onclick="javascript:#{rich:component('showImageDiag')}.hide()">
+					<h:graphicImage value="/img/close.png"
+						style="vertical-align: middle; margin-left: 3px; margin-bottom: 1px;" />
+				</a4j:commandLink>
+				<rich:hotKey key="esc"
+					handler="javascript:jQuery('.closeDiag').click()" />
+			</h:form>
+		</f:facet>
+		<center>
+			<s:div id="diag_image" styleClass="diag_image">
+				<s:graphicImage id="diag_graphicImage"
+					styleClass="diag_graphicImage"
+					value="#{imageLoader.loadImage(sys.image.diag.getDocInfo(),sys.image.diag.getSize())}"
+					rendered="#{sys.image.diag.getDocInfo().isJpgImage() and app.svm.sv('docinfo_link_url')=='local'}" />
+				<h:graphicImage styleClass="diag_graphicImage"
+					value="#{app.svm.sv('docinfo_link_url')}#{sys.image.diag.getDocInfo().id}"
+					rendered="#{sys.image.diag.getDocInfo().isJpgImage() and (app.svm.sv('docinfo_link_url')!='local')}" />
+			</s:div>
+		</center>
+	</rich:modalPanel>
+	<script type="text/javascript">
+            justDiagImageSize();
+   
+    </script>
+</ui:composition>

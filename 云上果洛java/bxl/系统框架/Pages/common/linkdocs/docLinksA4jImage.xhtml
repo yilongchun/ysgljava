@@ -1,0 +1,39 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:fld="http://www.vieking.com/facelets/field"
+    xmlns:c="http://java.sun.com/jstl/core">
+
+<head>
+<meta
+    http-equiv="Content-Type"
+    content="text/html; charset=UTF-8" />
+<title>图片</title>
+<a:loadStyle src="resource:///extended-skin-styles.xcss" />
+<a:loadStyle src="/stylesheet/theme.css" />
+<a:loadScript src="/js/componentExt.js" />
+ <a:loadScript src="/js/scriptExt.js" />
+</head>
+<body leftmargin="0" topmargin="0">
+            <c:forEach
+                items="#{docLinkList}"
+                var="item">
+                    <fld:suggestJPG
+                        id="ost#{item.document.id}"
+                        component="#{item.document}"
+                        listps="0"
+                        listph="1"
+                        img="#{item.document.id}"
+                        nlmsg="数据未找到"
+                        required="true">
+                    </fld:suggestJPG>
+            </c:forEach>
+</body>
+</html>

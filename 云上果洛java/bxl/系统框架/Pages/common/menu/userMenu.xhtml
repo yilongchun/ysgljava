@@ -1,0 +1,26 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:c="http://java.sun.com/jstl/core"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <s:div id="userMenu" >
+        <rich:dropDownMenu
+            value="#{empty currentUser.name}">
+            <rich:menuItem
+                styleClass="menuLink"
+                rendered="#{currentUser.version!=null}"
+                value="修改用户信息"
+                submitMode="none">
+                <s:link
+                    value=""
+                    view="/user/userProfile/main.xhtml"
+                    propagation="none"
+                    rendered="#{identity.loggedIn}" />
+            </rich:menuItem>
+        </rich:dropDownMenu>
+    </s:div>
+</ui:composition>

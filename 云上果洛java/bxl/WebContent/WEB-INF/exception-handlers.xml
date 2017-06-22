@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd">
+
+	<exception class="org.jboss.seam.framework.EntityNotFoundException">
+		<redirect view-id="/error.xhtml">
+			<message>数据未找到</message>
+		</redirect>
+	</exception>
+
+	<exception class="javax.persistence.EntityNotFoundException">
+		<redirect view-id="/error.xhtml">
+			<message>数据未找到</message>
+		</redirect>
+	</exception>
+
+	<exception class="javax.persistence.OptimisticLockException">
+		<end-conversation />
+		<redirect view-id="/error.xhtml">
+			<message severity="warn">数据已被其他用户修改，请重试
+			</message>
+		</redirect>
+	</exception>
+
+	<exception class="org.jboss.seam.security.AuthorizationException">
+		<redirect view-id="/error.xhtml">
+			<message severity="error">无权访问 #{org.jboss.seam.handledException.message}</message>
+		</redirect>
+	</exception>
+
+	<exception class="org.jboss.seam.security.NotLoggedInException">
+		<redirect view-id="/login.xhtml">
+			<message severity="warn">请先登录</message>
+		</redirect>
+	</exception>
+
+	<exception class="javax.faces.application.ViewExpiredException">
+		<redirect view-id="/error.xhtml">
+			<message severity="warn">当前会话超时,请重试</message>
+		</redirect>
+	</exception>
+
+
+	<exception class="com.vieking.sys.DaoException">
+		<end-conversation />
+		<redirect view-id="/error.xhtml">
+			<message severity="warn">数据访问异常 #{org.jboss.seam.handledException.message}</message>
+		</redirect>
+
+	</exception>
+
+	<exception class="org.jboss.seam.ConcurrentRequestTimeoutException"
+		log-level="trace">
+		<end-conversation />
+		<http-error error-code="503" />
+	</exception>
+	<exception class="java.io.UnsupportedEncodingException">
+		<redirect view-id="/error.xhtml">
+			<message>编码不支持 #{org.jboss.seam.handledException.message}</message>
+		</redirect>
+	</exception>
+	<exception>
+		<redirect view-id="/error.xhtml">
+			<message severity="error">系统出错了,请重试下#{org.jboss.seam.handledException.message}
+			</message>
+		</redirect>
+	</exception>
+	
+	<exception class="javax.faces.validator.ValidatorException">
+		<redirect view-id="/error.xhtml">
+			<message severity="warn">参数验证异常 #{org.jboss.seam.handledException.message} </message>
+		</redirect>
+	</exception>
+
+
+
+
+</pages>

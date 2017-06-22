@@ -1,0 +1,53 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:tpl="http://www.vieking.com/facelets/template"
+	xmlns:fld="http://www.vieking.com/facelets/field"
+	xmlns:c="http://java.sun.com/jstl/core"
+	template="#{templatePath}/template.xhtml">
+	<ui:define name="body">
+		<br />
+		<tpl:context _home="#{fun.departmentPostHome}">
+			<h:form id="treeForm">
+				<ui:decorate template="/decorate/ajaxTreeFixIcon.xhtml">
+					<ui:param name="_treeRpId" value="bumenTree" />
+					<ui:param name="_tree" value="#{_home.bumenTree}" />
+					<ui:param name="_treeHeader" value="请选择部门" />
+					<ui:param name="_onselected" value="bmSelected('#{item.code}')" />
+					<ui:define name="_nodeOut">
+						<h:outputText value="#{item.name}" />
+					</ui:define>
+					<ui:define name="_leafOut">
+						<h:outputText value="#{item.name}" />
+					</ui:define>
+					<ui:define name="_JsProcess">
+						<a4j:jsFunction name="bmSelected" action="#{_home.selBuMen()}"
+							data="#{_home.instance.bm.wn}"
+							oncomplete="javascript:jQuery('.xxdzValue').val(data);"
+							immediate="true" ajaxSingle="true" reRender="bumen">
+							<a4j:actionparam name="param1" assignTo="#{_home.bmCode}" />
+						</a4j:jsFunction>
+					</ui:define>
+				</ui:decorate>
+			</h:form>
+			<rich:panel>
+				<f:facet name="header">#{_home.instanceInfoStr()}</f:facet>
+				<h:form id="entityForm" styleClass="edit">
+					<ui:decorate template="/decorate/editPageButtons.xhtml">
+					</ui:decorate>
+					<div style="width: 98%; margin: 0 auto;">
+						<ui:include src="../departmentPostEdit.xhtml">
+							<ui:param value="#{_home.instance}" name="_obj" />
+							<ui:param value="#{_obj.readOnly()}" name="_ro" />
+						</ui:include>
+					</div>
+				</h:form>
+			</rich:panel>
+		</tpl:context>
+
+	</ui:define>
+</ui:composition>

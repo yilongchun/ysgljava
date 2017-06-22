@@ -1,0 +1,51 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:tpl="http://www.vieking.com/facelets/template"
+    xmlns:fld="http://www.vieking.com/facelets/field"
+    xmlns:c="http://java.sun.com/jstl/core"
+    template="#{templatePath}/template.xhtml">
+    <ui:define name="head">
+        <script type="text/javascript">
+        jQuery(document).ready(function(){
+            
+        });       
+</script>
+    </ui:define>
+    <ui:define name="titles">
+     #{dic.dictionaryTypeHome.instanceInfoStr()}
+     </ui:define>
+    <ui:define name="body">
+        <tpl:context _home="#{dic.dictionaryTypeHome}">
+            <rich:panel>
+                <f:facet name="header">#{_home.managed ? '修改' : '添加'} #{_home.instanceInfoStr()} </f:facet>
+                <h:form
+                    id="entityForm"
+                    styleClass="edit">
+                    <s:div id="button">
+                        <ui:decorate
+                            template="/decorate/editPageButtons.xhtml">
+                            <ui:param
+                                value="#{_home.instance.dictionarys.size() > 0 ? true :false }"
+                                name="_canSave" />
+                        </ui:decorate>
+                    </s:div>
+                    <div style="width: 965px;margin:0 auto;"><ui:include
+                        src="../dictionaryTypeEdit.xhtml">
+                        <ui:param
+                            value="#{_home.instance}"
+                            name="_obj" />
+                        <ui:param
+                            value="#{_obj.readOnly()}"
+                            name="_ro" />
+                    </ui:include></div>
+                </h:form>
+            </rich:panel>
+        </tpl:context>
+    </ui:define>
+</ui:composition>

@@ -1,0 +1,139 @@
+<ui:composition
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	<rich:simpleTogglePanel
+		opened="#{autoOpen?'true':'false'}"
+		switchType="client">
+		<f:facet name="openMarker">点击展开 </f:facet>
+		<f:facet name="closeMarker">点击关闭 </f:facet>
+		<a4j:support
+			event="onexpand"
+			ajaxSingle="true"
+			actionListener="#{_ui.initDocLinks(appName,entId,changeReRender)}"
+			reRender="#{changeReRender}"
+			eventsQueue="default" />
+		<f:facet name="header">#{entDesc} </f:facet>
+		<s:div id="#{changeReRender}">
+			<a4j:repeat
+				value="#{_ui.xxxAppDocType(docName,appName)}"
+				var="adt">
+				<s:div style="width:750px;float:none;">
+					<s:div style="width:220px;float:left;">
+						<h:outputText value="#{adt.docType.des}" />
+					</s:div>
+					<s:div style="width:400px;float:left;">
+						<a4j:repeat
+							var="dl"
+							value="#{_ui.docLinksForDt(adt.docType)}">
+							<s:div style="width:150px;float:left;">
+								<s:div style="float:right">
+									<s:graphicImage
+										value="#{imageLoader.loadImage(dl.document,80)}"
+										fileName="#{dl.document.id}80"
+										rendered="#{dl.document.isJpgImage() and dl.document.hs80  and (app.svm.sv('docinfo_link_url')=='local')}">
+										<a4j:support
+											event="onclick"
+											immediate="true"
+											action="#{sys.image.diag.showImage(dl.document,0)}"
+											reRender="_popdiag"
+											oncomplete="javascript:justDiagImageSize();" />
+									</s:graphicImage>
+									<h:graphicImage
+										value="/img/files/#{empty dl.document.fileExt ? '' :dl.document.fileExt.toLowerCase()}80.gif"
+										rendered="#{dl.document.isJpgImage() and not dl.document.hs80 }">
+										<a4j:support
+											event="onclick"
+											immediate="true"
+											action="#{sys.image.diag.showImage(dl.document,0)}"
+											reRender="_popdiag"
+											oncomplete="javascript:justDiagImageSize();" />
+									</h:graphicImage>
+									<s:link
+										view="/common/docInfo/downLoad.xhtml"
+										rendered="#{not dl.document.isJpgImage() and (app.svm.sv('docinfo_link_url')=='local')}"
+										propagation="none"
+										target="_blank">
+										<h:graphicImage
+											value="/img/files/#{empty dl.document.fileExt ? '' :dl.document.fileExt.toLowerCase()}80.gif">
+										</h:graphicImage>
+										<f:param
+											name="fileId"
+											value="#{dl.document.id}" />
+									</s:link>
+									<h:outputLink
+										value="#{app.svm.sv('docinfo_link_url')}#{dl.document.id}"
+										rendered="#{not dl.document.isJpgImage() and (app.svm.sv('docinfo_link_url')!='local')}"
+										propagation="none"
+										target="_blank">
+										<h:graphicImage
+											value="/img/files/#{empty dl.document.fileExt ? '' :dl.document.fileExt.toLowerCase()}80.gif">
+										</h:graphicImage>
+									</h:outputLink>
+								</s:div>
+								<s:div style="float:none">
+									<li><a4j:commandLink
+										value="删除"
+										rendered="#{(! docLocked) and (! dl.readOnly()) and (app.svm.sv('docinfo_link_url')=='local')}"
+										immediate="true"
+										actionListener="#{_ui.remove(dl)}"
+										reRender="#{changeReRender}" /></li>
+									<li><h:outputText value="#{dl.document.des}" /></li>
+									<li><h:outputText
+										value="#{dl.document.ct}"
+										converter="#{calendarConvert}" /></li>
+									<li><h:outputText value="#{dl.document.size}" /></li>
+								</s:div>
+							</s:div>
+						</a4j:repeat>
+					</s:div>
+					<s:div style="width:130px;float:left;">
+						<s:div rendered="#{_ui.canAddLink(adt)}">
+							<h:graphicImage
+								value="/img/qf_find.gif"
+								rendered="#{! docLocked and (app.svm.sv('docinfo_link_url')=='local')}">
+								<a4j:support
+									event="onclick"
+									immediate="true"
+									actionListener="#{sys.docInfoSelector.linkDocInfo(adt,entDesc,entId,10,changeReRender)}"
+									reRender="docInfoSelector">
+								</a4j:support>
+							</h:graphicImage>&#160;&#160;&#160;&#160;
+                            <h:graphicImage
+								value="/img/imageCap.gif"
+								rendered="#{! docLocked and (app.svm.sv('docinfo_link_url')=='local')}">
+								<a4j:support
+									event="onclick"
+									immediate="true"
+									actionListener="#{sys.imageCap.ui.linkDocInfo(adt,entDesc,entId,'',changeReRender)}"
+									reRender="_popdiag" />
+							</h:graphicImage>&#160;&#160;&#160;&#160;
+                            <h:graphicImage
+								value="/img/nav_icon_attachment.gif"
+								rendered="#{! docLocked and (app.svm.sv('docinfo_link_url')=='local')}">
+								<a4j:support
+									event="onclick"
+									immediate="true"
+									actionListener="#{sys.upload.ui.showUploadLinkDiag(adt,entId,entDesc,changeReRender)}"
+									reRender="_popdiag" />
+							</h:graphicImage>
+						</s:div>
+					</s:div>
+				</s:div>
+			</a4j:repeat>
+		</s:div>
+	</rich:simpleTogglePanel>
+	<a4j:jsFunction
+		name="onload"
+		rendered="#{autoOpen}"
+		requestDelay="3000"
+		ajaxSingle="true"
+		eventsQueus="image"
+		action="#{_ui.initDocLinks(appName,entId,changeReRender)}"
+		immediate="true"
+		reRender="#{changeReRender}" />
+</ui:composition>

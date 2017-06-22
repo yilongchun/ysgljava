@@ -1,0 +1,40 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:tpl="http://www.vieking.com/facelets/template"
+	xmlns:fld="http://www.vieking.com/facelets/field"
+	xmlns:c="http://java.sun.com/jstl/core"
+	template="#{templatePath}/template.xhtml">
+	<ui:define name="body">
+		<tpl:context _query="#{fun.departmentQuery}">
+			<h:form id="filter">
+				<ui:decorate template="/decorate/mainPageQuerys.xhtml">
+					<ui:define name="_terms">
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label">编码</ui:define>
+							<h:inputText
+								value="#{fun.departmentQuery.qhb.parm('code','DT003').sv}" />
+						</s:decorate>
+						<s:decorate template="/layout/edit.xhtml">
+							<ui:define name="label">名称</ui:define>
+							<h:inputText
+								value="#{fun.departmentQuery.qhb.parm('wn','DT003').sv}" />
+						</s:decorate>
+
+					</ui:define>
+				</ui:decorate>
+			</h:form>
+			<h:form id="dtc" autocomplete="off">
+				<ui:include src="list.xhtml">
+					<ui:param name="dtcId" value="dtc" />
+				</ui:include>
+			</h:form>
+		</tpl:context>
+	</ui:define>
+</ui:composition>

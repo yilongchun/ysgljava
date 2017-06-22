@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	<ui:decorate template="/decorate/queryTableList.xhtml">
+		<ui:param name="dtHeader" value="#{_query.queryDesc}" />
+		<ui:define name="_columns">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="姓名" />
+				</f:facet>
+				<h:outputText value="#{_item.name}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="电话" />
+				</f:facet>
+				<h:outputText value="#{_item.phone}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="创建时间" />
+				</f:facet>
+				<h:outputText value="#{_item.cjsj}" converter="#{calendarConvert}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="编辑" />
+				</f:facet>
+				<s:link view="/fun/contact/edit.xhtml" value="编辑">
+					<f:param name="drId" value="#{_item.id}" />
+				</s:link>
+			</h:column>
+		</ui:define>
+	</ui:decorate>
+</ui:composition>

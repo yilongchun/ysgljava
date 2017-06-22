@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:fld="http://www.vieking.com/facelets/field">
+	<fieldset>
+		<legend>职务信息</legend>
+		<h:panelGrid columns="2" style="width:100%;">
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">职务编号 </ui:define>
+				<h:inputText value="#{_obj.code}" size="18" required="true" />
+			</s:decorate>
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">职务名称 </ui:define>
+				<h:inputText value="#{_obj.name}" size="18" required="true" />
+			</s:decorate>
+			<s:decorate template="/layout/edit.xhtml" id="bumen">
+				<ui:define name="label">选择部门</ui:define>
+				<h:inputText value="#{_home.instance.bm.wn}" readonly="true"
+					size="90"  required="true" />
+				<a4j:commandLink id="bmTreeimg" value="选择部门"
+					onclick="showTree(this,'treeForm\\:bumenTree','entityForm\\:bumen\\:bmTreeimg');return false;" />
+			</s:decorate>
+		</h:panelGrid>
+		
+	</fieldset>
+
+</ui:composition>

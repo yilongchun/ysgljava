@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	<ui:decorate template="/decorate/queryTableList.xhtml">
+		<ui:param name="dtHeader" value="#{_query.queryDesc}" />
+		<ui:param name="_showExpXml" value="true" />
+		<ui:define name="_columns">
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="名称" />
+				</f:facet>
+				<div id="wrap">
+					<h:outputText value="#{_item.name}" />
+				</div>
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="描述" />
+				</f:facet>
+				<h:outputText value="#{_item.des}" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="组件名称 " />
+				</f:facet>
+				<h:outputText value="#{_item.smbcn}" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="实体类名 " />
+				</f:facet>
+				<h:outputText value="#{_item.ebcn}" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="实体关键域 " />
+				</f:facet>
+				<h:outputText value="#{_item.keyProp}" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="路径" />
+				</f:facet>
+				<h:outputText value="#{_item.path}" />
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="关联模块 " />
+				</f:facet>
+				<ui:repeat var="_ma" value="#{_item.moduleApps}">
+					<s:div>
+						<s:link value="#{_ma.module.name}【#{_ma.module.des}】"
+							view="/role/module/edit.xhtml" target="_blank">
+							<f:param name="moduleId" value="#{_ma.module.name}" />
+						</s:link>
+					</s:div>
+				</ui:repeat>
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="角色关联 " />
+				</f:facet>
+				<ui:repeat var="_ra" value="#{_item.roleApps}">
+					<s:div>
+						<s:link value="#{_ra.role.name}【#{_ra.role.des}】"
+							view="/role/role/edit.xhtml" target="_blank">
+							<f:param name="roleId" value="#{_ra.role.name}" />
+						</s:link>
+					</s:div>
+				</ui:repeat>
+			</rich:column>
+			<rich:column>
+				<f:facet name="header">
+					<h:outputText value="明细" />
+				</f:facet>
+				<s:link view="/role/application/edit.xhtml" value="查看">
+					<f:param name="appId" value="#{_item.id}" />
+				</s:link>
+			</rich:column>
+		</ui:define>
+	</ui:decorate>
+</ui:composition>

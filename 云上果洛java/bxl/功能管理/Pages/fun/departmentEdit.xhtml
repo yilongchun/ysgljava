@@ -1,0 +1,41 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:fld="http://www.vieking.com/facelets/field">
+	<rich:tabPanel switchType="client">
+		<rich:tab label="基本信息">
+			<h:panelGrid columns="2" columnClasses="col1,col2"
+				rowClasses="row1,row2" style=" width:100%;">
+				<s:decorate template="/layout/display.xhtml" id="de_code">
+					<ui:define name="label">编码 </ui:define>
+					<h:outputText value="#{_obj.code}" rendered="true" />
+				</s:decorate>
+				<s:decorate template="/layout/display.xhtml" id="de_wn">
+					<ui:define name="label">全称 </ui:define>
+					<h:inputText value="#{_obj.wn}" size="30" required="true" />
+				</s:decorate>
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">本级编码</ui:define>
+					<h:inputText value="#{_obj.clc}" size="30" required="true">
+						<a4j:support ajaxSingle="true" reRender="de_code" event="onchange" />
+					</h:inputText>
+				</s:decorate>
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">名称 </ui:define>
+					<h:inputText value="#{_obj.name}" size="30" required="true">
+						<a4j:support ajaxSingle="true" reRender="de_wn" event="onchange" />
+					</h:inputText>
+				</s:decorate>
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">简称</ui:define>
+					<h:inputText value="#{_obj.sn}" size="40" required="false" />
+				</s:decorate>
+
+			</h:panelGrid>
+		</rich:tab>
+	</rich:tabPanel>
+</ui:composition>

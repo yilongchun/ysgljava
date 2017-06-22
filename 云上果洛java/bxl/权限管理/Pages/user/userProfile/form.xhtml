@@ -1,0 +1,46 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:fld="http://www.vieking.com/facelets/field">
+
+	<h:panelGrid columns="1" columnClasses="col11,col12"
+		styleClass="tablexx">
+
+		<s:decorate template="/layout/edit.xhtml">
+			<ui:define name="label">登录名</ui:define>
+			<h:inputText style="width:300px;" value="#{entityObj.loginName}"
+				rendered="true" size="18" required="true" />
+		</s:decorate>
+		<s:decorate template="/layout/edit.xhtml">
+			<ui:define name="label">姓名</ui:define>
+			<h:inputText style="width:300px;" value="#{entityObj.name}"
+				rendered="true" size="40" required="true" />
+		</s:decorate>
+		<s:decorate template="/layout/edit.xhtml" id="de_pwdOld"
+			rendered="true">
+			<ui:define name="label">原密码 </ui:define>
+			<h:inputSecret style="width:300px;" id="pwdOld"
+				value="#{appAction.pwdOld}" redisplay="true" required="false" />
+		</s:decorate>
+		<s:decorate template="/layout/edit.xhtml" id="de_pwdOne"
+			rendered="true">
+			<ui:define name="label">新密码 </ui:define>
+			<h:inputSecret style="width:300px;" id="pwdOne"
+				value="#{appAction.pwdOne}" redisplay="true" required="true" />
+		</s:decorate>
+		<s:decorate template="/layout/edit.xhtml" rendered="true">
+			<ui:define name="label">验证新密码 </ui:define>
+			<h:inputSecret style="width:300px;" value="#{appAction.pwdTwo}"
+				redisplay="true" required="true">
+				<s:validateEquality for="pwdOne" operator="equal"
+					message="两次输入的密码不一致！" />
+			</h:inputSecret>
+		</s:decorate>
+	</h:panelGrid>
+
+</ui:composition>

@@ -1,0 +1,117 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	<s:fragment rendered="#{not empty _query.getQueryDesc()}">
+		<script type="text/javascript">
+   jQuery(document).ready(function(){           
+       	jQuery("#btn1").bind("click",function() {
+			        		jQuery("#div1").toggle();
+			        		jQuery("#btn1").toggle();
+                     });
+       	jQuery("#btn2").bind("click",function() {
+			        		jQuery("#div1").toggle();
+			        		jQuery("#btn1").toggle();
+                     });
+       });       
+	</script>
+	</s:fragment>
+
+	<div class="record-search-form record-search-min" id="main">
+		<div class="record-search-date pb-15" id="J-search-date-container"
+			data-widget-cid="widget-4">
+			<div class="ui-form-item ui-form-item-time">
+				<label class="ui-form-label">日期：</label>
+				<div class="quick-input-date fn-left">
+					<div class="quick-link-date gray-links fn-left">
+						<s:div id="qry">
+							<a4j:commandLink styleClass="#{_query.name=='全部' ? 'active': ''}"
+								value="全部" actionListener="#{_query.resetFilter()}"
+								action="#{_query.applyFilter()}"
+								rendered="#{empty _showResetFilter ? true : _showResetFilter}"
+								oncomplete="autoHeight('.autoHeight');addAutoHeightEvent('.autoHeight');addInEvent();"
+								reRender="#{empty _reRender ? 'query_pg,dtc,qpbLs_Sd,filter' : _reRender}">
+								<f:setPropertyActionListener target="#{_query.name}" value="全部" />
+								<f:setPropertyActionListener target="#{_query.times}"
+									value="null" />
+							</a4j:commandLink>
+							<a4j:repeat value="#{dictionaryDao.dictionnaryType('RQLX')}"
+								var="_item">
+								<a4j:commandLink
+									styleClass="#{_item.name== _query.name? 'active': ''}"
+									value="#{_item.name}" actionListener="#{_query.resetFilter()}"
+									action="#{_query.applyFilter()}"
+									reRender="#{empty _reRender ? 'query_pg,dtc,qpbLs_Sd,filter' : _reRender}">
+									<f:setPropertyActionListener target="#{_query.name}"
+										value="#{_item.name}" />
+									<f:setPropertyActionListener target="#{_query.times}"
+										value="#{_item.name}" />
+								</a4j:commandLink>
+							</a4j:repeat>
+						</s:div>
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+		<div class="record-search-cate">
+			<div class="ui-form-item">
+				<ui:insert name="_status" />
+
+				<div class="record-search-state pt-10 fn-clearr">
+					<ui:insert name="_left" />
+					<s:button styleClass="buttonsty" value="+新增"
+						includePageParams="#{empty _newIPP ? false : _newIPP}"
+						view="#{facesContext.viewRoot.viewId.replaceAll('main.xhtml','edit.xhtml')}"
+						rendered="#{empty _canNew ? identity.isLoggedIn() : _canNew}">
+						<ui:insert name="newUiParms" />
+					</s:button>
+					<ui:insert name="_center" />
+					<s:link styleClass="fn-rightt" value="返回 "
+						includePageParams="false" view="#{fromUrl}"
+						rendered="#{not empty fromUrl and  (fromUrl!= facesContext.viewRoot.viewId)}">
+					</s:link>
+					<ui:insert name="_right" />
+					<input type="button" value="高级筛选" id="btn1" class="buttonsty" />
+					<s:link view="/basicdata/nameQuery/main.xhtml"
+						rendered="#{init.debug and not empty _query.nqn}"
+						value="#{_query.nqn}命名查询" target="_blank">
+						<f:param name="nqnName" value="#{_query.nqn}" />
+					</s:link>
+					<span> </span>
+					<s:link view="/basicdata/nameQuery/edit.xhtml"
+						rendered="#{init.debug and not empty _query.nqn}"
+						value="#{_query.nqn}命名查询" target="_blank">
+						<f:param name="nameQueryId"
+							value="#{app.nameQueryManger.query(_query.nqn).oid}" />
+					</s:link>
+				</div>
+			</div>
+			<!-- 高级筛选start -->
+			<div class="record-search-option" id="div1"
+				style="width: 100%; display: none;">
+				<h:panelGrid id="query_pg" columns="2" styleClass="table_only"
+					style=" width:100%;">
+					<ui:insert name="_terms" />
+				</h:panelGrid>
+				<input type="button" value="返回基本筛选" id="btn2" class="buttonsty"
+					style="margin-right: 20px; float: right; background-attachment: local; background-image: url(../../img/buttonbg.png);" />
+				<a4j:commandButton value="查询"
+					style="margin-right: 20px; float: right; background-attachment: local; background-image: url(../../img/buttonbg.png);"
+					styleClass="buttonsty" action="#{_query.applyFilter()}"
+					reRender="#{empty _reRender ? 'query_pg,dtc,qpbLs_Sd,filter' : _reRender}" />
+			</div>
+
+			<!-- 高级筛选end -->
+		</div>
+	</div>
+
+	<s:div style="text-align:left;width:100%;">
+		<ui:decorate template="/decorate/tmpQueryParamList.xhtml">
+		</ui:decorate>
+	</s:div>
+</ui:composition>

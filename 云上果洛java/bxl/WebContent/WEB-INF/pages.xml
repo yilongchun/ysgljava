@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.2.xsd"
+	no-conversation-view-id="/home.xhtml" login-view-id="/login.xhtml">
+	<navigation from-action="#{identity.logout}">
+		<rule>
+			<redirect view-id="/login.xhtml" />
+		</rule>
+	</navigation>
+	<navigation>
+		<rule if-outcome="home">
+			<redirect view-id="/home.xhtml" />
+		</rule>
+	</navigation>
+	<navigation>
+		<rule if-outcome="invalid">
+			<end-conversation />
+			<redirect view-id="/home.xhtml"></redirect>
+		</rule>
+	</navigation>
+	<page view-id="*">
+		<param name="fromUrl" />
+		<param name="inframe" />
+		<param name="mainxframe" />
+		<param name="appName" value="#{userContextManager.appName}" />
+		<navigation from-action="#{_home.save}">
+			<rule if-outcome="persisted">
+				<end-conversation />
+				<redirect
+					view-id="#{empty fromUrl ? facesContext.viewRoot.viewId.replaceAll('edit.xhtml','main.xhtml') :fromUrl}">
+				</redirect>
+			</rule>
+		</navigation>
+		<navigation from-action="#{_home.persist}">
+			<rule if-outcome="persisted">
+				<end-conversation />
+				<redirect
+					view-id="#{empty fromUrl ? facesContext.viewRoot.viewId.replaceAll('edit.xhtml','main.xhtml') :fromUrl}">
+				</redirect>
+			</rule>
+		</navigation>
+		<navigation from-action="#{_home.update}">
+			<rule if-outcome="updated">
+				<end-conversation />
+				<redirect
+					view-id="#{empty fromUrl ? facesContext.viewRoot.viewId.replaceAll('edit.xhtml','main.xhtml') :fromUrl}">
+				</redirect>
+			</rule>
+		</navigation>
+		<navigation from-action="#{_home.remove}">
+			<rule if-outcome="removed">
+				<end-conversation />
+				<redirect
+					view-id="#{empty fromUrl ? facesContext.viewRoot.viewId.replaceAll('edit.xhtml','main.xhtml') :fromUrl}">
+				</redirect>
+			</rule>
+		</navigation>
+		<navigation from-action="#{_home.cancel}">
+			<end-conversation />
+			<redirect
+				view-id="#{empty fromUrl ? facesContext.viewRoot.viewId.replaceAll('edit.xhtml','main.xhtml') :fromUrl}">
+			</redirect>
+		</navigation>		
+	</page>
+</pages>
+
+

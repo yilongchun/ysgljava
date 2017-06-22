@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://jboss.com/products/seam/pages
+		http://jboss.com/products/seam/pages-2.2.xsd"
+	login-required="true" timeout="600000"><!-- <restrict>#{identity.hasGlobalRoles('SUPERVISOR','USERMANAGER')}</restrict> -->
+	<description>#{sys.userHome.instanceInfoStr()}录入 - 最后使用时间: #{currentTime}</description>
+	<begin-conversation join="true" flush-mode="manual" />
+	<param name="userId" value="#{sys.userHome.objId}" />
+	<action execute="#{sys.userHome.wire}" on-postback="false" />
+
+</page>

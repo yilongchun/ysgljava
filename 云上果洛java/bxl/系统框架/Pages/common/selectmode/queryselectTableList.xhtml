@@ -1,0 +1,61 @@
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:s="http://jboss.com/products/seam/taglib">
+    <style type="text/css">
+	</style>	
+        <ui:decorate template="/common/selectmode/bottomPagination.xhtml">
+            <ui:param
+                name="dataProviderComponent"
+                value="#{_query}" />
+            <ui:param
+                name="dataTableContainerId"
+                value="#{dtcsId}" />              
+        </ui:decorate>
+            <rich:dataTable
+                id="dt_#{dtcsId}" var="_selItem" rowKeyVar="rowindex"
+                style="width:100%;" value="#{_query.selectlistItems}">  
+                <rich:column width="30"  rendered="#{ not _query.isSelectOne()}">
+                    <f:facet name="header">
+                    	<h:outputText value="选择" />
+                    </f:facet>
+                    <h:selectBooleanCheckbox value="#{_selItem.selected}">
+					       <a4j:support ajaxSingle="true"
+                                event="onclick"
+                                actionListener="#{_query.onChange(_selItem)}" />
+					</h:selectBooleanCheckbox>                    
+                </rich:column>
+				<rich:column width="30">
+					<f:facet name="header">
+						<h:outputText value="序号" />
+					</f:facet>
+					<h:outputText value="#{rowindex+1}" />
+				</rich:column>              
+                <ui:insert name="_columns">
+                </ui:insert>
+                
+                <rich:column width="26" rendered="#{_query.isSelectOne()}">
+                        <f:facet name="header">
+                            <h:outputText value="选择" />
+                        </f:facet>
+                        <a4j:commandLink
+                            value="选择"
+                            ajaxSingle="true"
+                            actionListener="#{_query.select(_selItem)}"
+                            action="#{_query.ok()}"
+                            onclick="javascript:#{rich:component(selId)}.hide()"
+                            reRender="#{_query.getReRender()}" />
+                 </rich:column>
+
+            </rich:dataTable>
+
+
+
+    <script type="text/javascript">
+	   procTableEffect('#{dtcsId}\\\\:dt_#{dtcsId}');
+    </script>
+</ui:composition>

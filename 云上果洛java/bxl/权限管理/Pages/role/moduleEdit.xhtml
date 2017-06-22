@@ -1,0 +1,144 @@
+<ui:composition
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:fld="http://www.vieking.com/facelets/field">
+	<h:panelGrid
+		columns="1"
+		columnClasses="col11,col12"
+		styleClass="tablexx">
+		<s:decorate template="/layout/edit.xhtml">
+			<ui:define name="label">名  称 </ui:define>
+			<h:inputText
+				value="#{_obj.name}"
+				readonly="#{not empty _obj.version}"
+				size="18"
+				required="true" />
+		</s:decorate>
+		<s:decorate template="/layout/edit.xhtml">
+			<ui:define name="label">描述 </ui:define>
+			<h:inputText
+				value="#{_obj.des}"
+				size="40"
+				required="true" />
+		</s:decorate>
+		<s:decorate template="/layout/edit.xhtml">
+			<ui:define name="label">图标 </ui:define>
+			<h:inputText
+				value="#{_obj.ico}"
+				size="40" />
+		</s:decorate>
+		<s:decorate template="/layout/edit.xhtml">
+			<ui:define name="label">菜单位置</ui:define>
+			<rich:inputNumberSpinner
+				maxValue="255"
+				minValue="0"
+				step="10"
+				value="#{_obj.menuPos}"
+				required="true" />
+		</s:decorate>
+		<s:decorate template="/layout/edit.xhtml">
+			<ui:define name="label">菜单显示？</ui:define>
+			<h:selectBooleanCheckbox
+				value="#{_obj.showInMenu}"
+				disabled="#{_ro}" />
+		</s:decorate>
+		<s:decorate template="/layout/edit.xhtml">
+			<ui:define name="label">桌面显示？</ui:define>
+			<h:selectBooleanCheckbox
+				value="#{_obj.showInDesktop}"
+				disabled="#{_ro}" />
+		</s:decorate>
+	</h:panelGrid>
+	<s:div styleClass="actionButtons">
+		<s:link
+			value="添加应用"
+			includePageParams="false"
+			propagation="none"
+			target="_blank"
+			view="/role/application/edit.xhtml">
+		</s:link>#{'　　'}
+        <a4j:commandLink
+			actionListener="#{role.applicationSelector.selectMany(_obj.tmpId,empty _obj.des ? '新模块' : _obj.des,10,'entityForm:dt_apps')}"
+			reRender="applicationSelector"
+			immediate="true"
+			ajaxSingle="true"
+			oncomplete="processAutoHeight('.autoHeight');">
+			<h:graphicImage
+				value="/img/new.png"
+				styleClass="op_sbtnMR10" />
+		</a4j:commandLink>
+	</s:div>
+	<s:div
+		id="dt_apps"
+		styleClass="appsdiv"
+		style="clear:both;">
+		<rich:dataTable
+			id="rdt_adt"
+			var="_item"
+			value="#{_obj.moduleApps}"
+			styleClass="dataGrid">
+			<f:facet name="header">
+				<h:panelGroup>
+					<h:outputText value="应用列表" />
+				</h:panelGroup>
+			</f:facet>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="名称" />
+				</f:facet>
+				<h:outputText value="#{_item.app.name}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="描述" />
+				</f:facet>
+				<h:outputText value="#{_item.app.des}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="应用别名" />
+				</f:facet>
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label"></ui:define>
+					<h:inputText
+						value="#{_item.appAlias}"
+						size="25" />
+				</s:decorate>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="菜单位置" />
+				</f:facet>
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label"></ui:define>
+					<rich:inputNumberSpinner
+						maxValue="255"
+						minValue="0"
+						step="10"
+						value="#{_item.sort}"
+						required="true" />
+				</s:decorate>
+			</h:column>
+			<h:column id="dtl">
+				<f:facet name="header">
+					<h:outputText value="操作" />
+				</f:facet>
+				<a4j:commandLink
+					action="#{_obj.getModuleApps().remove(_item)}"
+					immediate="true"
+					ajaxSingle="true"
+					reRender="dt_apps">
+					<h:graphicImage
+						value="/img/del.png"
+						alt="#{messages['btn.del']}"
+						title="#{messages['btn.del']}" />
+				</a4j:commandLink>
+			</h:column>
+		</rich:dataTable>
+	</s:div>
+</ui:composition>

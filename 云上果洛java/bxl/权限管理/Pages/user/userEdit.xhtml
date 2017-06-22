@@ -1,0 +1,55 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:fld="http://www.vieking.com/facelets/field">
+	<h:panelGrid columns="1" columnClasses="col11,col12"
+		styleClass="tablexx">
+		<s:decorate id="de_group" template="/layout/edit.xhtml">
+			<ui:define name="label">用户组 </ui:define>
+			<h:inputText value="#{_obj.group.name}_#{_obj.group.des}" size="50"
+				readonly="true" required="true" />
+			<a4j:commandLink
+				actionListener="#{user.userGroupSelector.selectOne(_obj.tmpId,ssu.app('请选择用户组'),10,'de_group,de_userGroup')}"
+				reRender="userGroupSelector" immediate="true"
+				rendered="#{not _readOnly}">
+				<h:graphicImage value="/img/qf_find.gif" />
+			</a4j:commandLink>
+		</s:decorate>
+
+		<s:decorate template="/layout/edit.xhtml">
+			<ui:define name="label">用户名 </ui:define>
+			<h:inputText value="#{_obj.name}" size="60" required="true" />
+		</s:decorate>
+		<s:decorate template="/layout/edit.xhtml">
+			<ui:define name="label">登录名 </ui:define>
+			<h:inputText value="#{_obj.loginName}" size="60" required="true" />
+		</s:decorate>
+		<s:decorate template="/layout/edit.xhtml">
+			<ui:define name="label">手机号码 </ui:define>
+			<h:inputText value="#{_obj.phone}" size="60" required="true">
+				<f:validator validatorId="mobileNumberValidator" />
+			</h:inputText>
+		</s:decorate>
+
+		
+		<s:decorate template="/layout/edit.xhtml" id="de_pwdOne"
+			rendered="#{not _home.managed}">
+			<ui:define name="label">密码 </ui:define>
+			<h:inputSecret style="width:193px;" id="pwdOne"
+				value="#{_home.pwdOne}" redisplay="true" required="true" />
+		</s:decorate>
+		<s:decorate template="/layout/edit.xhtml"
+			rendered="#{not _home.managed}">
+			<ui:define name="label">验证密码 </ui:define>
+			<h:inputSecret style="width:193px;" value="#{_home.pwdTwo}"
+				redisplay="true" required="true">
+				<s:validateEquality for="pwdOne" operator="equal"
+					message="两次输入的密码不一致！" />
+			</h:inputSecret>
+		</s:decorate>
+	</h:panelGrid>
+</ui:composition>
