@@ -104,6 +104,10 @@ public class Contact extends BaseEntity {
 	
 	@Column(length = 120)
 	private String post;
+	
+	/*固定电话*/
+	@Column(length = 20)
+	private String telephone;
 
 	@Override
 	public String toString() {
@@ -218,7 +222,15 @@ public class Contact extends BaseEntity {
 	public void setPost(String post) {
 		this.post = post;
 	}
-	
 
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+	
+	
 	
 }

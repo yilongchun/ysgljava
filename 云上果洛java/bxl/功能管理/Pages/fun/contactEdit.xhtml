@@ -35,6 +35,13 @@
 				<h:inputText value="#{_obj.post}" size="50" />
 			</s:decorate>
 			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">固定电话 </ui:define>
+				<h:inputText value="#{_obj.telephone}" size="20" />
+			</s:decorate>
+			
+			
+			
+			<s:decorate template="/layout/edit.xhtml">
 				<ui:define name="label">简介</ui:define>
 				<h:inputText value="#{_obj.jianjie}" size="18" />
 			</s:decorate>
