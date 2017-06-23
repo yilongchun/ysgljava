@@ -121,7 +121,7 @@ public class SysBeanTrans {
 		d.setLoginName(obj.getLoginName());
 		d.setName(obj.getName());
 		d.setPhone(obj.getPhone() == null ? "" : obj.getLoginName());
-		d.setSex(obj.getSex().getName());
+		d.setSex(obj.getSex() == null ? "男" : obj.getSex().getName());
 		d.setEmail(obj.getYx() == null ? "" : obj.getYx());
 		d.setJianjie(obj.getXxmc() == null ? "" : obj.getXxmc());
 	}
