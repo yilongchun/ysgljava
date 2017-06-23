@@ -61,6 +61,7 @@ public class SysBeanTrans {
 		d.setJianjie(obj.getJianjie() == null ? "" : obj.getJianjie());
 		d.setPost(obj.getPost() == null ? "" : obj.getPost());
 		d.setZhiwustr(obj.getPost() == null ? "" : obj.getPost());
+		d.setTelephone(obj.getTelephone() == null ? "" : obj.getTelephone());
 		for (Iterator<ContactPost> iterator = obj.getContactPosts().iterator(); iterator
 				.hasNext();) {
 			ContactPost contactPost = iterator.next();

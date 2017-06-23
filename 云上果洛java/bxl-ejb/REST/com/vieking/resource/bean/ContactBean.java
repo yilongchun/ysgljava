@@ -56,6 +56,9 @@ public class ContactBean implements ReConst, Serializable {
 	
 	/*职务*/
 	private String post;
+	
+	/** 固定电话 **/
+	private String telephone;
 
 	public String getId() {
 		return id;
@@ -152,6 +155,15 @@ public class ContactBean implements ReConst, Serializable {
 	public void setPost(String post) {
 		this.post = post;
 	}
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+	
 	
 	
 }
