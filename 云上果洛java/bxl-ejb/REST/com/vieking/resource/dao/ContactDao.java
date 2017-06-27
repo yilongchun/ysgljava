@@ -105,7 +105,7 @@ public class ContactDao extends BaseDaoHibernate {
 		int result[] = new int[2];
 		List<Department> dlist = entityManager
 				.createQuery(
-						" from Department o where o.code like concat('%',concat(lower(:superCode)),'%')) ")
+						" from Department o where o.code like concat(concat(lower(:superCode)),'%')) ")
 				.setParameter("superCode", superCode).getResultList();
 		int i = 0;
 		int j = 0;

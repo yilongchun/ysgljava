@@ -16,6 +16,18 @@
      </ui:define>
 	<ui:define name="body">
 		<tpl:context _query="#{fun.contactQuery}">
+		   <h:form enctype="multipart/form-data" style="height:30px;" rendered="#{identity.hasRole('SUPERVISOR') }">
+				<s:decorate template="/layout/edit.xhtml" styleClass="dd_n">
+					<ui:define name="label">选择导入文件</ui:define>
+					<s:fileUpload data="#{fun.contactQuery.excelData}"
+						accept="images/png" size="60" required="true"
+						style="width: 204px; padding-left: 0px; border: none; background-color: #fff;" />
+					<h:commandButton styleClass="queryBtn"
+						style="width: 80px; padding: 3px 10px; border: none;"
+						action="#{fun.contactQuery.importData()}" value="导入数据"  />
+					<h:outputText />
+				</s:decorate>
+			</h:form>
 			<h:form id="filter">
 				<ui:decorate template="/decorate/mainPageQuerys.xhtml">
 					<ui:define name="_terms">
