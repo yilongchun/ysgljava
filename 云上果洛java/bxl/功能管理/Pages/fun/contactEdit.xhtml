@@ -60,7 +60,7 @@
 			<s:decorate template="/layout/edit.xhtml" id="bumen">
 				<ui:define name="label">部门</ui:define>
 				<h:inputText value="#{_home.dict.wn}" readonly="true" size="60"
-					styleClass="ipt wd240" required="true" />
+					styleClass="ipt wd240" required="true" style="width:400px;"/>
 				<a4j:commandLink id="bmTreeimg" value="选择" reRender="zhiwu"
 					onclick="showTree(this,'treeForm\\:bumenTree','entityForm\\:bumen\\:bmTreeimg');return false;">
 					<a4j:support ajaxSingle="true" event="onblur" reRender="zhiwu">
