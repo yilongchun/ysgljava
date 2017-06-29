@@ -94,14 +94,27 @@ public class ContactQuery extends BaseNqtQuery<Contact> implements Serializable 
 					entityManager.persist(o);
 					
 					
+					if (bm.contains("|")) {
+						String[] bms = bm.split("|");
+						for (int j = 0; j < bms.length; j++) {
+							String bmstr = bms[j];
+							Department depart = entityManager.find(Department.class, bmstr);
+							ContactPost cp = new ContactPost();
+							cp.setContact(o);
+							cp.setLxrbm(depart);
+							entityManager.persist(cp);
+							entityManager.flush();
+						}
+					}else{
+						Department depart = entityManager.find(Department.class, bm);
+						ContactPost cp = new ContactPost();
+						cp.setContact(o);
+						cp.setLxrbm(depart);
+						entityManager.persist(cp);
+						entityManager.flush();
+					}
 					
-					Department depart = entityManager.find(Department.class, bm);
 					
-					ContactPost cp = new ContactPost();
-					cp.setContact(o);
-					cp.setLxrbm(depart);
-					entityManager.persist(cp);
-					entityManager.flush();
 					
 					entityManager.flush();
 					System.out.println(i + " " +  o.getName() + "\t\t" + o.getPhone());	
@@ -133,7 +146,7 @@ public class ContactQuery extends BaseNqtQuery<Contact> implements Serializable 
 				facesMessages.add("导入失败！【{0}】",
 						e.getMessage());
 				getEntityManager().clear();
-			} catch (Exception e) {
+			}catch (Exception e) {
 				e.printStackTrace();
 				throw new DaoException("导入数据失败！");
 			}
