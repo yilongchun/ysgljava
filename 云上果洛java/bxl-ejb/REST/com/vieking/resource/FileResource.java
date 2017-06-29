@@ -26,6 +26,7 @@ import javax.ws.rs.core.Response.Status;
 import net.sf.json.JSONArray;
 
 import org.apache.commons.io.IOUtils;
+import org.jacorb.transaction.Sleeper;
 import org.jboss.resteasy.annotations.GZIP;
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
@@ -202,11 +203,17 @@ public class FileResource implements ReConst {
 					}
 				}
 			}
+			
+			System.out.println(url);
+			Thread.sleep(5000);
 		} catch (EOFException e) {
 			return new ReturnMessage(OS_FAILED, "上传失败");
 		} catch (IOException e) {
 			return new ReturnMessage(OS_FAILED, "上传失败");
+		} catch (Exception e) {
+			return new ReturnMessage(OS_FAILED, "上传失败");
 		}
+		
 		return new ReturnMessage(OS_OK, url);
 	}
 
