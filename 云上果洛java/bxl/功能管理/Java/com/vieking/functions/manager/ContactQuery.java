@@ -86,6 +86,8 @@ public class ContactQuery extends BaseNqtQuery<Contact> implements Serializable 
 					o.setUser(currUser);
 					o.setCjsj(Calendar.getInstance());
 					
+					level = "D";
+					
 					Dictionary levelD = dictionaryDao.dictionsByName(level);
 					o.setLevel(levelD);
 					
@@ -102,8 +104,7 @@ public class ContactQuery extends BaseNqtQuery<Contact> implements Serializable 
 					entityManager.flush();
 					
 					entityManager.flush();
-					System.out.println(i + " " +  o.getName() + "\t\t" + o.getPhone());
-					
+					System.out.println(i + " " +  o.getName() + "\t\t" + o.getPhone());	
 				}
 				
 				
