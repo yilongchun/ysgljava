@@ -95,15 +95,17 @@ public class ContactQuery extends BaseNqtQuery<Contact> implements Serializable 
 					
 					
 					if (bm.contains("|")) {
-						String[] bms = bm.split("|");
+						String[] bms = bm.split("\\|");
 						for (int j = 0; j < bms.length; j++) {
 							String bmstr = bms[j];
-							Department depart = entityManager.find(Department.class, bmstr);
-							ContactPost cp = new ContactPost();
-							cp.setContact(o);
-							cp.setLxrbm(depart);
-							entityManager.persist(cp);
-							entityManager.flush();
+							if (!bmstr.equals("")) {
+								Department depart = entityManager.find(Department.class, bmstr);
+								ContactPost cp = new ContactPost();
+								cp.setContact(o);
+								cp.setLxrbm(depart);
+								entityManager.persist(cp);
+								entityManager.flush();
+							}
 						}
 					}else{
 						Department depart = entityManager.find(Department.class, bm);

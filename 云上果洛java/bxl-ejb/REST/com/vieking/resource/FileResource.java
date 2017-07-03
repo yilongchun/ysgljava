@@ -102,8 +102,11 @@ public class FileResource implements ReConst {
 			}
 			byte[] in2b = swapStream.toByteArray();
 			url = fileDao.saveContactImg(userId, type, fileName, in2b);
+			Thread.sleep(5000);
 		} catch (IOException e) {
 			e.printStackTrace();
+			return new ReturnMessage(OS_FAILED, "上传失败");
+		} catch (Exception e) {
 			return new ReturnMessage(OS_FAILED, "上传失败");
 		}
 		return new ReturnMessage(OS_OK, url);

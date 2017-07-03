@@ -188,6 +188,13 @@ public class FileDao extends BaseDaoHibernate {
 				.setParameter("phone", u.getPhone()).getResultList().get(0);
 		String doctype = "";
 		String modelName = "";
+		String fileUrl = "";
+		String webUrl = "";
+		try {
+			webUrl =  config.get("webUrl");
+		} catch (KeException e) {
+			e.printStackTrace();
+		}
 		try {
 
 			Map<String, Integer> map = new HashMap<String, Integer>();
@@ -200,6 +207,7 @@ public class FileDao extends BaseDaoHibernate {
 			default:
 				break;
 			}
+			fileName = FileUtils.generateRandomFilename() + fileName.substring(fileName.lastIndexOf("."));
 			DocInfo di = new DocInfo();
 			DocType dt = entityManager.find(DocType.class, doctype);
 			di.setDocType(dt);
@@ -209,6 +217,7 @@ public class FileDao extends BaseDaoHibernate {
 			di.setLmOid(userId);
 			di.setLmOname(type);
 			String newPath = generateNewPath(di);
+			newPath = "null/image";
 			di.setUrlName(newPath);
 			
 			
@@ -239,11 +248,16 @@ public class FileDao extends BaseDaoHibernate {
 				dl.setKeyValue(c.getId());
 			}
 			docLinkDao.addLinks(dl);
+			
+			fileUrl = webUrl + newPath + "/" + fileName;
 		} catch (DaoException e) {
 			e.printStackTrace();
 		}
-		return getFileUrl(getFileLink(c.getId(), doctype) == null ? ""
-				: getFileLink(c.getId(), doctype).getDocument().getId());
+//		return getFileUrl(getFileLink(c.getId(), doctype) == null ? ""
+//				: getFileLink(c.getId(), doctype).getDocument().getId());
+		return fileUrl;
+		
+		
 	}
 
 	/** 保存上传的附件 */
