@@ -623,7 +623,7 @@ function setDivPos(tt,div,treeimgid){
 	var divB = div;
 	divB.style.left = x;
 	divB.style.top = y;
-	}
+}
 
 
 // 隐藏浮动Tree

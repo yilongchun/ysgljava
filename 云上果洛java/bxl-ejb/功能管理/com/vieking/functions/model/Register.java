@@ -52,11 +52,11 @@ public class Register extends BaseEntity {
 	private String phone;
 
 	/** 注册密码 */
-	@Column(length = 20, unique = true)
+	@Column(length = 20)
 	private String pwd;
 
 	/** 验证码 */
-	@Column(length = 20, unique = true)
+	@Column(length = 20)
 	private String yzm;
 
 	/** 注册成功 */

@@ -1,21 +1,28 @@
 package com.vieking.resource.adapter;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import com.vieking.basicdata.model.Dictionary;
 import com.vieking.functions.model.Collection;
+import com.vieking.functions.model.Comment;
 import com.vieking.functions.model.Contact;
 import com.vieking.functions.model.ContactPost;
+import com.vieking.functions.model.UserNotice;
 import com.vieking.resource.bean.AssistanceBean;
 import com.vieking.resource.bean.BuMenBean;
 import com.vieking.resource.bean.CollectionBean;
+import com.vieking.resource.bean.CommentBean;
 import com.vieking.resource.bean.ContactBean;
 import com.vieking.resource.bean.DictionaryBean;
 import com.vieking.resource.bean.UserBean;
-import com.vieking.resource.bean.ZhiWuBean;
+import com.vieking.resource.bean.UserNoticeBean;
+import com.vieking.resource.bean.VoteItemBean;
 import com.vieking.role.model.Assistance;
 import com.vieking.role.model.User;
+import com.vieking.role.model.VoteItem;
 import com.vieking.sys.util.CalendarUtil;
 
 public class SysBeanTrans {
@@ -28,6 +35,37 @@ public class SysBeanTrans {
 			e.printStackTrace();
 		}
 		return "";
+	}
+
+	public static CommentBean toBean(Comment o) {
+		CommentBean bean = new CommentBean();
+		setProperties(o, bean);
+		return bean;
+	}
+
+	protected static void setProperties(Comment obj, CommentBean d) {
+		d.setId(obj.getId());
+		d.setName(obj.getUser().getName());
+		d.setUserid(obj.getUser().getId());
+		d.setNewsid(obj.getAssistance().getId());
+		d.setPl(obj.getPlnr());
+		d.setPlsj(CalendarUtil.dataTimeStr(obj.getPlsj()));
+
+	}
+
+	public static UserNoticeBean toBean(UserNotice o) {
+		UserNoticeBean bean = new UserNoticeBean();
+		setProperties(o, bean);
+		return bean;
+	}
+
+	protected static void setProperties(UserNotice obj, UserNoticeBean d) {
+		d.setId(obj.getId());
+		d.setBiaoti(obj.getAssistance().getBiaoti());
+		d.setFbsj(CalendarUtil.dataTimeStr(obj.getAssistance().getFbsj()));
+		d.setNerong(obj.getAssistance().getNerong());
+		d.setReads(obj.getIsreads());
+		d.setUser(obj.getAssistance().getNamea());
 	}
 
 	public static CollectionBean toBean(Collection o) {
@@ -66,15 +104,15 @@ public class SysBeanTrans {
 				.hasNext();) {
 			ContactPost contactPost = iterator.next();
 			BuMenBean bm = new BuMenBean();
-//			ZhiWuBean zw = new ZhiWuBean();
+			// ZhiWuBean zw = new ZhiWuBean();
 			bm.setBmcode(contactPost.getLxrbm().getCode());
 			bm.setBumen(contactPost.getLxrbm().getName());
 			bm.setSuperCode(contactPost.getLxrbm().getCode());
 			bm.setWn(contactPost.getLxrbm().getWn());
-//			zw.setZhiwu(contactPost.getLxrzw().getCode());
-//			zw.setZwcode(contactPost.getLxrzw().getName());
+			// zw.setZhiwu(contactPost.getLxrzw().getCode());
+			// zw.setZwcode(contactPost.getLxrzw().getName());
 			d.getBmlist().add(bm);
-//			d.getZwlist().add(zw);
+			// d.getZwlist().add(zw);
 		}
 	}
 
@@ -87,13 +125,42 @@ public class SysBeanTrans {
 	protected static void setProperties(Assistance obj, AssistanceBean d) {
 		d.setId(obj.getId());
 		d.setBiaoti(obj.getBiaoti());
+		d.setSubTitle(obj.getSubTitle());
 		d.setBzlx(obj.getBzlx().getName());
-		d.setFjlx(obj.getFjlx().getName());
+		d.setFjlx(obj.getFjlx() == null ? "" : obj.getFjlx().getName());
 		d.setFbsj(obj.getFbsj() == null ? "" : CalendarUtil.getYyyyMmDd(obj
 				.getFbsj()));
 		d.setNerong(obj.getNerong());
-		d.setUser(obj.getUser().getName());
+		d.setUser(obj.getUser()!=null ? obj.getUser().getName() : "");
 		d.setLlcs(obj.getLlcs());
+		d.setVideoUrl(obj.getVideoUrl());
+		d.setRegState(obj.getRegState().getDesc());
+		d.setRemark(obj.getRemark());
+		d.setZanCount(obj.getZanCount());
+		d.setDistrs(obj.getDistrs());
+		d.setZhiding(obj.getSyncSign());
+		
+		if (obj.getVoteItems() != null && obj.getVoteItems().size()>0) {
+			List<VoteItemBean> beans = new ArrayList<VoteItemBean>();
+			for (int i = 0; i < obj.getVoteItems().size(); i++) {
+				VoteItem o = obj.getVoteItems().get(i);
+				VoteItemBean bean = toBean(o);
+				beans.add(bean);
+			}
+			d.setVoteItemBeans(beans);
+		}
+	}
+	
+	public static VoteItemBean toBean(VoteItem o) {
+		VoteItemBean bean = new VoteItemBean();
+		setProperties(o, bean);
+		return bean;
+	}
+
+	protected static void setProperties(VoteItem obj, VoteItemBean d) {
+		d.setId(obj.getId());
+		d.setItem(obj.getItem());
+		d.setItemCount(obj.getItemCount());
 	}
 
 	public static DictionaryBean toBean(Dictionary o) {
@@ -125,6 +192,11 @@ public class SysBeanTrans {
 		d.setSex(obj.getSex() == null ? "男" : obj.getSex().getName());
 		d.setEmail(obj.getYx() == null ? "" : obj.getYx());
 		d.setJianjie(obj.getXxmc() == null ? "" : obj.getXxmc());
+		d.setScore(obj.getScore());
+		d.setUserType(obj.getUserType() == null ? "0" : obj.getUserType());
+		d.setThirdId(obj.getThirdId() == null ? "" : obj.getThirdId());
 	}
+	
+	
 
 }

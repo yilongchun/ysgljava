@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:fld="http://www.vieking.com/facelets/field">
+	<a4j:include viewId="/common/linkdocs/docLinksA4jAppNameForCom.xhtml">
+		<ui:param name="autoOpen" value="false" />
+		<ui:param name="_ui" value="#{sys.docLink.uiB}" />
+		<ui:param name="appName" value="新闻管理" />
+		<ui:param name="entId" value="#{_home.managed ? _obj.id : _obj.tmpId}" />
+		<ui:param name="entDesc" value="#{_home.instanceInfoStr()}" />
+		<ui:param name="changeReRender" value="div_car_docLinks" />
+		<ui:param name="docLocked" value="#{_obj.readOnly() or _ro}" />
+	</a4j:include>
+	<fieldset>
+		<legend>新闻内容</legend>
+
+		<h:panelGrid columns="1" style="width:100%;">
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">标题 </ui:define>
+				<h:inputText value="#{_obj.biaoti}" size="50" required="true" />
+			</s:decorate>
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">副标题 </ui:define>
+				<h:inputText value="#{_obj.subTitle}" size="200"/>
+			</s:decorate>
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">新闻栏目</ui:define>
+				<h:inputText value="#{_obj.bzlx.name}" size="200" readonly="true"/>
+			</s:decorate>
+
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">附件类型</ui:define>
+				<h:inputText value="#{_obj.fjlx.name}" size="200" readonly="true"/>
+			</s:decorate>
+			<s:div id="videoUrl"> 
+				<s:decorate template="/layout/edit.xhtml" 
+					rendered="#{_obj.fjlx.name == '视频'}">
+					<ui:define name="label">网页视频路径 </ui:define>
+					<h:inputText value="#{_obj.videoUrl}" size="200" />
+				</s:decorate>
+			</s:div>
+		</h:panelGrid>
+		<h:panelGrid columns="1" rowClasses="row1,row2" style="width:100%;">
+			<s:decorate template="/layout/edit.xhtml" id="xynr">
+
+				<h:inputTextarea id="content" value="#{_obj.nerong}"></h:inputTextarea>
+
+
+			</s:decorate>
+		</h:panelGrid>
+		
+		<h:commandButton styleClass="queryBtn" value="审核通过" action="#{fun.dangjianHome.pass}"  rendered="#{(identity.hasRoles('supervisor')  or identity.hasRole('dangjian') ) and _obj.regState=='填报中'}"/>
+
+	</fieldset>
+
+</ui:composition>

@@ -17,7 +17,6 @@ import com.vieking.functions.model.Contact;
 import com.vieking.functions.model.ContactPost;
 import com.vieking.functions.model.DepartmentPost;
 import com.vieking.resource.dao.ContactDao;
-import com.vieking.resource.dao.FileDao;
 import com.vieking.sys.tree.ContactTree;
 
 /**
@@ -265,7 +264,7 @@ public class ContactHome extends BaseHome<Contact> {
 	public DepartmentPost getZhiwu() {
 		return zhiwu;
 	}
-
+	
 	public void setZhiwu(DepartmentPost zhiwu) {
 		this.zhiwu = zhiwu;
 	}

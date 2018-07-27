@@ -444,7 +444,6 @@ public abstract class BaseHome<T> extends EntityHome<T> {
 	public void setComponentName(String componentName) {
 		this.componentName = componentName;
 	}
- 
 
 	public List<Dictionary> dictions(String code) {
 		return dictionaryDao.dictions(code);
@@ -456,5 +455,9 @@ public abstract class BaseHome<T> extends EntityHome<T> {
 
 	public List<Dictionary> dictions(String code, List<String> strs) {
 		return dictionaryDao.dictions(code, strs);
+	}
+
+	public List<Dictionary> dictionsNo(String code, List<String> strs) {
+		return dictionaryDao.dictionsNo(code, strs);
 	}
 }

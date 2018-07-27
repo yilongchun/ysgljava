@@ -28,6 +28,9 @@ public class AssistanceBean implements ReConst, Serializable {
 	/** 标题 */
 	private String biaoti;
 
+	/** 副标题 **/
+	private String subTitle;
+
 	/** 内容 */
 	private String nerong;
 
@@ -43,7 +46,23 @@ public class AssistanceBean implements ReConst, Serializable {
 	/** 浏览次数 */
 	private int llcs;
 
+	/** 区县 */
+	private String distrs;
+
+	private String videoUrl;
+
+	private String regState;
+
+	private String remark;
+
+	/** 点赞数 */
+	private int zanCount;
+	
+	private int zhiding;
+
 	private List<FileLinkBean> fileList = new ArrayList<FileLinkBean>();
+	
+	private List<VoteItemBean> voteItemBeans = new ArrayList<VoteItemBean>();
 
 	public String getId() {
 		return id;
@@ -75,6 +94,14 @@ public class AssistanceBean implements ReConst, Serializable {
 
 	public void setBiaoti(String biaoti) {
 		this.biaoti = biaoti;
+	}
+
+	public String getSubTitle() {
+		return subTitle;
+	}
+
+	public void setSubTitle(String subTitle) {
+		this.subTitle = subTitle;
 	}
 
 	public String getNerong() {
@@ -124,5 +151,66 @@ public class AssistanceBean implements ReConst, Serializable {
 	public void setFileList(List<FileLinkBean> fileList) {
 		this.fileList = fileList;
 	}
+
+	public String getVideoUrl() {
+		return videoUrl;
+	}
+
+	public void setVideoUrl(String videoUrl) {
+		this.videoUrl = videoUrl;
+	}
+
+	public String getRegState() {
+		return regState;
+	}
+
+	public void setRegState(String regState) {
+		this.regState = regState;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public int getZanCount() {
+		return zanCount;
+	}
+
+	public void setZanCount(int zanCount) {
+		this.zanCount = zanCount;
+	}
+
+	public String getDistrs() {
+		return distrs;
+	}
+
+	public void setDistrs(String distrs) {
+		this.distrs = distrs;
+	}
+
+	public int getZhiding() {
+		return zhiding;
+	}
+
+	public void setZhiding(int zhiding) {
+		this.zhiding = zhiding;
+	}
+
+	public List<VoteItemBean> getVoteItemBeans() {
+		return voteItemBeans;
+	}
+
+	public void setVoteItemBeans(List<VoteItemBean> voteItemBeans) {
+		this.voteItemBeans = voteItemBeans;
+	}
+
+	
+	
+	
+	
 
 }

@@ -8,4 +8,9 @@
 	<begin-conversation join="true" flush-mode="manual" />
 	<param name="drId" value="#{fun.assistanceHome.id}" />
 	<action execute="#{fun.assistanceHome.wire}" on-postback="false" />
+	
+	<navigation from-action="#{fun.assistanceHome.pass}">
+			<redirect view-id="main.xhtml">
+			</redirect>
+	</navigation>
 </page>

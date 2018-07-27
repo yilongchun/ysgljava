@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:fld="http://www.vieking.com/facelets/field">
+	<a4j:include viewId="/common/linkdocs/docLinksA4jAppNameForCom.xhtml">
+		<ui:param name="autoOpen" value="false" />
+		<ui:param name="_ui" value="#{sys.docLink.uiB}" />
+		<ui:param name="appName" value="新闻管理" />
+		<ui:param name="entId" value="#{_home.managed ? _obj.id : _obj.tmpId}" />
+		<ui:param name="entDesc" value="#{_home.instanceInfoStr()}" />
+		<ui:param name="changeReRender" value="div_car_docLinks" />
+		<ui:param name="docLocked" value="#{_obj.readOnly() or _ro}" />
+	</a4j:include>
+	<fieldset>
+		<legend>投票</legend>
+		<h:panelGrid columns="1" style="width:100%;">
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">投票主题 </ui:define>
+				<h:inputText value="#{_obj.biaoti}" size="50" required="true" />
+			</s:decorate>
+			<!-- <s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">栏目</ui:define>
+				<h:inputText value="#{_obj.bzlx.name}" size="200" readonly="true"/>
+			</s:decorate> -->
+		</h:panelGrid>
+		<h:panelGrid columns="1" rowClasses="row1,row2" style="width:100%;">
+			<s:decorate template="/layout/edit.xhtml" id="xynr">
+				<ui:define name="label">投票内容</ui:define>
+				<h:inputTextarea id="content" value="#{_obj.nerong}" ></h:inputTextarea>
+			</s:decorate>
+		</h:panelGrid>
+		<s:div id="add" styleClass="actionButtons">
+			<a4j:commandButton
+				rendered="#{_obj.biaoti != null and _obj.nerong != null}" value="新增"
+				actionListener="#{_home.addVoteItem()}" reRender="lxdy,button"
+				ajaxSingle="true" immediate="true">
+			</a4j:commandButton>
+		</s:div>
+	</fieldset>
+	<br />
+	<s:div id="lxdy">
+		<s:div rendered="#{fun.voteHome.voteItem != null}">
+			<fieldset>
+				<legend>投票选项</legend>
+				<h:panelGrid columns="2" columnClasses="col1,col2"
+					rowClasses="row1,row2" style=" width:100%;">
+					<s:decorate template="/layout/edit.xhtml" id="de_wn">
+						<ui:define name="label">选项 </ui:define>
+						<h:inputText value="#{_home.voteItem.item}" size="30"
+							required="true" />
+					</s:decorate>
+					
+				</h:panelGrid>
+				<h:panelGrid columns="1" columnClasses="col1,col2"
+					rowClasses="row1,row2" style=" width:100%;">
+					
+					<s:div styleClass="actionButtons">
+						<a4j:commandButton value="添加"
+							actionListener="#{_home.setVoteItem()}"
+							reRender="voteItem,lxdy,button">
+						</a4j:commandButton>
+					</s:div>
+				</h:panelGrid>
+			</fieldset>
+		</s:div>
+	</s:div>
+	<br />
+	<fieldset>
+		<legend>投票选项信息</legend>
+		<a4j:region ajaxSingle="true">
+			<rich:dataTable id="voteItem" var="_item"
+				value="#{_obj.voteItems}" rowKeyVar="rowindex">
+				<f:facet name="header">
+					<h:panelGroup>
+                          投票选项
+                    </h:panelGroup>
+				</f:facet>	
+				<rich:column>
+					<f:facet name="header">
+						<h:outputText value="选项" />
+					</f:facet>
+					<h:outputText value="#{_item.item}" />
+				</rich:column>
+				
+				<rich:column id="dtl">
+					<f:facet name="header">
+						<h:outputText value="操作" />
+					</f:facet>
+					<a4j:commandLink reRender="lxdy" ajaxSingle="true"
+						action="#{_home.editVoteItem(_item)}" value="编辑">
+					</a4j:commandLink>
+						
+					<a4j:commandLink action="#{_home.reVoteItems(_item)}"
+						ajaxSingle="true" reRender="voteItem" value="删除">
+					</a4j:commandLink>
+				</rich:column>
+			</rich:dataTable>
+		</a4j:region>
+	</fieldset>
+
+</ui:composition>

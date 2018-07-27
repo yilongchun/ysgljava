@@ -82,8 +82,8 @@ public abstract class BaseEntity implements Serializable, Cloneable {
 	private String syslog;
 
 	/** 用户备注说明 */
-	@Column(name = "BE_remark", length = 500)
-	@Length(max = 500)
+	@Column(name = "BE_remark", length = 5000)
+	@Length(max = 5000)
 	private String remark;
 
 	/** 助记符 */
@@ -121,6 +121,15 @@ public abstract class BaseEntity implements Serializable, Cloneable {
 	@Enumerated(EnumType.STRING)
 	@Column(length = 30, name = "BE_regState", nullable = true, unique = false)
 	private RegistrationState regState;
+
+	/** 审核时间 */
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "BE_examine")
+	private Calendar examine;
+
+	/** 审核人名称 */
+	@Column(name = "BE_examineUser", length = 40)
+	private String examineUser = "";
 
 	/** 是否选中 */
 	@Transient
@@ -484,6 +493,22 @@ public abstract class BaseEntity implements Serializable, Cloneable {
 
 	public void setDefaultValue(boolean defaultValue) {
 		this.defaultValue = defaultValue;
+	}
+
+	public Calendar getExamine() {
+		return examine;
+	}
+
+	public void setExamine(Calendar examine) {
+		this.examine = examine;
+	}
+
+	public String getExamineUser() {
+		return examineUser;
+	}
+
+	public void setExamineUser(String examineUser) {
+		this.examineUser = examineUser;
 	}
 
 }

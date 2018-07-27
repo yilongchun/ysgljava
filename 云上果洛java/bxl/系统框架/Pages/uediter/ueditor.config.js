@@ -35,7 +35,10 @@
 
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
         , toolbars: [[
-            'anchor', //锚点
+        'removeformat', //清除格式
+        'insertimage', //多图上传
+        'source', //源代码
+//        'anchor', //锚点
         'undo', //撤销
         'redo', //重做
         'bold', //加粗
@@ -48,14 +51,12 @@
         'fontborder', //字符边框
         'superscript', //上标
         'formatmatch', //格式刷
-        'source', //源代码
         'blockquote', //引用
         'pasteplain', //纯文本粘贴模式
         'selectall', //全选
         'print', //打印
         'preview', //预览
         'horizontal', //分隔线
-        'removeformat', //清除格式
         'time', //时间
         'date', //日期
         'unlink', //取消链接
@@ -79,7 +80,7 @@
         'fontsize', //字号
         'paragraph', //段落格式
 //        'simpleupload', //单图上传
-        'insertimage', //多图上传
+        
         'edittable', //表格属性
         'edittd', //单元格属性
         'link', //超链接

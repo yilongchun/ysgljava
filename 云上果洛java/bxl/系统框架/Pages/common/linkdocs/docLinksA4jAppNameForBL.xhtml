@@ -1,0 +1,79 @@
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	<rich:simpleTogglePanel opened="#{autoOpen?'true':'false'}"
+		switchType="client">
+		<f:facet name="openMarker">点击展开 </f:facet>
+		<f:facet name="closeMarker">点击关闭  </f:facet>
+		<a4j:support event="onexpand" ajaxSingle="true"
+			actionListener="#{_ui.initDocLinks(appName,entId,changeReRender)}"
+			reRender="#{changeReRender}" eventsQueue="default" />
+		<f:facet name="header">#{entDesc}附件 </f:facet>
+		<s:div id="#{changeReRender}">
+			<a4j:repeat value="#{_ui.app.docTypes}" var="adt">
+				<s:div style="width:750px;float:none;">
+					<s:div style="width:220px;float:left;">
+						<h:outputText value="#{adt.docType.des}" />
+						<s:div style="width:130px;float:right;">
+							<s:div rendered="#{_ui.canAddLink(adt)}">
+								<!-- <a4j:commandLink value="记录">
+								<a4j:support event="onclick" immediate="true"
+									actionListener="#{sys.docInfoSelector.linkDocInfo(adt,entDesc,entId,10,changeReRender)}"
+									reRender="docInfoSelector">
+								</a4j:support>
+							</a4j:commandLink>&#160;&#160;&#160;&#160; -->
+								<!--  <a4j:commandLink value="拍照">
+								<a4j:support event="onclick" immediate="true"
+									actionListener="#{sys.imageCap.ui.linkDocInfo(adt,entDesc,entId,'',changeReRender)}"
+									reRender="_popdiag" />
+							</a4j:commandLink>&#160;&#160;&#160;&#160; -->
+								<!-- <a4j:commandLink value="上传">
+								<a4j:support event="onclick" immediate="true"
+									actionListener="#{sys.upload.ui.showUploadLinkDiag(adt,entId,entDesc,changeReRender)}"
+									reRender="_popdiag" />
+							</a4j:commandLink> -->
+							</s:div>
+						</s:div>
+					</s:div>
+					<s:div style="width:100%;float:left;">
+						<a4j:repeat var="dl" value="#{_ui.docLinksForDt(adt.docType)}">
+							<s:div style="float:left;">
+								<!-- <s:graphicImage id="diag_graphicImage" width="300" height="300"
+									styleClass="diag_graphicImage"
+									value="#{imageLoader.loadImage(dl.document,0)}"
+									rendered="true" /> -->
+								<h:outputText value="文件名：#{dl.document.des}上传时间：" />
+								<h:outputText value="#{dl.document.ct}"
+									converter="#{calendarConvert}" />
+								<h:outputText value="大小：#{dl.document.size}" />&#160;&#160;&#160;&#160;
+								<s:div style="float:right">
+									<!-- 	<a4j:commandLink value="删除" immediate="true"
+										actionListener="#{_ui.remove(dl)}"
+										reRender="#{changeReRender}" /> -->&#160;&#160;&#160;&#160;
+									  <!-- <a4j:commandLink value="查看">
+										<a4j:support event="onclick" immediate="true"
+											action="#{sys.image.diag.showImage(dl.document,0)}"
+											reRender="_popdiag" oncomplete="" />
+									</a4j:commandLink>&#160;&#160;&#160;&#160; -->
+									<s:link view="/common/docInfo/downLoadV2.xhtml" value="下载"
+										propagation="none" target="_blank">
+										<f:param name="fileId" value="#{dl.document.id}" />
+									</s:link>
+								</s:div>
+							</s:div>
+						</a4j:repeat>
+					</s:div>
+
+				</s:div>
+			</a4j:repeat>
+		</s:div>
+	</rich:simpleTogglePanel>
+	<a4j:jsFunction name="onload" rendered="#{autoOpen}"
+		requestDelay="3000" ajaxSingle="true" eventsQueus="image"
+		action="#{_ui.initDocLinks(appName,entId,changeReRender)}"
+		immediate="true" reRender="#{changeReRender}" />
+</ui:composition>

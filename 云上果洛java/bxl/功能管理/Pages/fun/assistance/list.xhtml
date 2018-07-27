@@ -7,6 +7,7 @@
 	xmlns:s="http://jboss.com/products/seam/taglib">
 	<ui:decorate template="/decorate/queryTableList.xhtml">
 		<ui:param name="dtHeader" value="#{_query.queryDesc}" />
+		<ui:param name="_showZf" value="true" />
 		<ui:define name="_columns">
 			<h:column>
 				<f:facet name="header">
@@ -39,6 +40,15 @@
 				</f:facet>
 				<h:outputText value="#{_item.fjlx.name}" />
 			</h:column>
+			<h:column rendered="#{identity.hasRoles('supervisor') or identity.hasRole('xcbadmin')}">
+				<f:facet name="header">
+					<h:outputText value="审核状态" />
+				</f:facet>
+				<s:link view="/fun/assistance/edit.xhtml" value="审核" rendered="#{_item.regState.desc == '填报中'}">
+					<f:param name="drId" value="#{_item.id}" />
+				</s:link>
+				<h:outputText value="#{_item.regState.desc}" rendered="#{_item.regState.desc == '已审核'}" />
+			</h:column>
 			<h:column>
 				<f:facet name="header">
 					<h:outputText value="编辑" />
@@ -46,6 +56,14 @@
 				<s:link view="/fun/assistance/edit.xhtml" value="编辑">
 					<f:param name="drId" value="#{_item.id}" />
 				</s:link>
+			</h:column>			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="置顶" />
+				</f:facet>
+				<a4j:commandLink value="#{_item.syncSign == 0 ? '置顶' : '取消置顶'}" action="#{fun.assistanceQuery.prepareResults}"
+					actionListener="#{fun.assistanceQuery.zhiding(_item)}"  
+					ajaxSingle="true" reRender="dtc,sd_dtc" ></a4j:commandLink>
 			</h:column>
 		</ui:define>
 	</ui:decorate>

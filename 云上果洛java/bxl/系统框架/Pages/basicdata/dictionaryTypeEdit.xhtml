@@ -75,6 +75,10 @@
 						<ui:define name="label">启用(或真假值)</ui:define>
 						<h:selectBooleanCheckbox value="#{_home.dictionary.yx}" />
 					</s:decorate>
+					<s:decorate template="/layout/edit.xhtml">
+						<ui:define name="label">排序</ui:define>
+						<h:inputText value="#{_home.dictionary.px}" />
+					</s:decorate>
 				</h:panelGrid>
 				<h:panelGrid columns="1" columnClasses="col1,col2"
 					rowClasses="row1,row2" style=" width:100%;">

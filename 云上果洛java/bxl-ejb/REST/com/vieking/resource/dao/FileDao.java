@@ -1,5 +1,6 @@
 package com.vieking.resource.dao;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Transactional;
 
+import com.vieking.basicdata.model.Dictionary;
 import com.vieking.file.dao.DocInfoDao;
 import com.vieking.file.dao.DocLinkDao;
 import com.vieking.file.enumerable.UrlType;
@@ -16,8 +18,10 @@ import com.vieking.file.model.DocInfo;
 import com.vieking.file.model.DocLink;
 import com.vieking.file.model.DocType;
 import com.vieking.functions.model.Contact;
+import com.vieking.role.model.Assistance;
 import com.vieking.role.model.User;
 import com.vieking.sys.base.BaseDaoHibernate;
+import com.vieking.sys.enumerable.RegistrationState;
 import com.vieking.sys.exception.DaoException;
 import com.vieking.sys.exception.KeException;
 import com.vieking.sys.service.FileManager;
@@ -191,7 +195,7 @@ public class FileDao extends BaseDaoHibernate {
 		String fileUrl = "";
 		String webUrl = "";
 		try {
-			webUrl =  config.get("webUrl");
+			webUrl = config.get("webUrl");
 		} catch (KeException e) {
 			e.printStackTrace();
 		}
@@ -207,7 +211,8 @@ public class FileDao extends BaseDaoHibernate {
 			default:
 				break;
 			}
-			fileName = FileUtils.generateRandomFilename() + fileName.substring(fileName.lastIndexOf("."));
+			fileName = FileUtils.generateRandomFilename()
+					+ fileName.substring(fileName.lastIndexOf("."));
 			DocInfo di = new DocInfo();
 			DocType dt = entityManager.find(DocType.class, doctype);
 			di.setDocType(dt);
@@ -219,10 +224,7 @@ public class FileDao extends BaseDaoHibernate {
 			String newPath = generateNewPath(di);
 			newPath = "null/image";
 			di.setUrlName(newPath);
-			
-			
-			
-			
+
 			di.setUrlType(UrlType.FILE);
 			if (!di.isJpgImage()) {
 				di.setProcessed(true);
@@ -248,16 +250,15 @@ public class FileDao extends BaseDaoHibernate {
 				dl.setKeyValue(c.getId());
 			}
 			docLinkDao.addLinks(dl);
-			
+
 			fileUrl = webUrl + newPath + "/" + fileName;
 		} catch (DaoException e) {
 			e.printStackTrace();
 		}
-//		return getFileUrl(getFileLink(c.getId(), doctype) == null ? ""
-//				: getFileLink(c.getId(), doctype).getDocument().getId());
+		// return getFileUrl(getFileLink(c.getId(), doctype) == null ? ""
+		// : getFileLink(c.getId(), doctype).getDocument().getId());
 		return fileUrl;
-		
-		
+
 	}
 
 	/** 保存上传的附件 */
@@ -274,7 +275,7 @@ public class FileDao extends BaseDaoHibernate {
 		String fileUrl = "";
 		String webUrl = "";
 		try {
-			webUrl =  config.get("webUrl");
+			webUrl = config.get("webUrl");
 		} catch (KeException e) {
 			e.printStackTrace();
 		}
@@ -290,7 +291,8 @@ public class FileDao extends BaseDaoHibernate {
 			default:
 				break;
 			}
-			fileName = FileUtils.generateRandomFilename() + fileName.substring(fileName.lastIndexOf("."));
+			fileName = FileUtils.generateRandomFilename()
+					+ fileName.substring(fileName.lastIndexOf("."));
 			DocInfo di = new DocInfo();
 			DocType dt = entityManager.find(DocType.class, doctype);
 			di.setDocType(dt);
@@ -327,17 +329,129 @@ public class FileDao extends BaseDaoHibernate {
 				dl.setKeyValue(c.getId());
 			}
 			docLinkDao.addLinks(dl);
-			
+
 			fileUrl = webUrl + newPath + "/" + fileName;
 		} catch (DaoException e) {
 			e.printStackTrace();
 		}
-		
+
 		return fileUrl;
-		
-//		return getFileUrl(getFileLink(c.getId(), doctype) == null ? ""
-//				: getFileLink(c.getId(), doctype).getDocument().getId());
+
+		// return getFileUrl(getFileLink(c.getId(), doctype) == null ? ""
+		// : getFileLink(c.getId(), doctype).getDocument().getId());
 	}
+
+	/** 保存报料信息 */
+	@Transactional
+	public String saveBaoLiao(String userId, String type, String bllx,String biaoti,
+			String info, String fileName, String blid, int begin, int end,
+			byte[] in2b) {
+		String result = blid;
+		try {
+			User u = entityManager.find(User.class, userId);
+			String fjlx = "FJLX02";
+
+			if (result == null || "".equals(result)) {
+				Assistance assistance = new Assistance();
+				assistance.setBzlx(entityManager.find(Dictionary.class, bllx));
+				assistance.setUser(u);
+				assistance.setNamea(u.getName());
+				assistance.setNerong(info);
+				assistance.setFbsj(Calendar.getInstance());
+				assistance.setBiaoti(biaoti);
+
+				if ("SP".equals(type)) {
+					fjlx = "FJLX04";
+				} else if ("YP".equals(type)) {
+					fjlx = "FJLX03";
+				} else if ("TP".equals(type)) {
+					fjlx = "FJLX02";
+				}
+
+				assistance.setFjlx(entityManager.find(Dictionary.class, fjlx));
+				assistance.setRegState(RegistrationState.待审核);
+				entityManager.persist(assistance);
+				entityManager.flush();
+				result = assistance.getId();
+			}
+
+			String modelName = "com.vieking.role.model.Assistance";
+			// String fileUrl = "";
+//			String webUrl = "";
+			if (!"FJLX01".equals(fjlx)) {
+
+//				try {
+//					webUrl = config.get("webUrl");
+//				} catch (KeException e) {
+//					e.printStackTrace();
+//				}
+				try {
+					fileName = FileUtils.generateRandomFilename()
+							+ fileName.substring(fileName.lastIndexOf("."));
+					DocInfo di = new DocInfo();
+					DocType dt = entityManager.find(DocType.class, type);
+					di.setDocType(dt);
+					di.setOriginalName(fileName);
+					di.setSize(in2b.length);
+					di.setDes(fileName);
+					di.setLmOid(userId);
+					di.setLmOname(type);
+					String newPath = generateNewPath(di);
+					if ("SP".equals(type)) {
+						newPath = "null/video";
+					} else if ("TP".equals(type)) {
+						newPath = "null/image";
+					}
+
+					di.setUrlName(newPath);
+					di.setUrlType(UrlType.FILE);
+					if (!di.isJpgImage()) {
+						di.setProcessed(true);
+					} else {
+						di.setProcessed(false);
+					}
+					docInfoDao.save(di);
+					FileUtils.writeFile(
+							in2b,
+							begin,
+							end,
+							fileManager.getDestFileName(newPath + "/"
+									+ fileName, true, true));
+					DocLink dl = new DocLink(di, modelName, "id", result);
+
+					// List<DocLink> list = entityManager
+					// .createQuery(
+					// " from DocLink o where o.document.docType.name =:doctype and o.ebcn=:modelName and o.keyValue=:oid")
+					// .setParameter("doctype", type)
+					// .setParameter("modelName", modelName)
+					// .setParameter("oid", result).getResultList();
+					// DocLink dl = null;
+					// if (list.isEmpty()) {
+					// dl = new DocLink(di, modelName, "id", result);
+					// } else {
+					// dl = list.get(0);
+					// dl.setDocument(di);
+					// dl.setEbcn(modelName);
+					// dl.setKeyValue(result);
+					// }
+					docLinkDao.addLinks(dl);
+
+					// fileUrl = webUrl + newPath + "/" + fileName;
+				} catch (DaoException e) {
+					e.printStackTrace();
+				}
+			}
+
+		} catch (Exception e) {
+			return "";
+		}
+
+		return result;
+
+		// return getFileUrl(getFileLink(c.getId(), doctype) == null ? ""
+		// : getFileLink(c.getId(), doctype).getDocument().getId());
+	}
+ 
 
 	private String generateNewPath(DocInfo di) {
 		String newPath = di.getLmOid() + "/" + di.getDocType().getPath() + "/"

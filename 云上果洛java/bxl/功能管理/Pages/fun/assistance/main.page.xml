@@ -5,7 +5,7 @@
 		http://jboss.com/products/seam/pages-2.2.xsd"
 	login-required="true">
 	<description>#{fun.assistanceQuery.queryDesc}(#{fun.assistanceQuery.dataModel.rowCount}) - 最后使用时间: #{currentTime}</description>
-	
+	<param name="cxlx" value="fun.assistanceQuery.cxlx" />
 	<action execute="#{fun.assistanceQuery.prepareResults}"
-	on-postback="false" />
+		on-postback="false" />
 </page>

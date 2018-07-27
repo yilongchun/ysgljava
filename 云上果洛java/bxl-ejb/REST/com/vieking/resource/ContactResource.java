@@ -20,7 +20,6 @@ import com.vieking.basicdata.model.Dictionary;
 import com.vieking.file.model.DocInfo;
 import com.vieking.file.model.DocLink;
 import com.vieking.functions.model.Contact;
-import com.vieking.functions.model.ContactPost;
 import com.vieking.resource.adapter.SysBeanTrans;
 import com.vieking.resource.bean.BmLxrBean;
 import com.vieking.resource.bean.BuMenBean;

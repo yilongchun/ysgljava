@@ -25,7 +25,7 @@ public class ContactDao extends BaseDaoHibernate {
 	public List<Contact> getContactByName(String name) {
 		return entityManager
 				.createQuery(
-						" from Contact o where o.name  like concat('%',concat(lower(:name)),'%') ")
+						" from Contact o where o.name  like concat('%',concat(lower(:name)),'%')")
 				.setParameter("name", name).getResultList();
 	}
 
@@ -42,17 +42,24 @@ public class ContactDao extends BaseDaoHibernate {
 	}
 
 	public Contact getContact(String phone) {
-		Contact c = (Contact) entityManager
+//		Contact c = (Contact) entityManager
+//				.createQuery(" from Contact o  where o.phone =:phone")
+//				.setParameter("phone", phone).getResultList().get(0);
+		List list = entityManager
 				.createQuery(" from Contact o  where o.phone =:phone")
-				.setParameter("phone", phone).getResultList().get(0);
-		return c;
+				.setParameter("phone", phone).getResultList();
+		if (list.size()>0) {
+			Contact c = (Contact)list.get(0);
+			return c;
+		}
+		return null;
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Department> getDepartments(String superCode) {
 		return entityManager
 				.createQuery(
-						" from Department o where o.superior.code = :superCode")
+						" from Department o where o.superior.code = :superCode order by o.syncSign desc")
 				.setParameter("superCode", superCode).getResultList();
 	}
 
@@ -92,8 +99,9 @@ public class ContactDao extends BaseDaoHibernate {
 	public List<Contact> getContactByBm(String superCode) {
 		return entityManager
 				.createQuery(
-						" from Contact o where o.id in  (select cp.contact.id  from ContactPost  cp where cp.lxrbm.code = :superCode)")
+						" from Contact o where o.id in  (select cp.contact.id  from ContactPost  cp where cp.lxrbm.code = :superCode) order by o.syncSign desc, o.ct asc ")
 				.setParameter("superCode", superCode).getResultList();
+		
 	}
 
 	public Department findDepartment(String code) {

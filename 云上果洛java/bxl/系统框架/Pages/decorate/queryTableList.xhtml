@@ -58,7 +58,7 @@
 					</a4j:commandLink>
 				</rich:column>
 				<rich:column
-					rendered="#{((not _notBaseEntity) and (empty _showDel ? true : _showDel)) or identity.hasRole('SUPERVISOR') }">
+					rendered="#{((not _notBaseEntity) and (empty _showDel ? true : _showDel)) or identity.hasRole('SUPERVISOR') or identity.hasRole('XCBADMIN')}">
 					<f:facet name="header">
 						<h:outputText value="删除" />
 					</f:facet>
@@ -70,7 +70,7 @@
 					</a4j:commandLink>
 				</rich:column>
 				<rich:column styleClass="#{_item.state.name()=='作废' ? 'rowZf' : ''}"
-					rendered="#{(not _notBaseEntity) and (_showZf or identity.hasRole('SUPERVISOR'))}">
+					rendered="#{(not _notBaseEntity) and (_showZf or identity.hasRole('SUPERVISOR') or identity.hasRole('xcbadmin'))}">
 					<f:facet name="header">
 						<h:outputText value="作废" />
 					</f:facet>

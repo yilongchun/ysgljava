@@ -22,6 +22,17 @@ public class FileLinkBean implements ReConst, Serializable {
 
 	/** 时长 */
 	private String sc;
+	
+	/** 附件名称 */
+	private String fjName;
+
+	public String getFjName() {
+		return fjName;
+	}
+
+	public void setFjName(String fjName) {
+		this.fjName = fjName;
+	}
 
 	public String getId() {
 		return id;

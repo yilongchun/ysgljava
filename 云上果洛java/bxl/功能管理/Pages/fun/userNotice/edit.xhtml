@@ -1,0 +1,50 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:tpl="http://www.vieking.com/facelets/template"
+	xmlns:fld="http://www.vieking.com/facelets/field"
+	xmlns:c="http://java.sun.com/jstl/core"
+	template="#{templatePath}/template.xhtml">
+
+	<ui:define name="tmpInclude">
+		<s:div id="userSelector">
+			<a4j:include viewId="/common/selector/userSelector2.xhtml"
+				rendered="#{pageContext.isSet('sys.userSelector2')}" />
+		</s:div>
+	</ui:define>
+	<ui:define name="body">
+		<br />
+		<tpl:context _home="#{fun.userNoticeHome}">
+			<rich:panel>
+				<f:facet name="header">#{_home.instanceInfoStr()}</f:facet>
+				<h:form id="entityForm" styleClass="edit">
+					<!-- <s:div style="text-align:right;width:100%;">
+						<h:commandButton styleClass="queryBtn" value="保存"
+							action="#{_home.update}"
+							disabled="#{_home.instance.readOnly() and not identity.hasRoles('supervisor')}"
+							rendered="#{_home.managed}" />
+						<s:button styleClass="queryBtn" value="返回" propagation="end"
+							view="#{facesContext.viewRoot.viewId.replaceAll('edit.xhtml','main.xhtml')}">
+						</s:button>
+					</s:div> -->
+					<ui:decorate template="/decorate/editPageButtons.xhtml">
+						<ui:define name="_left">
+							<h:commandButton styleClass="queryBtn" value="短信通知"
+								action="#{_home.sendNoticeMsg}" rendered="#{_home.managed}" />
+						</ui:define>
+					</ui:decorate>
+					<div style="width: 98%; margin: 0 auto;">
+						<ui:include src="../userNoticeEdit.xhtml">
+							<ui:param value="#{_home.instance}" name="_obj" />
+							<ui:param value="#{_obj.readOnly()}" name="_ro" />
+						</ui:include>
+					</div>
+				</h:form>
+			</rich:panel>
+		</tpl:context>
+	</ui:define>
+</ui:composition>

@@ -8,6 +8,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import net.sf.json.JSONObject;
+
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
@@ -22,7 +24,6 @@ import com.vieking.resource.bean.BuMenBean;
 import com.vieking.resource.bean.NumberMessage;
 import com.vieking.resource.bean.ReturnMessage;
 import com.vieking.resource.bean.UserBean;
-import com.vieking.resource.bean.ZhiWuBean;
 import com.vieking.resource.dao.ContactDao;
 import com.vieking.resource.dao.FileDao;
 import com.vieking.resource.dao.LoginDao;
@@ -50,7 +51,7 @@ public class LoginResource implements ReConst {
 
 	@In
 	private RegisterDao registerDao;
-	
+
 	@In(value = "app.config")
 	private Config config;
 
@@ -66,26 +67,26 @@ public class LoginResource implements ReConst {
 			c = SysBeanTrans.toBean(user);
 			Contact contact = contactDao.getContact(c.getPhone());
 			if (contact != null) {
-//				c.setImgUrl(fileDao.getFileUrl(fileDao.getFileLink(
-//						contact.getId(), "TX") == null ? "" : fileDao
-//						.getFileLink(contact.getId(), "TX").getDocument()
-//						.getId()));
-				
-				DocLink link = fileDao.getFileLink(
-						contact.getId(), "TX");
+				// c.setImgUrl(fileDao.getFileUrl(fileDao.getFileLink(
+				// contact.getId(), "TX") == null ? "" : fileDao
+				// .getFileLink(contact.getId(), "TX").getDocument()
+				// .getId()));
+
+				DocLink link = fileDao.getFileLink(contact.getId(), "TX");
 				if (link == null) {
 					c.setImgUrl("");
-				}else{
+				} else {
 					DocInfo info = link.getDocument();
-					
+
 					String webUrl = "";
 					try {
-						webUrl =  config.get("webUrl");
+						webUrl = config.get("webUrl");
 					} catch (KeException e) {
 						e.printStackTrace();
 					}
-					
-					String path = webUrl + info.getUrlName() + "/" + info.getOriginalName();
+
+					String path = webUrl + info.getUrlName() + "/"
+							+ info.getOriginalName();
 					c.setImgUrl(path);
 				}
 				c.setZhiwustr(contact.getPost());
@@ -93,15 +94,15 @@ public class LoginResource implements ReConst {
 						.iterator(); iterator.hasNext();) {
 					ContactPost contactPost = iterator.next();
 					BuMenBean bm = new BuMenBean();
-//					ZhiWuBean zw = new ZhiWuBean();
+					// ZhiWuBean zw = new ZhiWuBean();
 					bm.setBmcode(contactPost.getLxrbm().getCode());
 					bm.setBumen(contactPost.getLxrbm().getName());
 					bm.setSuperCode(contactPost.getLxrbm().getCode());
 					bm.setWn(contactPost.getLxrbm().getWn());
-//					zw.setZhiwu(contactPost.getLxrzw().getCode());
-//					zw.setZwcode(contactPost.getLxrzw().getName());
+					// zw.setZhiwu(contactPost.getLxrzw().getCode());
+					// zw.setZwcode(contactPost.getLxrzw().getName());
 					c.getBmlist().add(bm);
-//					c.getZwlist().add(zw);
+					// c.getZwlist().add(zw);
 				}
 			} else
 				c.setImgUrl("");
@@ -122,25 +123,25 @@ public class LoginResource implements ReConst {
 			c = SysBeanTrans.toBean(user);
 			Contact contact = contactDao.getContact(c.getPhone());
 			if (contact != null) {
-//				c.setImgUrl(fileDao.getFileUrl(fileDao.getFileLink(
-//						contact.getId(), "TX") == null ? "" : fileDao
-//						.getFileLink(contact.getId(), "TX").getDocument()
-//						.getId()));
-				DocLink link = fileDao.getFileLink(
-						contact.getId(), "TX");
+				// c.setImgUrl(fileDao.getFileUrl(fileDao.getFileLink(
+				// contact.getId(), "TX") == null ? "" : fileDao
+				// .getFileLink(contact.getId(), "TX").getDocument()
+				// .getId()));
+				DocLink link = fileDao.getFileLink(contact.getId(), "TX");
 				if (link == null) {
 					c.setImgUrl("");
-				}else{
+				} else {
 					DocInfo info = link.getDocument();
-					
+
 					String webUrl = "";
 					try {
-						webUrl =  config.get("webUrl");
+						webUrl = config.get("webUrl");
 					} catch (KeException e) {
 						e.printStackTrace();
 					}
-					
-					String path = webUrl + info.getUrlName() + "/" + info.getOriginalName();
+
+					String path = webUrl + info.getUrlName() + "/"
+							+ info.getOriginalName();
 					c.setImgUrl(path);
 				}
 				c.setZhiwustr(contact.getPost());
@@ -148,15 +149,15 @@ public class LoginResource implements ReConst {
 						.iterator(); iterator.hasNext();) {
 					ContactPost contactPost = iterator.next();
 					BuMenBean bm = new BuMenBean();
-//					ZhiWuBean zw = new ZhiWuBean();
+					// ZhiWuBean zw = new ZhiWuBean();
 					bm.setBmcode(contactPost.getLxrbm().getCode());
 					bm.setBumen(contactPost.getLxrbm().getName());
 					bm.setSuperCode(contactPost.getLxrbm().getCode());
 					bm.setWn(contactPost.getLxrbm().getWn());
-//					zw.setZhiwu(contactPost.getLxrzw().getCode());
-//					zw.setZwcode(contactPost.getLxrzw().getName());
+					// zw.setZhiwu(contactPost.getLxrzw().getCode());
+					// zw.setZwcode(contactPost.getLxrzw().getName());
 					c.getBmlist().add(bm);
-//					c.getZwlist().add(zw);
+					// c.getZwlist().add(zw);
 				}
 			} else
 				c.setImgUrl("");
@@ -172,10 +173,21 @@ public class LoginResource implements ReConst {
 	public Response validNumber(@PathParam("phone") String phone) {
 		User user = loginDao.getUser(phone);
 		if (user != null) {
-			int number = (int) (Math.random() * (9999 - 1000 + 1)) + 1000;
-			if (loginDao.singleSend(user, number + "", Const.APIKEY, phone,
-					"【云上果洛】您的验证码是" + number + "。如非本人操作，请忽略本短信"))
-				return Response.ok(new NumberMessage(number + "", "1")).build();
+//			int number = (int) (Math.random() * (9999 - 1000 + 1)) + 1000;
+			
+			String res = loginDao.singleSend(user,phone);
+			if (res != null) {
+				JSONObject obj = JSONObject.fromObject(res);
+		        int code = obj.getInt("code");
+		        String msg = obj.getString("obj");
+		        if (code == 200) {
+		        	return Response.ok(new NumberMessage(msg, "1")).build();
+				}
+			}else{
+				return Response.ok(new NumberMessage()).build();
+			}
+//			if (loginDao.singleSend(user, number + "", Const.APIKEY, phone,
+//					"【云上果洛】您的验证码是" + number + "。如非本人操作，请忽略本短信"))
 		} else {
 			return Response.ok(new NumberMessage()).build();
 		}
@@ -205,4 +217,21 @@ public class LoginResource implements ReConst {
 			return Response.ok(new ReturnMessage(OS_OK, "密码修改成功")).build();
 		return Response.ok(new ReturnMessage(OS_ERROR, "密码修改失败")).build();
 	}
+
+	/** 第三方登录 */
+	@GET
+	@Path("thirdLogin/{id}/{name}/{ptname}")
+	@Produces("application/json;charset=UTF-8")
+	public UserBean thirdLogin(@PathParam("id") String id,
+			@PathParam("name") String name, @PathParam("ptname") String ptname) {
+		User user = loginDao.thirdLogin(id, name, ptname);
+		if (user != null) {
+			UserBean c = new UserBean();
+			c = SysBeanTrans.toBean(user);
+			c.setImgUrl("");
+			return c;
+		}
+		return new UserBean();
+	}
+
 }

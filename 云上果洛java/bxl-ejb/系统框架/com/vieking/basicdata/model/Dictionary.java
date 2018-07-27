@@ -56,7 +56,7 @@ public class Dictionary extends BaseEntity {
 	@GenericGenerator(name = "assignedGenerator", strategy = "assigned")
 	@Column(length = 40)
 	private String code;
-	
+
 	/** 本级代码 current Level Code */
 	@Column(length = 8, nullable = false)
 	private String clc;
@@ -90,6 +90,10 @@ public class Dictionary extends BaseEntity {
 	/** 有效 */
 	@Column(nullable = true)
 	private Boolean yx = true;
+
+	/** 排序 */
+	@Column(nullable = true)
+	private int px;
 
 	public DictionaryType getDictionaryType() {
 		return dictionaryType;
@@ -255,6 +259,14 @@ public class Dictionary extends BaseEntity {
 
 	public void setYx(Boolean yx) {
 		this.yx = yx;
+	}
+
+	public int getPx() {
+		return px;
+	}
+
+	public void setPx(int px) {
+		this.px = px;
 	}
 
 }

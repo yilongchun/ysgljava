@@ -6,6 +6,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
+import net.sf.json.JSONObject;
+
 import org.jboss.seam.annotations.In;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Name;
@@ -75,12 +77,27 @@ public class RegisterResource implements ReConst {
 	@Produces("application/json;charset=UTF-8")
 	public Response validNumber(@PathParam("phone") String phone) {
 		if (registerDao.validPhone(phone)) {
-			int number = (int) (Math.random() * (9999 - 1000 + 1)) + 1000;
-			if (registerDao.singleSend(phone, number + "", Const.APIKEY, phone,
-					"【云上果洛】您的验证码是" + number + "。如非本人操作，请忽略本短信")) {
-				return Response.ok(new NumberMessage(number + "", "1")).build();
-			} else
+			
+			String res = registerDao.singleSend(phone);
+			if (res != null) {
+				JSONObject obj = JSONObject.fromObject(res);
+		        int code = obj.getInt("code");
+		        String msg = obj.getString("obj");
+		        if (code == 200) {
+		        	return Response.ok(new NumberMessage(msg, "1")).build();
+				}else{
+					return Response.ok(new NumberMessage()).build();
+				}
+			}else{
 				return Response.ok(new NumberMessage()).build();
+			}
+			
+//			int number = (int) (Math.random() * (9999 - 1000 + 1)) + 1000;
+//			if (registerDao.singleSend(phone, number + "", Const.APIKEY, phone,
+//					"【云上果洛】您的验证码是" + number + "。如非本人操作，请忽略本短信")) {
+//				return Response.ok(new NumberMessage(number + "", "1")).build();
+//			} else
+//				return Response.ok(new NumberMessage()).build();
 		} else
 			return Response.ok(new NumberMessage()).build();
 	}

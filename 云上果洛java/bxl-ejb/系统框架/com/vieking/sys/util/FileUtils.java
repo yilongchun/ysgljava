@@ -299,6 +299,7 @@ public class FileUtils {
 			}
 			out = new FileOutputStream(destFn);
 
+			System.out.println("destFn:"+destFn);
 			out.write(data, begin, end);
 		} catch (FileNotFoundException ex) {
 			throw new DaoException("写入文件失败，文件没有找到！", "文件管理", "---");
@@ -562,6 +563,9 @@ public class FileUtils {
 	}
 
 	public static int copyFile(String destFn, String srcFn) throws DaoException {
+		
+		System.out.println("copyFile start:"+destFn + ",srcFn:"+srcFn);
+		
 		int size = 0;
 		FileInputStream in = null;
 		FileOutputStream out = null;
@@ -575,14 +579,19 @@ public class FileUtils {
 				String path = destFn.substring(0, index);
 				new File(path).mkdirs();
 			}
-			out = new FileOutputStream(destFn);
+			//linux下面路径前要加opt
+			out = new FileOutputStream("/opt"+destFn);
 			int num = 0;
 			while ((num = in.read(buffer)) != -1) {
 				out.write(buffer, 0, num);
 			}
+			
+			System.out.println("copyFile success:"+destFn + ",srcFn:"+srcFn);
 		} catch (FileNotFoundException ex) {
+			System.out.println("拷贝文件失败，文件没有找到！");
 			throw new DaoException("拷贝文件失败，文件没有找到！", "文件管理", "---");
 		} catch (IOException e) {
+			System.out.println("拷贝文件失败，IO读写异常！");
 			throw new DaoException("拷贝文件失败，IO读写异常！", "文件管理", "---");
 		} finally {
 			try {
@@ -592,10 +601,12 @@ public class FileUtils {
 					out.close();
 				}
 			} catch (IOException ex) {
+				System.out.println("关闭文件失败，IO异常！");
 				throw new DaoException("关闭文件失败，IO异常！", "文件管理", "---");
 			}
 
 		}
+		System.out.println("file size:"+size);
 		return size;
 	}
 

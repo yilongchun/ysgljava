@@ -3,6 +3,7 @@ package com.vieking.role.model;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -130,6 +131,14 @@ public class User extends BaseEntity {
 	@Column(name = "zcrq", nullable = true, unique = false)
 	private Calendar zcrq;
 
+	/** 用户类型 */
+	@Column(length = 40, nullable = true)
+	private String userType = "0";
+
+	/** 第三方ID */
+	@Column(length = 40, nullable = true)
+	private String thirdId;
+
 	/** 用户组 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "groupId", nullable = false)
@@ -149,6 +158,14 @@ public class User extends BaseEntity {
 	/** 当前用户岗位桌面 */
 	@Transient
 	private String desktop;
+
+	// 积分
+	private int score;
+
+	/** 签到日期 */
+	@Temporal(TemporalType.DATE)
+	@Column(name = "qdrq", nullable = true, unique = false)
+	private Calendar qdrq;
 
 	/** 用户角色 名值对 */
 	@Transient
@@ -210,6 +227,20 @@ public class User extends BaseEntity {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+
+//	public boolean getRoles2(String userRole) {
+////		System.out.println(getRoles());
+////		for (Iterator<Role> iterator = getRoles().iterator(); iterator.hasNext();) {
+////			
+////			Role r = iterator.next();
+////			System.out.println(r.getId() + "," + r.getName());
+////			
+////			if (r.getId().equals(userRole))
+////				return true;
+////
+////		}
+//		return false;
+//	}
 
 	public void setName(String name) {
 		this.name = name;
@@ -326,6 +357,38 @@ public class User extends BaseEntity {
 
 	public void setBj(Dictionary bj) {
 		this.bj = bj;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public Calendar getQdrq() {
+		return qdrq;
+	}
+
+	public void setQdrq(Calendar qdrq) {
+		this.qdrq = qdrq;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+
+	public String getThirdId() {
+		return thirdId;
+	}
+
+	public void setThirdId(String thirdId) {
+		this.thirdId = thirdId;
 	}
 
 }

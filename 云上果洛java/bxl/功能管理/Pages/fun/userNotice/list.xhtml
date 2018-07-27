@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib">
+	<ui:decorate template="/decorate/queryTableList.xhtml">
+		<ui:param name="dtHeader" value="#{_query.queryDesc}" />
+		<ui:define name="_columns">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="通知类型" />
+				</f:facet>
+				<h:outputText value="#{_item.bzlx.name}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="通知人名称" />
+				</f:facet>
+				<h:outputText value="#{_item.namea}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="通知时间" />
+				</f:facet>
+				<h:outputText value="#{_item.fbsj}" converter="#{calendarConvert}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="通知内容" />
+				</f:facet>
+				<h:outputText value="#{_item.nerong}" />
+			</h:column>
+			 
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="操作" />
+				</f:facet>
+				<s:link view="/fun/userNotice/edit.xhtml" value="传附件">
+					<f:param name="drId" value="#{_item.id}" />
+				</s:link>
+				
+			</h:column>
+		</ui:define>
+	</ui:decorate>
+</ui:composition>

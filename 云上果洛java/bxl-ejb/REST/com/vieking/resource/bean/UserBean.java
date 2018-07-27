@@ -54,6 +54,14 @@ public class UserBean implements ReConst, Serializable {
 
 	/** 职务 */
 	private List<ZhiWuBean> zwlist = new ArrayList<ZhiWuBean>();
+	/** 积分 */
+	private int score;
+
+	/** 注册用户类型 */
+	private String userType;
+
+	/** 第三方ID */
+	private String thirdId;
 
 	public String getId() {
 		return id;
@@ -146,6 +154,30 @@ public class UserBean implements ReConst, Serializable {
 
 	public void setJianjie(String jianjie) {
 		this.jianjie = jianjie;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public String getUserType() {
+		return userType;
+	}
+
+	public void setUserType(String userType) {
+		this.userType = userType;
+	}
+
+	public String getThirdId() {
+		return thirdId;
+	}
+
+	public void setThirdId(String thirdId) {
+		this.thirdId = thirdId;
 	}
 
 }

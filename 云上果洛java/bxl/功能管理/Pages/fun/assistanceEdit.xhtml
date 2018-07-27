@@ -20,18 +20,40 @@
 
 		<h:panelGrid columns="1" style="width:100%;">
 			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">新闻id </ui:define>
+				<h:outputLabel value="#{_obj.id}" />
+			</s:decorate>
+			<s:decorate template="/layout/edit.xhtml">
 				<ui:define name="label">标题 </ui:define>
-				<h:inputText value="#{_obj.biaoti}" size="18" required="true" />
+				<h:inputText value="#{_obj.biaoti}" size="50" required="true" />
+			</s:decorate>
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">副标题 </ui:define>
+				<h:inputText value="#{_obj.subTitle}" size="200" />
+			</s:decorate>
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">浏览次数 </ui:define>
+				<h:inputText value="#{_obj.llcs}" size="50"/>
 			</s:decorate>
 			<s:decorate template="/layout/edit.xhtml">
 				<ui:define name="label">新闻栏目</ui:define>
 				<h:selectOneMenu value="#{_obj.bzlx}" required="true"
 					style="width:10em">
-					<s:selectItems value="#{_home.dictions('XWLX')}" var="_o"
-						label="#{_o.name}" noSelectionLabel="请选择" />
+					<s:selectItems
+						value="#{_home.dictionsNo('XWLX',ssu.toList('XWLX06,XWLX08,XWLX200,XWLX900',','))}"
+						var="_o" label="#{_o.name}" noSelectionLabel="请选择" />
 					<s:convertEntity />
+					<a4j:support ajaxSingle="true" event="onchange" reRender="lxs"></a4j:support>
 				</h:selectOneMenu>
 			</s:decorate>
+			<s:div id="lxs">
+				<ui:define name="label">选择六县</ui:define>
+				<h:selectOneMenu value="#{_obj.distrs}"
+					rendered="#{_obj.bzlx.name == '六县'}" style="width:10em">
+					<s:selectItems value="#{ssu.toList('玛沁县,甘德县,达日县,班玛县,玛多县,久治县',',')}"
+						var="_o" label="#{_o}" noSelectionLabel="请选择" />
+				</h:selectOneMenu>
+			</s:div>			
 
 			<s:decorate template="/layout/edit.xhtml">
 				<ui:define name="label">附件类型</ui:define>
@@ -40,8 +62,16 @@
 					<s:selectItems value="#{_home.dictions('FJLX')}" var="_o"
 						label="#{_o.name}" noSelectionLabel="请选择" />
 					<s:convertEntity />
+					<a4j:support ajaxSingle="true" event="onchange" reRender="videoUrl"></a4j:support>
 				</h:selectOneMenu>
 			</s:decorate>
+			<s:div id="videoUrl">
+				<s:decorate template="/layout/edit.xhtml"
+					rendered="#{_obj.fjlx.name == '视频'}">
+					<ui:define name="label">网页视频路径 </ui:define>
+					<h:inputText value="#{_obj.videoUrl}" size="200" />
+				</s:decorate>
+			</s:div>
 		</h:panelGrid>
 		<h:panelGrid columns="1" rowClasses="row1,row2" style="width:100%;">
 			<s:decorate template="/layout/edit.xhtml" id="xynr">
@@ -51,6 +81,8 @@
 
 			</s:decorate>
 		</h:panelGrid>
+		
+		<h:commandButton styleClass="queryBtn" value="审核通过" action="#{fun.assistanceHome.pass}"  rendered="#{(identity.hasRoles('supervisor') or identity.hasRole('xcbadmin')) and _obj.regState=='填报中'}"/>
 
 	</fieldset>
 

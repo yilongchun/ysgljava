@@ -3,6 +3,8 @@ package com.vieking.resource.dao;
 import java.util.Calendar;
 import java.util.List;
 
+import net.sf.json.JSONObject;
+
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.TransactionPropagationType;
@@ -10,6 +12,7 @@ import org.jboss.seam.annotations.Transactional;
 
 import com.vieking.functions.model.Contact;
 import com.vieking.functions.model.Register;
+import com.vieking.resource.SendCode;
 import com.vieking.role.model.User;
 import com.vieking.role.model.UserGroup;
 import com.vieking.sys.base.BaseDaoHibernate;
@@ -182,8 +185,7 @@ public class RegisterDao extends BaseDaoHibernate {
 	/** 手机注册验证码 */
 	@SuppressWarnings("unchecked")
 	@Transactional(TransactionPropagationType.REQUIRED)
-	public boolean singleSend(String phone, String yzm, String apikey,
-			String mobile, String text) {
+	public String singleSend(String phone) {
 		List<User> list = entityManager
 				.createQuery(" from User o where o.phone =:phone")
 				.setParameter("phone", phone).getResultList();
@@ -193,38 +195,77 @@ public class RegisterDao extends BaseDaoHibernate {
 							" from Contact o where o.phone =:phone and o.reg=0")
 					.setParameter("phone", phone).getResultList();
 			if (!contacts.isEmpty()) {
-				YunpianRestClient client = new YunpianRestClient(apikey);
-				SmsOperator smsOperator = client.getSmsOperator();
-				ResultDO<SendSingleSmsInfo> result = smsOperator.singleSend(
-						mobile, text);
-				if (result.isSuccess()) {
-					Contact contact = contacts.get(0);
-					List<Register> rlist = entityManager
-							.createQuery(
-									" from Register o where o.phone =:phone ")
-							.setParameter("phone", phone).getResultList();
-					Register reg = null;
-					if (rlist.isEmpty()) {
-						reg = new Register();
-						reg.setName(contact.getName());
-						reg.setPhone(phone);
-						reg.setZcsj(Calendar.getInstance());
-						reg.setYzm(yzm);
-						reg.setReg(0);
-						entityManager.persist(reg);
-					} else {
-						reg = rlist.get(0);
-						reg.setYzm(yzm);
-						reg.setReg(0);
-						entityManager.persist(reg);
-					}
+				
+				try {
+					String res = SendCode.sendMsg(phone);
+					JSONObject obj = JSONObject.fromObject(res);
+			        int code = obj.getInt("code");
+			        String msg = obj.getString("obj");
+			        if (code == 200) {
+			        	Contact contact = contacts.get(0);
+						List<Register> rlist = entityManager
+								.createQuery(
+										" from Register o where o.phone =:phone ")
+								.setParameter("phone", phone).getResultList();
+						Register reg = null;
+						if (rlist.isEmpty()) {
+							reg = new Register();
+							reg.setName(contact.getName());
+							reg.setPhone(phone);
+							reg.setZcsj(Calendar.getInstance());
+							reg.setYzm(msg);
+							reg.setReg(0);
+							entityManager.persist(reg);
+						} else {
+							reg = rlist.get(0);
+							reg.setYzm(msg);
+							reg.setReg(0);
+							entityManager.persist(reg);
+						}
 
-					entityManager.flush();
-					return true;
+						entityManager.flush();
+						return res;
+					}
+				} catch (Exception e) {
+					
 				}
+				
+				
+				
+				
+				
+//				YunpianRestClient client = new YunpianRestClient(apikey);
+//				SmsOperator smsOperator = client.getSmsOperator();
+//				ResultDO<SendSingleSmsInfo> result = smsOperator.singleSend(
+//						mobile, text);
+//				if (result.isSuccess()) {
+//					Contact contact = contacts.get(0);
+//					List<Register> rlist = entityManager
+//							.createQuery(
+//									" from Register o where o.phone =:phone ")
+//							.setParameter("phone", phone).getResultList();
+//					Register reg = null;
+//					if (rlist.isEmpty()) {
+//						reg = new Register();
+//						reg.setName(contact.getName());
+//						reg.setPhone(phone);
+//						reg.setZcsj(Calendar.getInstance());
+//						reg.setYzm(yzm);
+//						reg.setReg(0);
+//						entityManager.persist(reg);
+//					} else {
+//						reg = rlist.get(0);
+//						reg.setYzm(yzm);
+//						reg.setReg(0);
+//						entityManager.persist(reg);
+//					}
+//
+//					entityManager.flush();
+//					return true;
+//				}
 			}
 		}
-		return false;
+		return null;
 
 	}
 

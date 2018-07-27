@@ -1,7 +1,10 @@
 package com.vieking.role.model;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -17,6 +22,7 @@ import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.vieking.basicdata.model.Dictionary;
+import com.vieking.functions.model.UserNotice;
 import com.vieking.sys.model.BaseEntity;
 
 /**
@@ -58,8 +64,12 @@ public class Assistance extends BaseEntity {
 	private Calendar fbsj;
 
 	/** 内容标题 */
-	@Column(length = 50, unique = true)
+	@Column(length = 200, unique = true)
 	private String biaoti;
+
+	/** 副标题 **/
+	@Column(length = 200)
+	private String subTitle;
 
 	/** 内容 */
 	@Column(length = 2000)
@@ -68,15 +78,40 @@ public class Assistance extends BaseEntity {
 	/** 浏览次数 */
 	private int llcs = 0;
 
+	/** 点赞数 **/
+	private int zanCount = 0;
+
+	/** 新闻类型 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "bzlx", nullable = true)
 	@BatchSize(size = 50)
 	private Dictionary bzlx;
 
+	/** 附件类型 */
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fjlx", nullable = true)
 	@BatchSize(size = 50)
 	private Dictionary fjlx;
+
+	/** 内容 */
+	@Column(length = 500)
+	private String videoUrl;
+
+	/** 区县 */
+	@Column(length = 40)
+	private String distrs;
+
+	/** 用户消息通知 */
+	@OneToMany(cascade = { CascadeType.REFRESH }, fetch = FetchType.LAZY, mappedBy = "assistance")
+	@BatchSize(size = 100)
+	@OrderBy("isreads asc")
+	private List<UserNotice> userNotices = new ArrayList<UserNotice>();
+	
+	/** 投票列表 */
+	@OneToMany(cascade = { CascadeType.REFRESH }, fetch = FetchType.LAZY, mappedBy = "assistance")
+	@BatchSize(size = 100)
+//	@OrderBy("isreads asc")
+	private List<VoteItem> voteItems = new ArrayList<VoteItem>();
 
 	@Override
 	public String toString() {
@@ -123,6 +158,14 @@ public class Assistance extends BaseEntity {
 		this.biaoti = biaoti;
 	}
 
+	public String getSubTitle() {
+		return subTitle;
+	}
+
+	public void setSubTitle(String subTitle) {
+		this.subTitle = subTitle;
+	}
+
 	public Dictionary getBzlx() {
 		return bzlx;
 	}
@@ -154,5 +197,47 @@ public class Assistance extends BaseEntity {
 	public void setLlcs(int llcs) {
 		this.llcs = llcs;
 	}
+
+	public String getVideoUrl() {
+		return videoUrl;
+	}
+
+	public void setVideoUrl(String videoUrl) {
+		this.videoUrl = videoUrl;
+	}
+
+	public int getZanCount() {
+		return zanCount;
+	}
+
+	public void setZanCount(int zanCount) {
+		this.zanCount = zanCount;
+	}
+
+	public List<UserNotice> getUserNotices() {
+		return userNotices;
+	}
+
+	public void setUserNotices(List<UserNotice> userNotices) {
+		this.userNotices = userNotices;
+	}
+
+	public String getDistrs() {
+		return distrs;
+	}
+
+	public void setDistrs(String distrs) {
+		this.distrs = distrs;
+	}
+
+	public List<VoteItem> getVoteItems() {
+		return voteItems;
+	}
+
+	public void setVoteItems(List<VoteItem> voteItems) {
+		this.voteItems = voteItems;
+	}
+	
+	
 
 }

@@ -207,9 +207,9 @@ public class FileServlet extends HttpServlet {
 					
 					String path = this.getServletContext().getRealPath("");
 					path = path.substring(0, path.indexOf("tmp"));
-					path = path + "deploy\\bxl-ear.ear\\bxl.war\\uediter\\lang\\";
+					path = path + "deploy"+File.separator+"bxl-ear.ear"+File.separator+"bxl.war"+File.separator+"uediter"+File.separator+"lang"+File.separator;
 					
-					
+					System.out.println("path123:"+path);
 					
 					long currentTime = System.nanoTime();
 					String fileName = path + currentTime + ".jpg";

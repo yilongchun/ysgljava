@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
 import org.jboss.seam.annotations.In;
@@ -37,6 +38,23 @@ public class DictionaryResource implements ReConst {
 		List<DictionaryBean> list = new ArrayList<DictionaryBean>();
 		for (Iterator<Dictionary> iterator = dictionaryDao.dictionnaryType(
 				"BMLX").iterator(); iterator.hasNext();) {
+			Dictionary dac = iterator.next();
+			DictionaryBean c = new DictionaryBean();
+			c = SysBeanTrans.toBean(dac);
+			list.add(c);
+		}
+		return list;
+	}
+
+	// 通过上级code获取字典数据
+	@GET
+	@Path("getDictionarys/{superCode}")
+	@Produces("application/json;charset=UTF-8")
+	public Collection<DictionaryBean> getDictionarys(
+			@PathParam("superCode") String superCode) {
+		List<DictionaryBean> list = new ArrayList<DictionaryBean>();
+		for (Iterator<Dictionary> iterator = dictionaryDao.dictionarys(
+				superCode).iterator(); iterator.hasNext();) {
 			Dictionary dac = iterator.next();
 			DictionaryBean c = new DictionaryBean();
 			c = SysBeanTrans.toBean(dac);

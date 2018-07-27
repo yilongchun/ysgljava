@@ -26,7 +26,7 @@ public class DictionaryDao extends BaseDaoHibernate {
 	public List<Dictionary> dictions(String code) {
 		return entityManager
 				.createQuery(
-						" from Dictionary o where  o.dictionaryType.bh =:code and (o.superior.code is null or o.superior.code ='') order by o.code asc")
+						" from Dictionary o where  o.dictionaryType.bh =:code and (o.superior.code is null or o.superior.code ='') order by o.px asc")
 				.setParameter("code", code).getResultList();
 	}
 
@@ -42,7 +42,7 @@ public class DictionaryDao extends BaseDaoHibernate {
 	public List<Dictionary> dictionarys(String superCode) {
 		return entityManager
 				.createQuery(
-						" from Dictionary o where  o.superior.code =:superCode) order by o.code asc")
+						" from Dictionary o where  o.superior.code =:superCode order by o.px asc")
 				.setParameter("superCode", superCode).getResultList();
 	}
 
@@ -85,6 +85,15 @@ public class DictionaryDao extends BaseDaoHibernate {
 	}
 
 	@SuppressWarnings("unchecked")
+	public List<Dictionary> dictionsNo(String code, List<String> strs) {
+		return entityManager
+				.createQuery(
+						" from Dictionary o where o.dictionaryType.bh=:code  and (o.superior.code is null or o.superior.code ='')  and o.code not in (:strs)")
+				.setParameter("code", code).setParameter("strs", strs)
+				.getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
 	public List<Dictionary> dictions(List<String> strs) {
 		return entityManager
 				.createQuery(" from Dictionary o where  o.code in (:strs)")
@@ -101,11 +110,11 @@ public class DictionaryDao extends BaseDaoHibernate {
 		}
 		return null;
 	}
-	
-	
+
 	public Boolean getDepartmentById(String code) {
 		List list = entityManager
-				.createQuery(" from Department o where   o.superior.code =:code ")
+				.createQuery(
+						" from Department o where   o.superior.code =:code ")
 				.setParameter("code", code).getResultList();
 		if (list.size() > 0) {
 			return false;

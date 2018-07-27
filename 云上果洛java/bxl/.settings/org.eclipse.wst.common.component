@@ -5,9 +5,9 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/系统框架/Java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/权限管理/Java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/功能管理/Java"/>
-        <wb-resource deploy-path="/" source-path="/功能管理/Pages"/>
         <wb-resource deploy-path="/" source-path="/权限管理/Pages"/>
         <wb-resource deploy-path="/" source-path="/系统框架/Pages"/>
+        <wb-resource deploy-path="/" source-path="/功能管理/Pages"/>
         <property name="context-root" value="bxl"/>
         <property name="java-output-path" value="/bxl/build/classes"/>
     </wb-module>

@@ -1,0 +1,86 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:fld="http://www.vieking.com/facelets/field">
+	<a4j:include viewId="/common/linkdocs/docLinksA4jAppNameForCom.xhtml">
+		<ui:param name="autoOpen" value="false" />
+		<ui:param name="_ui" value="#{sys.docLink.uiB}" />
+		<ui:param name="appName" value="电子报到" />
+		<ui:param name="entId" value="#{_home.managed ? _obj.id : _obj.tmpId}" />
+		<ui:param name="entDesc" value="#{_home.instanceInfoStr()}" />
+		<ui:param name="changeReRender" value="div_car_docLinks" />
+		<ui:param name="docLocked" value="#{_obj.readOnly() or _ro}" />
+	</a4j:include>
+	<fieldset>
+		<legend>通知内容</legend>
+		<h:panelGrid columns="1" style="width:100%;">
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">通知人</ui:define>
+				<h:outputText value="#{_obj.user.name}" size="50" required="true" />
+			</s:decorate>
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">通知时间</ui:define>
+				<h:outputText value="#{_obj.fbsj}" converter="#{calendarConvert}" />
+			</s:decorate>
+
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">标题</ui:define>
+				<h:inputText  value="#{_obj.biaoti}" size="50" />
+			</s:decorate>
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">通知内容</ui:define>
+				<h:inputTextarea value="#{_obj.nerong}" cols="20" style="width:400px;height:200px;"></h:inputTextarea>
+			</s:decorate>
+		</h:panelGrid>
+	</fieldset>
+	<fieldset>
+		<legend>接收人</legend>
+		<h:panelGrid columns="1" style="width:100%;">
+			<s:div styleClass="actionButtons">
+				<a4j:commandLink
+					actionListener="#{sys.userSelector2.selectMany(_obj.tmpId, '选择用户',10,'entityForm:dt_apps')}"
+					reRender="userSelector" immediate="true" ajaxSingle="true"
+					oncomplete="processAutoHeight('.autoHeight');">
+					<h:graphicImage value="/img/new.png" styleClass="op_sbtnMR10" />
+				</a4j:commandLink>
+			</s:div>
+		</h:panelGrid>
+		<s:div id="dt_apps" styleClass="appsdiv" style="clear:both;">
+			<rich:dataTable id="rdt_adt" var="_item" value="#{_obj.userNotices}"
+				styleClass="dataGrid">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputText value="接收人列表" />
+					</h:panelGroup>
+				</f:facet>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="姓名" />
+					</f:facet>
+					<h:outputText value="#{_item.user.name}" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="手机号" />
+					</f:facet>
+					<h:outputText value="#{_item.user.phone}" />
+				</h:column>
+				<h:column id="dtl">
+					<f:facet name="header">
+						<h:outputText value="操作" />
+					</f:facet>
+					<a4j:commandLink
+						action="#{fun.userNoticeHome.remove(_item.user.id)}"
+						immediate="true" ajaxSingle="true" reRender="dt_apps">
+						<h:graphicImage value="/img/del.png" alt="#{messages['btn.del']}"
+							title="#{messages['btn.del']}" />
+					</a4j:commandLink>
+				</h:column>
+			</rich:dataTable>
+		</s:div>
+	</fieldset>
+</ui:composition>

@@ -34,7 +34,7 @@
 							rendered="#{not _home.managed}" />
 						<h:commandButton styleClass="queryBtn" value="保存"
 							action="#{_home.update}"
-							disabled="#{_home.instance.readOnly() and not identity.hasRoles('supervisor')}"
+							disabled="#{_home.instance.readOnly() and not identity.hasRoles('supervisor') and not identity.hasRole('xcbadmin')}"
 							rendered="#{_home.managed}" />
 						<s:button styleClass="queryBtn" value="返回" propagation="end"
 							view="#{facesContext.viewRoot.viewId.replaceAll('edit.xhtml','main.xhtml')}">

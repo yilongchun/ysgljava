@@ -34,7 +34,10 @@
 					<ui:define name="label">简称</ui:define>
 					<h:inputText value="#{_obj.sn}" size="40" required="false" />
 				</s:decorate>
-
+				<s:decorate template="/layout/edit.xhtml">
+					<ui:define name="label">排序(值越大越靠前)</ui:define>
+					<h:inputText value="#{_obj.syncSign}" size="18" />
+				</s:decorate>
 			</h:panelGrid>
 		</rich:tab>
 	</rich:tabPanel>
