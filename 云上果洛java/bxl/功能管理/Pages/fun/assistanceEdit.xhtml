@@ -31,6 +31,14 @@
 				<ui:define name="label">副标题 </ui:define>
 				<h:inputText value="#{_obj.subTitle}" size="200" />
 			</s:decorate>
+			
+			<s:decorate template="/layout/edit.xhtml">
+				<ui:define name="label">发布日期</ui:define>
+				<h:inputText value="#{_obj.fbsj}" size="200" converter="#{calendarConvert}"/>
+			</s:decorate>
+			
+			
+			
 			<s:decorate template="/layout/edit.xhtml">
 				<ui:define name="label">浏览次数 </ui:define>
 				<h:inputText value="#{_obj.llcs}" size="50"/>
@@ -82,7 +90,7 @@
 			</s:decorate>
 		</h:panelGrid>
 		
-		<h:commandButton styleClass="queryBtn" value="审核通过" action="#{fun.assistanceHome.pass}"  rendered="#{(identity.hasRoles('supervisor') or identity.hasRole('xcbadmin')) and _obj.regState=='填报中'}"/>
+		<h:commandButton styleClass="queryBtn" value="审核通过" action="#{fun.assistanceHome.pass}"  rendered="#{_obj.id != null and _obj.regState=='填报中'}"/>
 
 	</fieldset>
 

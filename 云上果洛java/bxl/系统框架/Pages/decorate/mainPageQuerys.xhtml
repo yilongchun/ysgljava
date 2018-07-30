@@ -67,7 +67,7 @@
 					<s:button styleClass="buttonsty" value="+新增"
 						includePageParams="#{empty _newIPP ? false : _newIPP}"
 						view="#{facesContext.viewRoot.viewId.replaceAll('main.xhtml','edit.xhtml')}"
-						rendered="#{empty _canNew ? identity.isLoggedIn() : _canNew}">
+						rendered="#{empty _canNew ? identity.isLoggedIn() : _canNew}" propagation="none" >
 						<ui:insert name="newUiParms" />
 					</s:button>
 					<ui:insert name="_center" />

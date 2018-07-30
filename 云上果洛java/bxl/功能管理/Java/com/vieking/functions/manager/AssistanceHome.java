@@ -2,6 +2,7 @@ package com.vieking.functions.manager;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.jboss.seam.annotations.AutoCreate;
 import org.jboss.seam.annotations.Name;
@@ -40,11 +41,19 @@ public class AssistanceHome extends BaseHome<Assistance> {
 	public void wire() {
 		if (isIdDefined()) {
 			getInstance();
-			String text = StringUtil.decodeString(getInstance().getNerong());
-			getInstance().setNerong(text);
+			if(getInstance() != null && getInstance().getNerong() != null){
+				String text = StringUtil.decodeString(getInstance().getNerong());		
+				if (isBase64(text)) {
+					text = StringUtil.decodeString(text);
+				}				
+				getInstance().setNerong(text);
+			}			
 		} else {
 			clearInstance();
 			getInstance();
+			Calendar c = Calendar.getInstance();
+			getInstance().setCt(c);
+			getInstance().setFbsj(c);
 		}
 	}
 
@@ -74,7 +83,13 @@ public class AssistanceHome extends BaseHome<Assistance> {
 		}
 		Assistance o = getInstance();
 		String text = StringUtil.encodeString(o.getNerong());
-		o.setNerong(text);
+		if (isBase64(text)) {
+			o.setNerong(text);
+		}else{
+			StringUtil.encodeString(text);
+			o.setNerong(text);
+		}
+		
 		o.setUser(currUser);
 		o.setNamea(currUser.getName());
 		o.setFbsj(Calendar.getInstance());
@@ -93,7 +108,13 @@ public class AssistanceHome extends BaseHome<Assistance> {
 		}
 		Assistance o = getInstance();
 		String text = StringUtil.encodeString(o.getNerong());
-		o.setNerong(text);
+		if (isBase64(text)) {
+			o.setNerong(text);
+		}else{
+			StringUtil.encodeString(text);
+			o.setNerong(text);
+		}
+		o.setCt(o.getFbsj());
 
 		entityManager.persist(o);
 		entityManager.flush();
@@ -103,18 +124,31 @@ public class AssistanceHome extends BaseHome<Assistance> {
 		return lastStateChange;
 	}
 	
+	private static boolean isBase64(String str) {
+	    String base64Pattern = "^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)$";
+	    return Pattern.matches(base64Pattern, str);
+	}
+	
 	
 	@Transactional(TransactionPropagationType.REQUIRED)
 	public void pass() {		
 		Assistance o = getInstance();
 		String text = StringUtil.encodeString(o.getNerong());
-		o.setNerong(text);
+		if (isBase64(text)) {
+			o.setNerong(text);
+		}else{
+			StringUtil.encodeString(text);
+			o.setNerong(text);
+		}
+		o.setCt(o.getFbsj());
 		o.setRegState(RegistrationState.已审核);
 		o.setExamine(Calendar.getInstance());
 		o.setExamineUser(currUser.getName());
 		entityManager.persist(o);
 		entityManager.flush();
 		redirect.setViewId("/fun/assistance/main.xhtml");
+		redirect.setConversationPropagationEnabled(true);
+		redirect.setParameter("drId", null);
 		redirect.execute();
 	}
 
