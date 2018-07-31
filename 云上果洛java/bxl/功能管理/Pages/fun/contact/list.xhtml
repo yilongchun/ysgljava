@@ -27,6 +27,13 @@
 				</f:facet>
 				<h:outputText value="#{_item.cjsj}" converter="#{calendarConvert}" />
 			</h:column>
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="排序" />
+				</f:facet>
+				<h:outputText value="#{_item.syncSign}" />
+			</h:column>
 
 			<h:column>
 				<f:facet name="header">

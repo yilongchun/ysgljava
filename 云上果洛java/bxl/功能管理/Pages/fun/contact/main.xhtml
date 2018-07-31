@@ -79,16 +79,18 @@
 							<h:inputText
 								value="#{fun.contactQuery.qhb.parm('phone','DT003').sv}" />
 						</s:decorate>
-						<!-- <s:decorate template="/layout/edit.xhtml">
+						<s:decorate template="/layout/edit.xhtml">
 							<ui:define name="label">所在部门</ui:define>
+							
+							
 							<h:selectOneMenu
-								value="#{fun.contactQuery.qhb.parm('bmlx','DT003').sv}"
-								style=" width :196px;">
-								<s:selectItems value="#{dictionaryDao.dictions('BMLX')}"
-									var="_o" itemValue="#{_o.name}" label="#{_o.name}"
+								value="#{fun.contactQuery.qhb.parm('superCode','DT003').sv}"
+								style=" width :400px;">
+								<s:selectItems value="#{contactDao.getDepartments()}"
+									var="_o" itemValue="#{_o.code}" label="#{_o.wn}"
 									noSelectionLabel="全部" />
 							</h:selectOneMenu>
-						</s:decorate> -->
+						</s:decorate>
 					</ui:define>
 				</ui:decorate>
 			</h:form>
